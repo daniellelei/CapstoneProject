@@ -13,6 +13,12 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
+    funds = db.Column(db.Float, nullable=False)
+
+    # relationship attributes
+    customizations = db.relationship('Customization', back_populates='user')
+    carts = db.relationship('Cart', back_populates="user")
+    reviews = db.relationship('Review', back_populates="user")
 
     @property
     def password(self):
@@ -29,5 +35,6 @@ class User(db.Model, UserMixin):
         return {
             'id': self.id,
             'username': self.username,
-            'email': self.email
+            'email': self.email,
+            'funds': self.funds
         }
