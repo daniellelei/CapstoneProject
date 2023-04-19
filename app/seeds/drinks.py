@@ -1,7 +1,7 @@
 from app.models import db, Drink, environment, SCHEMA
 from sqlalchemy.sql import text
 
-def seed_drinks(all_carts):
+def seed_drinks():
     
     drink1 = Drink(
         name = 'Salted Caramel Cream Cold Brew',

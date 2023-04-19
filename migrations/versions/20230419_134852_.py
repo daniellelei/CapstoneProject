@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: c623c03bb98d
+Revision ID: 8b53d000a20b
 Revises: 
-Create Date: 2023-04-19 10:28:39.317322
+Create Date: 2023-04-19 13:48:52.793611
 
 """
 from alembic import op
@@ -11,9 +11,8 @@ import sqlalchemy as sa
 import os
 environment = os.getenv("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
-
 # revision identifiers, used by Alembic.
-revision = 'c623c03bb98d'
+revision = '8b53d000a20b'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -68,8 +67,8 @@ def upgrade():
     sa.Column('cart_id', sa.Integer(), nullable=False),
     sa.Column('drink_id', sa.Integer(), nullable=False),
     sa.Column('size', sa.String(length=40), nullable=False),
-    sa.Column('milk', sa.String(length=255), nullable=False),
-    sa.Column('preparationMethod', sa.String(length=255), nullable=False),
+    sa.Column('milk', sa.String(length=255), nullable=True),
+    sa.Column('preparationMethod', sa.String(length=255), nullable=True),
     sa.Column('shotOptions', sa.Integer(), nullable=True),
     sa.Column('expressoRoastOptions', sa.String(length=255), nullable=True),
     sa.Column('teaBase', sa.String(length=255), nullable=True),
