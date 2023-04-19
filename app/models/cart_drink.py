@@ -8,5 +8,5 @@ cart_drinks = db.Table(
 )
 
 if environment == "production":
-    user_pins.schema = SCHEMA
+    cart_drinks.schema = SCHEMA
 
