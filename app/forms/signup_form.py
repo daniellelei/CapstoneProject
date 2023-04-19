@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField
-from wtforms.validators import DataRequired, Email, ValidationError
+from wtforms import StringField, DecimalField
+from wtforms.validators import DataRequired, Email, ValidationError, NumberRange
 from app.models import User
 
 
@@ -25,3 +25,4 @@ class SignUpForm(FlaskForm):
         'username', validators=[DataRequired(), username_exists])
     email = StringField('email', validators=[DataRequired(), user_exists])
     password = StringField('password', validators=[DataRequired()])
+    funds = DecimalField('funds', places=2, validators=[DataRequired(),NumberRange(min=1)])
