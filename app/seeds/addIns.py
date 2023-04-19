@@ -2,7 +2,7 @@ from app.models import db, AddIn, environment, SCHEMA
 from sqlalchemy.sql import text
 
 
-def seed_addIns(all_customizations):
+def seed_addIns():
 
     addIn1 = AddIn(
         customization_id=1,
