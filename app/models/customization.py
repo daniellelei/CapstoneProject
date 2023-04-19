@@ -38,11 +38,6 @@ class Customization (db.Model):
             'size': self.size,
             'milk': self.milk,
             'flavors': self.flavors,
-            'topping1':self.topping1,
-            'topping2':self.topping2,
-            'topping3':self.topping3,
-            'ice':self.ice,
-            'sweeteners':self.sweeteners,
             'shotOptions': self.shotOptions,
             'expressoRoastOptions': self.expressoRoastOptions,
             'teaBase':self.teaBase
