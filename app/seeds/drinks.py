@@ -1,5 +1,5 @@
 from app.models import db, Drink, environment, SCHEMA
-
+from sqlalchemy.sql import text
 
 def seed_drinks(all_carts):
     
@@ -30,3 +30,19 @@ def seed_drinks(all_carts):
         subCategory='creamFrappuccino',
         price = 5.59
     )
+
+    all_drinks = [drink1, drink2, drink3, drink4]
+    add_drinks = [db.session.add(drink) for drink in all_drinks]
+    db.session.commit()
+
+    return all_drinks
+
+
+def undo_drinks():
+    if environment == "production":
+        db.session.execute(
+            f"TRUNCATE table {SCHEMA}.drinks RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute(text("DELETE FROM drinks"))
+
+    db.session.commit()
