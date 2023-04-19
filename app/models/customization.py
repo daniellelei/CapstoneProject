@@ -14,8 +14,8 @@ class Customization (db.Model):
         db.Integer, db.ForeignKey(add_prefix_for_prod("drinks.id")), nullable=False
     )
     size = db.Column(db.String(40), nullable=False)
-    milk = db.Column(db.String(255), nullable=False)
-    preparationMethod = db.Column(db.String(255), nullable=False)
+    milk = db.Column(db.String(255))
+    preparationMethod = db.Column(db.String(255))
     shotOptions = db.Column(db.Integer)
     expressoRoastOptions = db.Column(db.String(255))
     teaBase = db.Column(db.String(255))
