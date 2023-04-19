@@ -33,3 +33,9 @@ def get_user_customization():
 
     return customizations
 
+@customization_routes.route('/', methods=['POST'])
+@login_required
+def create_customization():
+    user = current_user.to_dict()
+    form = CustomizationForm()
+    form["csrf_token"].data = request.cookies["csrf_token"]
