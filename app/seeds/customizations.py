@@ -7,7 +7,6 @@ def seed_customizations():
     customization1 = Customization(
         cart_id=1,
         drink_id=1,
-        
         size='Tall',
         milk = 'Whole',
         shotOptions=1,
@@ -18,7 +17,6 @@ def seed_customizations():
     customization2 = Customization(
         cart_id=2,
         drink_id=2,
-        
         size='Grande',
         milk='2%',
         shotOptions=1,
@@ -29,7 +27,6 @@ def seed_customizations():
     customization3 = Customization(
         cart_id=3,
         drink_id=3,
-        
         size='Venti',
         milk='Whole',
         shotOptions=1,

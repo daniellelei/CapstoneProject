@@ -24,10 +24,10 @@ class Customization (db.Model):
     cart = db.relationship('Cart', back_populates="customizations")
     drink = db.relationship('Drink', back_populates = "customizations")
 
-    flavor = db.relationship('Flavor', back_populates= "customization")
-    topping = db.relationship('Topping', back_populates="customization")
-    sweetener = db.relationship('Sweetener', back_populates="customization")
-    addIns = db.relationship('AddIn', back_populates="customization")
+    # flavor = db.relationship('Flavor', back_populates= "customization")
+    # topping = db.relationship('Topping', back_populates="customization")
+    # sweetener = db.relationship('Sweetener', back_populates="customization")
+    # addIns = db.relationship('AddIn', back_populates="customization")
     
     def to_dict(self):
         return {
