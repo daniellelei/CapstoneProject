@@ -15,7 +15,7 @@ class Cart (db.Model):
     total_price = db.Column(db.Float, nullable=False)
 
     user = db.relationship('User', back_populates='cart')
-    orders = db.relationship('Order', back_populates='cart')
+    customizations = db.relationship('Customization', back_populates='cart')
 
     drinksInCart = db.relationship(
         "Drink", secondary=cart_drinks, back_populates="cart_drinks"

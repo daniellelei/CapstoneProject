@@ -15,7 +15,7 @@ class Drink (db.Model):
     price = db.Column(db.Float, nullable=False)
 
     #relationship attributes
-    orders = db.relationship('Order', back_populates= "drink")
+    customizations = db.relationship('Customization', back_populates= "drink")
     reviews = db.relationship('Review', back_populates='drink')
 
     cart_drinks = db.relationship(

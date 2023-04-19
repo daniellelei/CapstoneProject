@@ -1,7 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 
-class Order (db.Model):
-    __tablename__ = 'orders'
+class Customization (db.Model):
+    __tablename__ = 'customizations'
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
@@ -26,8 +26,8 @@ class Order (db.Model):
     teaBase = db.Column(db.String)
 
     # relationship attributes
-    cart = db.relationship('Cart', back_populates="orders")
-    drink = db.relationship('Drink', back_populates = "orders")
+    cart = db.relationship('Cart', back_populates="customizations")
+    drink = db.relationship('Drink', back_populates = "customizations")
 
 
     def to_dict(self):
