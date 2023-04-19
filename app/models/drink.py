@@ -11,6 +11,10 @@ class Drink (db.Model):
     category = db.Column(db.String(255), nullable=False)
     price = db.Column(db.Float, nullable=False)
 
+    #relationship attributes
+    orders = db.relationship('Order', back_populates= "drink")
+    reviews = db.relationship('Review', back_populates='drink')
+
 
     def to_dict(self):
         return {

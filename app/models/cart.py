@@ -7,15 +7,18 @@ class Cart (db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(40), nullable=False)
-    category = db.Column(db.String(255), nullable=False)
-    price = db.Column(db.Float, nullable=False)
+    user_id = db.Column(
+        db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False
+    )
+    total_price = db.Column(db.Float, nullable=False)
+
+    user = db.relationship('User', back_populates='cart')
+    orders = db.relationship('Order', back_populates='cart')
 
 
     def to_dict(self):
         return {
             'id': self.id,
-            'name': self.name,
-            'category': self.category,
-            'price': self.price
+            'user_id': self.user_id,
+            'total_price': self.total_price
         }
