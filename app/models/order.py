@@ -21,9 +21,9 @@ class Order (db.Model):
     topping3 = db.Column(db.String(255), nullable=False)
     ice = db.Column(db.String(255), nullable=False)
     sweeteners = db.Column(db.String(255), nullable=False)
-    shotOptions = db.Column(db.Integer, nullable=False)
-    expressoRoastOptions = db.Column(db.String, nullable=False)
-    teaBase = db.Column(db.String, nullable=False)
+    shotOptions = db.Column(db.Integer)
+    expressoRoastOptions = db.Column(db.String)
+    teaBase = db.Column(db.String)
 
     # relationship attributes
     cart = db.relationship('Cart', back_populates="orders")
