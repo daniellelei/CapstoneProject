@@ -16,6 +16,7 @@ class User(db.Model, UserMixin):
     funds = db.Column(db.Float, nullable=False)
 
     # relationship attributes
+    customizations = db.relationship('Customization', back_populates='user')
     carts = db.relationship('Cart', back_populates="user")
     reviews = db.relationship('Review', back_populates="user")
 

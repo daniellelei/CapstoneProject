@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 92128c785182
+Revision ID: f3bb49582635
 Revises: 
-Create Date: 2023-04-19 14:02:05.682904
+Create Date: 2023-04-19 15:06:08.220908
 
 """
 from alembic import op
@@ -12,7 +12,7 @@ import os
 environment = os.getenv("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
 # revision identifiers, used by Alembic.
-revision = '92128c785182'
+revision = 'f3bb49582635'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -66,6 +66,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('cart_id', sa.Integer(), nullable=False),
     sa.Column('drink_id', sa.Integer(), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('size', sa.String(length=40), nullable=False),
     sa.Column('milk', sa.String(length=255), nullable=True),
     sa.Column('preparationMethod', sa.String(length=255), nullable=True),
@@ -74,6 +75,7 @@ def upgrade():
     sa.Column('teaBase', sa.String(length=255), nullable=True),
     sa.ForeignKeyConstraint(['cart_id'], ['carts.id'], ),
     sa.ForeignKeyConstraint(['drink_id'], ['drinks.id'], ),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

@@ -13,6 +13,9 @@ class Customization (db.Model):
     drink_id = db.Column(
         db.Integer, db.ForeignKey(add_prefix_for_prod("drinks.id")), nullable=False
     )
+    user_id = db.Column(
+        db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False
+    )
     size = db.Column(db.String(40), nullable=False)
     milk = db.Column(db.String(255))
     preparationMethod = db.Column(db.String(255))
@@ -21,6 +24,7 @@ class Customization (db.Model):
     teaBase = db.Column(db.String(255))
 
     # relationship attributes
+    user = db.relationship('User', back_populates = "customizations")
     cart = db.relationship('Cart', back_populates="customizations")
     drink = db.relationship('Drink', back_populates = "customizations")
 
@@ -32,6 +36,7 @@ class Customization (db.Model):
     def to_dict(self):
         return {
             'id': self.id,
+            'user_id':self.user_id,
             'cart_id':self.cart_id,
             'drink_id' : self.drink_id,
             'size': self.size,

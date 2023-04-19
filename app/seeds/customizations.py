@@ -5,6 +5,7 @@ from sqlalchemy.sql import text
 def seed_customizations():
 
     customization1 = Customization(
+        user_id =1,
         cart_id=1,
         drink_id=1,
         size='Tall',
@@ -15,6 +16,7 @@ def seed_customizations():
     )
 
     customization2 = Customization(
+        user_id =2,
         cart_id=2,
         drink_id=2,
         size='Grande',
@@ -25,6 +27,7 @@ def seed_customizations():
     )
 
     customization3 = Customization(
+        user_id=3,
         cart_id=3,
         drink_id=3,
         size='Venti',
@@ -35,6 +38,7 @@ def seed_customizations():
     )
 
     customization4 = Customization(
+        user_id=4,
         cart_id=4,
         drink_id=4,
         size='Venti',

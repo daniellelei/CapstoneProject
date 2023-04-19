@@ -28,5 +28,6 @@ class Drink (db.Model):
             'id': self.id,
             'name': self.name,
             'category': self.category,
+            'subCategory': self.subCategory,
             'price': self.price
         }
