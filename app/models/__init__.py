@@ -6,3 +6,7 @@ from .cart import Cart
 from .drink import Drink
 from .customization import Customization
 from .review import Review
+from .flavor import Flavor
+from .topping import Topping
+from .sweetener import Sweetener
+from .addIn import AddIn
