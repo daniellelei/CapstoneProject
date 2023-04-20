@@ -1,5 +1,10 @@
 const LOAD_CUSTOMIZATIONS = "customizations/load_all";
 const LOAD_CUSTOMIZATION_DETAIL = "customizations/load_one";
+const LOAD_USER_CUSTOMIZATIONS = "customizations/load_user_customization";
+
+const CREATE_CUSTOMIZATION = "customization/create"
+const UPDATE_CUSTOMIZATION = "customization/update"
+const REMOVE_CUSTOMIZATION = 'customization/delete'
 
 ////////   ACTIONS   //////////
 export const actionLoadAllCustomizations = (customizations) => ({
@@ -12,7 +17,20 @@ export const actionLoadCustomizationDetail = (customization) => ({
   customization,
 });
 
+export const actionCreateCustomization = (customization) => ({
+    type: CREATE_CUSTOMIZATION,
+    customization
+})
 
+export const actionUpdateCustomization = (customization) => ({
+    type: UPDATE_CUSTOMIZATION,
+    customization
+})
+
+export const actionRemoveCustomization = (id) => ({
+    type: REMOVE_CUSTOMIZATION,
+    id
+})
 ////////   THUNKS     ////////////
 export const getAllCustomizationsThunk = () => async (dispatch) => {
   const response = await fetch("/api/customizations");
@@ -34,6 +52,20 @@ export const getCustomizationDetailThunk = (id) => async (dispatch) => {
   }
 };
 
+export const createCustomization = (customization) => async (dispatch) => {
+  const response = await fetch("/api/customizations", {
+    method: "POST",
+    body: customization,
+  });
+
+  if (response.ok) {
+    const newCustomization = await response.json();
+    const customization = newCustomization.Customization;
+    await dispatch(actionCreateCustomization(customization));
+    return customization;
+  }
+  return response.json();
+};
 
 
 ////////   REDUCER   //////////
