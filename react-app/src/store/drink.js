@@ -13,6 +13,8 @@ export const actionLoadDrinkDetail = (drink) => ({
 });
 
 ///////////   THUNKS     ///////////////
+
+//get all
 export const getAllDrinksThunk = () => async (dispatch) => {
     const response = await fetch("/api/drinks");
   if (response.ok) {
@@ -23,6 +25,7 @@ export const getAllDrinksThunk = () => async (dispatch) => {
   return response;
 };
 
+//get one
 export const getDrinkDetailThunk = (id) => async (dispatch) => {
   const response = await fetch(`/api/drinks/${id}`);
 
