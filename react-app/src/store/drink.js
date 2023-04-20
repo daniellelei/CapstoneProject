@@ -18,7 +18,8 @@ export const actionLoadDrinkDetail = (drink) => ({
 export const getAllDrinksThunk = () => async (dispatch) => {
     const response = await fetch("/api/drinks");
   if (response.ok) {
-    const drinks = await response.json();
+    const drinksRes = await response.json();
+    const drinks = drinksRes.drinks;
     await dispatch(actionLoadAllDrinks(drinks));
     return drinks;
   }

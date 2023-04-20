@@ -7,28 +7,32 @@ def seed_drinks():
         name = 'Salted Caramel Cream Cold Brew',
         category = 'coldCoffee' ,
         subCategory = 'coldBrew',
-        price = 4.95
+        price = 4.95,
+        imageUrl='https://i.etsystatic.com/39755529/r/il/0d1161/4510365905/il_794xN.4510365905_twbe.jpg'
     )
 
     drink2 = Drink(
         name= 'Iced Caffe Americano',
         category='coldCoffee',
         subCategory='icedAmericano',
-        price = 2.95
+        price = 2.95,
+        imageUrl='https://i.etsystatic.com/39755529/r/il/0d1161/4510365905/il_794xN.4510365905_twbe.jpg'
     )
 
     drink3 = Drink(
         name= 'Caramel Ribbon Crunch Frappuccino Blended Beverage',
         category='frappuccino',
         subCategory='coffeeFrappuccino',
-        price = 5.59
+        price = 5.59,
+        imageUrl='https://i.etsystatic.com/39755529/r/il/0d1161/4510365905/il_794xN.4510365905_twbe.jpg'
     )
 
     drink4 = Drink(
         name= 'Strawberry Creme Frappuccino Blended Beverage',
         category='frappuccino',
         subCategory='creamFrappuccino',
-        price = 5.59
+        price = 5.59,
+        imageUrl='https://i.etsystatic.com/39755529/r/il/0d1161/4510365905/il_794xN.4510365905_twbe.jpg'
     )
 
     all_drinks = [drink1, drink2, drink3, drink4]

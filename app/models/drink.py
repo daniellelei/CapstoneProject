@@ -13,6 +13,7 @@ class Drink (db.Model):
     category = db.Column(db.String(255), nullable=False)
     subCategory = db.Column(db.String(255), nullable=False)
     price = db.Column(db.Float, nullable=False)
+    imageUrl = db.Column(db.String(255))
 
     #relationship attributes
     customizations = db.relationship('Customization', back_populates= "drink")
@@ -29,5 +30,6 @@ class Drink (db.Model):
             'name': self.name,
             'category': self.category,
             'subCategory': self.subCategory,
-            'price': self.price
+            'price': self.price,
+            'imageUrl': self.imageUrl
         }

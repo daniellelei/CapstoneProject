@@ -21,6 +21,9 @@ function App() {
           <Route path="/drinks">
             <AllDrinks />
           </Route>
+          {/* <Route exact path="/drinks/:drinkId">
+            <SingleDrink />
+          </Route> */}
           <Route path="/login" >
             <LoginFormPage />
           </Route>

@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from 'react-redux';
-
+import DrinkIndexItem from './DrinkIndexItem'
 import * as drinkActions from '../../store/drink';
 
 function AllDrinks(){
@@ -9,7 +9,7 @@ const dispatch = useDispatch();
   const user = useSelector((state) => state.session.user);
 
   useEffect(() => {
-    dispatch(drinkActions.getAllDrinks());
+    dispatch(drinkActions.getAllDrinksThunk());
     
     // return () => {
     //   dispatch(actionClearDrinks());
