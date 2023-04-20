@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Redirect, useLocation, useParams } from "react-router-dom";
 import * as drinkActions from '../../store/drink';
 import OpenModalButton from '../OpenModalButton';
-import Customization from '../Customization';
+import CreateCustomization from '../CreateCustomization';
 const Drink = () => {
     console.log('inside single drink')
     const {drinkId} = useParams();
@@ -37,7 +37,7 @@ const Drink = () => {
             <p>{drink.price}</p>
             <OpenModalButton
             buttonText='Customize'
-            modalComponent={<Customization drink={drink}/>} />
+            modalComponent={<CreateCustomization drink={drink}/>} />
             <button
             onClick = {async (e) => {
                 e.preventDefault();
