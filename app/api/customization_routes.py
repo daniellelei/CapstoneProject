@@ -69,7 +69,7 @@ def create_customization(drink_id, cart_id):
 
 @customization_routes.route('/<int:id>', methods=['PATCH', 'PUT'])
 @login_required
-def create_customization(id, drink_id, cart_id):
+def update_customization(id, drink_id, cart_id):
     user = current_user.to_dict()
     customization = Customization.query.get(id)
 
