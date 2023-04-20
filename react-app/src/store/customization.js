@@ -6,7 +6,7 @@ const CREATE_CUSTOMIZATION = "customization/create"
 const UPDATE_CUSTOMIZATION = "customization/update"
 const REMOVE_CUSTOMIZATION = 'customization/delete'
 
-////////   ACTIONS   //////////
+                ////////   ACTIONS   //////////
 export const actionLoadAllCustomizations = (customizations) => ({
   type: LOAD_CUSTOMIZATIONS,
   customizations,
@@ -16,6 +16,11 @@ export const actionLoadCustomizationDetail = (customization) => ({
   type: LOAD_CUSTOMIZATION_DETAIL,
   customization,
 });
+
+export const actionLoadUserCustomizations = (customizations) => ({
+    type: CREATE_CUSTOMIZATION,
+    customizations
+})
 
 export const actionCreateCustomization = (customization) => ({
     type: CREATE_CUSTOMIZATION,
@@ -31,7 +36,8 @@ export const actionRemoveCustomization = (id) => ({
     type: REMOVE_CUSTOMIZATION,
     id
 })
-////////   THUNKS     ////////////
+                  ////////   THUNKS     ////////////
+//get all
 export const getAllCustomizationsThunk = () => async (dispatch) => {
   const response = await fetch("/api/customizations");
   if (response.ok) {
@@ -42,8 +48,20 @@ export const getAllCustomizationsThunk = () => async (dispatch) => {
   return response;
 };
 
+//get one
 export const getCustomizationDetailThunk = (id) => async (dispatch) => {
   const response = await fetch(`/api/customizations/${id}`);
+
+  if (response.ok) {
+    const customizations = await response.json();
+    await dispatch(actionLoadUserCustomizations(customizations));
+    return customizations;
+  }
+};
+
+//get current
+export const getUserCustomizationThunk = (id) => async (dispatch) => {
+  const response = await fetch(`/api/customizations/current`);
 
   if (response.ok) {
     const customization = await response.json();
@@ -52,7 +70,8 @@ export const getCustomizationDetailThunk = (id) => async (dispatch) => {
   }
 };
 
-export const createCustomization = (customization) => async (dispatch) => {
+//create
+export const createCustomizationThunk = (customization) => async (dispatch) => {
   const response = await fetch("/api/customizations", {
     method: "POST",
     body: customization,
@@ -67,8 +86,35 @@ export const createCustomization = (customization) => async (dispatch) => {
   return response.json();
 };
 
+//update
+export const updateCustomizationThunk = (customization) => async (dispatch) => {
+  const response = await fetch (`/api/customizations/${customization.id}`,{
+    method:"PATCH",
+    body:customization,
+  });
 
-////////   REDUCER   //////////
+  if (response.ok) {
+    const updatedCustomization = await response.json();
+    const updated_customization = updatedCustomization.customization;
+    await dispatch(actionUpdateCustomization(updated_customization));
+    return updated_customization;
+  }
+  return response.json();
+}
+
+//delete
+export const deleteCustomization = (customization) => async (dispatch) => {
+  const response = await fetch(`/api/Customizations/${customization.id}`, {
+    method: "DELETE",
+  });
+  if (response.ok) {
+    await dispatch(actionRemoveCustomization(customization.id));
+    return await response.json();
+  }
+  return await response.json();
+};
+
+                   ////////   REDUCER   //////////
 const initialState = {
   allCustomizations: {},
   singleCustomizations: {},
@@ -77,17 +123,42 @@ const initialState = {
 
 const customizationReducer = (state = initialState, action) => {
     switch (action.type) {
-        case LOAD_CUSTOMIZATIONS:
-            const allCustomizations = {};
-            action.customizations.forEach((customization) => {
-                allCustomizations[customization.id] = customization;
-            });
-            return { ...state, allCustomizations: { ...allCustomizations } };
-        case LOAD_CUSTOMIZATION_DETAIL:
-            return { ...state, singleCustomization: { ...action.customization } };
-        default:
-            return state;
+      case LOAD_CUSTOMIZATIONS:
+          const allCustomizations = {};
+          action.customizations.forEach((customization) => {
+              allCustomizations[customization.id] = customization;
+          });
+          return { ...state, allCustomizations: { ...allCustomizations } };
+      case LOAD_CUSTOMIZATION_DETAIL:
+          return { ...state, singleCustomization: { ...action.customization } };
+      case LOAD_USER_CUSTOMIZATIONS:
+        const allUserCustomizations = {};
+        action.customizations.forEach((customization)=>{
+          allUserCustomizations[customization.id] = customization;
+        })
+        return {...state, allCustomizations: {...allUserCustomizations}};
+      case CREATE_CUSTOMIZATION:
+        return {
+          ...state,
+          allCustomizations:{...state.allCustomizations, [action.customization.id]:action.customization},
+          singleCustomization: {},
+          allUserCustomizations:{...state.allUserCustomizations, [action.customization.id]: action.customization}
         }
+      case UPDATE_CUSTOMIZATION:
+        return {
+          ...state,
+          allCustomizations:{...state.allCustomizations, [action.customization.id]:action.customization},
+          singleCustomization: {},
+          allUserCustomizations:{...state.allUserCustomizations, [action.customization.id]: action.customization}
+        }
+      case REMOVE_CUSTOMIZATION:
+        const newState = {...state};
+        delete newState.allCustomizations[action.id];
+        delete newState.allUserCustomizations[action.id];
+        return newState;
+      default:
+          return state;
+      }
 };
 
 export default customizationReducer;
