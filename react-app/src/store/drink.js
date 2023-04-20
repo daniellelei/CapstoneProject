@@ -32,6 +32,7 @@ export const getDrinkDetailThunk = (id) => async (dispatch) => {
 
   if (response.ok) {
     const drink = await response.json();
+    console.log('from thunk', drink)
     await dispatch(actionLoadDrinkDetail(drink));
     return drink;
   }
@@ -53,6 +54,8 @@ const drinkReducer = (state = initialState, action) => {
                 allDrinks[drink.id] = drink;
             });
             return {...state, allDrinks: {...allDrinks}};
+        case LOAD_DRINK_DETAIL:
+            return {...state, singleDrink: {...action.drink}}
         default:
             return state;
     }

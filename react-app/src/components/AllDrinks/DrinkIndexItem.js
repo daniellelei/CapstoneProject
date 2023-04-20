@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import * as drinkssAction from "../../store/drink";
+import * as drinkActions from "../../store/drink";
 
 const DrinkIndexItem = ({
     drink,

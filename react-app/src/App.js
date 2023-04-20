@@ -6,6 +6,7 @@ import LoginFormPage from "./components/LoginFormPage";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import AllDrinks from "./components/AllDrinks";
+import SingleDrink from "./components/SingleDrink";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -18,12 +19,12 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
-          <Route path="/drinks">
+          <Route exact path="/drinks">
             <AllDrinks />
           </Route>
-          {/* <Route exact path="/drinks/:drinkId">
+          <Route exact path="/drinks/:drinkId">
             <SingleDrink />
-          </Route> */}
+          </Route>
           <Route path="/login" >
             <LoginFormPage />
           </Route>
