@@ -12,7 +12,7 @@ class Cart (db.Model):
     user_id = db.Column(
         db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False
     )
-    total_price = db.Column(db.Float, nullable=False)
+    total_price = db.Column(db.Float)
 
     user = db.relationship('User', back_populates='carts')
     customizations = db.relationship('Customization', back_populates='cart')

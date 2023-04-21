@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 from app.models import Cart, db
 from flask_login import current_user, login_required
 from sqlalchemy.orm import joinedload
-from ..forms import CartForm
+# from ..forms import CartForm
 cart_routes = Blueprint('carts', __name__)
 
 @cart_routes.route('/')
@@ -52,23 +52,37 @@ def get_user_cart():
 @login_required
 def create_cart():
     user = current_user.to_dict()
-    form = CartForm()
-    form["csrf_token"].data = request.cookies["csrf_token"]
+    new_cart = Cart(
+        user_id = user['id'],
+    )
+    db.session.add(new_cart)
+    db.session.commit()
+    return {**new_cart.to_dict(),
+            "User": new_cart.user.to_dict()}
+    # form = CartForm()
+    # form["csrf_token"].data = request.cookies["csrf_token"]
+    # if form.validate_on_submit():
+    #     new_cart = Cart(
+    #         user_id=user['id'],
+    #         total_price=form.data["total_price"]
+    #     )
+    #     db.session.add(new_cart)
+    #     db.session.commit()
+    #     return {**new_cart.to_dict(),
+    #             'User': new_cart.user.to_dict(),
+    #             }
 
-    if form.validate_on_submit():
-        new_cart = Cart(
-            user_id=user['id'],
-            total_price=form.data["total_price"],
-            drink_id=form.data["drink_id"],
-        )
-        db.session.add(new_cart)
+    # if form.errors:
+    #     return {"message": "form errors", "errors": f"{form.errors}"}
+    # return {"message": 'Bad Data'}
+
+
+@cart_routes.route("/<int:id>", methods=["DELETE"])
+@login_required
+def delete_cart(id):
+    cart = Cart.query.get(id)
+    if cart:
+        db.session.delete(cart)
         db.session.commit()
-        return {**new_cart.to_dict(),
-                'User': new_cart.user.to_dict(),
-                'Drink': new_cart.drink.to_dict(),
-                'Cart': new_cart.cart.to_dict()
-                }
-
-    if form.errors:
-        return {"message": "form errors", "errors": f"{form.errors}"}
-    return {"message": 'Bad Data'}
+        return {"message": 'Cart Deleted!'}
+    return {"message": 'Cart not found'}

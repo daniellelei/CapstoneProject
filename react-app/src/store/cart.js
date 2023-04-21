@@ -1,5 +1,11 @@
 const LOAD_CARTS = "carts/load_all";
 const LOAD_CART_DETAIL = "carts/load_one";
+const LOAD_USER_CARTS = "carts/load_user_cart";
+const CREATE_CART = "carts/create_cart";
+const UPDATE_CART = "carts/update_cart";
+const REMOVE_CART = "carts/delete_cart";
+const CLEAR_CART = "carts/clear_cart";
+const CLEAR_CARTS = "carts/clear_carts";
 
 ///////////   ACTIONS    //////////////
 export const actionLoadAllCarts = (carts) => ({
@@ -10,6 +16,34 @@ export const actionLoadAllCarts = (carts) => ({
 export const actionLoadCartDetail = (cart) => ({
   type: LOAD_CART_DETAIL,
   cart,
+});
+
+export const actionLoadUserCarts = (carts) => ({
+    type: LOAD_USER_CARTS,
+    carts
+});
+
+export const actionCreateCart = (cart) => ({
+  type: CREATE_CART,
+  cart,
+});
+
+export const actionUpdateCart = (cart) => ({
+  type: UPDATE_CART,
+  cart,
+});
+
+export const actionDeleteCart = (cart) => ({
+  type: REMOVE_CART,
+  cart,
+});
+
+export const actionClearCart = () => ({
+  type: CLEAR_CART,
+});
+
+export const actionClearCarts = () => ({
+  type: CLEAR_CARTS,
 });
 
 ///////////   THUNKS     ///////////////
@@ -38,6 +72,54 @@ export const getCartDetailThunk = (id) => async (dispatch) => {
   }
 };
 
+//get current
+export const getUserCartThunk = (id) => async (dispatch) => {
+  const response = await fetch(`/api/carts/current`);
+
+  if (response.ok) {
+    const cart = await response.json();
+    console.log('inside user thunk', cart)
+    await dispatch(actionLoadUserCarts(cart));
+    return cart;
+  }
+};
+export const createCartThunk = (cart) => async (dispatch) => {
+  const res = await fetch(`/api/carts/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(cart),
+  });
+  if (res.ok) {
+    const cart = await res.json();
+    await dispatch(actionCreateCart(cart));
+    return cart;
+  }
+  // return res
+};
+
+export const updateCartThunk = (cart, cartId) => async (dispatch) => {
+  const res = await fetch(`/api/carts/${cartId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(cart),
+  });
+  if (res.ok) {
+    const updatedCart = await res.json();
+    await dispatch(actionUpdateCart(updatedCart));
+    return updatedCart;
+  }
+  return res;
+};
+
+export const deleteCartThunk = (cartId) => async (dispatch) => {
+  const res = await fetch(`/api/carts/${cartId}`, {
+    method: "DELETE",
+  });
+  if (res.ok) {
+    await dispatch(actionDeleteCart(cartId));
+  }
+  return res;
+};
 
 ////////////   REDUCER     ///////////////
 const initialState = {
@@ -56,6 +138,35 @@ const cartReducer = (state = initialState, action) => {
             return {...state, allCarts: {...allCarts}};
         case LOAD_CART_DETAIL:
             return {...state, singleCart: {...action.cart}}
+        case LOAD_USER_CARTS:
+        const allUserCarts = {};
+        action.carts.forEach((cart)=>{
+          allUserCarts[cart.id] = cart;
+        })
+            return {...state, allUserCarts: {...allUserCarts}};
+        case CREATE_CART:
+            return {
+                ...state,
+                allCarts: { ...state.allCarts, [action.cart.id]: action.cart },
+                singleCart: {...action.cart},
+                allUserCarts:{...state.allUserCarts, [action.cart.id]: action.cart}
+            };
+        case UPDATE_CART:
+        return {
+          ...state,
+          allCarts:{...state.allCarts, [action.cart.id]:action.cart},
+          singleCart: {...action.cart},
+          allUserCarts:{...state.allUserCarts, [action.cart.id]: action.cart}
+        }
+        case REMOVE_CART:
+            const newState = {...state};
+            delete newState.allCarts[action.id];
+            delete newState.allUserCarts[action.id];
+            return newState;
+        case CLEAR_CARTS:
+            return { ...state, allCarts: {} };
+        case CLEAR_CART:
+            return { ...state, singleCart: {} };
         default:
             return state;
     }
