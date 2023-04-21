@@ -1,0 +1,26 @@
+.allDrinks {
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.eaDrink {
+    border: 1px solid black;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 350px;
+    width:350px;
+}
+
+.drinkImg {
+    height:150px;
+    width:150px;
+    border: 1px solid red;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: 50% 30%;
+}

@@ -5,6 +5,7 @@ import * as customizationActions from '../../store/customization';
 import OpenModalButton from '../OpenModalButton';
 import EditCustomization from '../EditCustomization';
 import DeleteCustomization from '../DeleteCustomization';
+import './SingleCustomization.css'
 const SingleCustomization = () =>{
     const {customizationId} = useParams();
     const dispatch = useDispatch();
@@ -23,10 +24,10 @@ const SingleCustomization = () =>{
     if(!customization?.id) return <div>Loading</div>
 
     return (
-        <div>
+        <div className='eaCust'>
             <p>customization #: {customization.id}</p>
             <p>drink: {customization.Drink.name}</p>
-            <img src = {customization.Drink.imageUrl} />
+            <img className='drinkImg' src={customization.Drink.imageUrl} />
             <p>size: {customization.size}</p>
             <p>milk: {customization.milk}</p>
             <p>expresso: {customization.expressoRoastOptions}</p>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import * as drinkActions from "../../store/drink";
+import './AllDrinks.css'
 
 const DrinkIndexItem = ({
     drink,
@@ -12,12 +13,13 @@ const DrinkIndexItem = ({
     const history = useHistory();
 
     return (
-        <div key={drink.id}>
+        <div  key={drink.id}>
             <Link to={`/drinks/${drink.id}`}>
-                <div>
+                <div className='eaDrink'>
                     <img
                         src = {drink.imageUrl}
                         alt = {drink.name}
+                        className="drinkImg"
                     />
                     <p>{drink.name}</p>
                 </div>

@@ -4,6 +4,8 @@ import { NavLink, Redirect, useLocation, useParams } from "react-router-dom";
 import * as drinkActions from '../../store/drink';
 import OpenModalButton from '../OpenModalButton';
 import CreateCustomization from '../CreateCustomization';
+
+import "./SingleDrink.css"
 const Drink = () => {
     console.log('inside single drink')
     const {drinkId} = useParams();
@@ -21,15 +23,12 @@ const Drink = () => {
         e.preventDefault();
 
     }
-
-
-   
-
     if(!drink?.id) return <div>Loading</div>
 
     return (
-        <div>
+        <div className='OneDrink'>
             <img 
+                className="drinkImg"
                 src = {drink.imageUrl}
                 alt = "drink.url"
             />
