@@ -1,8 +1,8 @@
-"""create_drinks_table
+"""create_tables
 
-Revision ID: 681ff6e877ae
+Revision ID: 8db422fc6341
 Revises: ffdc0a98111c
-Create Date: 2023-04-21 13:56:18.216512
+Create Date: 2023-04-21 16:21:17.714164
 
 """
 from alembic import op
@@ -13,7 +13,7 @@ environment = os.getenv("FLASK_ENV")
 SCHEMA = os.environ.get("SCHEMA")
 
 # revision identifiers, used by Alembic.
-revision = '681ff6e877ae'
+revision = '8db422fc6341'
 down_revision = 'ffdc0a98111c'
 branch_labels = None
 depends_on = None
@@ -32,8 +32,22 @@ def upgrade():
     )
     op.create_table('carts',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('total_price', sa.Float(), nullable=True),
+    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('customizations',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('drink_id', sa.Integer(), nullable=False),
+    sa.Column('user_id', sa.Integer(), nullable=False),
+    sa.Column('size', sa.String(length=40), nullable=False),
+    sa.Column('milk', sa.String(length=255), nullable=True),
+    sa.Column('preparationMethod', sa.String(length=255), nullable=True),
+    sa.Column('shotOptions', sa.Integer(), nullable=True),
+    sa.Column('expressoRoastOptions', sa.String(length=255), nullable=True),
+    sa.Column('teaBase', sa.String(length=255), nullable=True),
+    sa.ForeignKeyConstraint(['drink_id'], ['drinks.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -47,6 +61,12 @@ def upgrade():
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('cart_customizations',
+    sa.Column('cart_id', sa.Integer(), nullable=True),
+    sa.Column('customization_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['cart_id'], ['carts.id'], ),
+    sa.ForeignKeyConstraint(['customization_id'], ['customizations.id'], )
+    )
     op.create_table('cart_drink',
     sa.Column('cart_id', sa.Integer(), nullable=False),
     sa.Column('drink_id', sa.Integer(), nullable=False),
@@ -54,28 +74,10 @@ def upgrade():
     sa.ForeignKeyConstraint(['drink_id'], ['drinks.id'], ),
     sa.PrimaryKeyConstraint('cart_id', 'drink_id')
     )
-    op.create_table('customizations',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('cart_id', sa.Integer(), nullable=False),
-    sa.Column('drink_id', sa.Integer(), nullable=False),
-    sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('size', sa.String(length=40), nullable=False),
-    sa.Column('milk', sa.String(length=255), nullable=True),
-    sa.Column('preparationMethod', sa.String(length=255), nullable=True),
-    sa.Column('shotOptions', sa.Integer(), nullable=True),
-    sa.Column('expressoRoastOptions', sa.String(length=255), nullable=True),
-    sa.Column('teaBase', sa.String(length=255), nullable=True),
-    sa.ForeignKeyConstraint(['cart_id'], ['carts.id'], ),
-    sa.ForeignKeyConstraint(['drink_id'], ['drinks.id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id')
-    )
     with op.batch_alter_table('users', schema=None) as batch_op:
-        batch_op.add_column(sa.Column('funds', sa.Float(), nullable=True))
-    
+        batch_op.add_column(sa.Column('funds', sa.Float(), nullable=False))
     if environment == "production":
         op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
-
     # ### end Alembic commands ###
 
 
@@ -84,9 +86,10 @@ def downgrade():
     with op.batch_alter_table('users', schema=None) as batch_op:
         batch_op.drop_column('funds')
 
-    op.drop_table('customizations')
     op.drop_table('cart_drink')
+    op.drop_table('cart_customizations')
     op.drop_table('reviews')
+    op.drop_table('customizations')
     op.drop_table('carts')
     op.drop_table('drinks')
     # ### end Alembic commands ###
