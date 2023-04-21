@@ -5,7 +5,10 @@ import SignupFormPage from "./components/SignupFormPage";
 import LoginFormPage from "./components/LoginFormPage";
 import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
-
+import AllDrinks from "./components/AllDrinks";
+import SingleDrink from "./components/SingleDrink";
+import SingleCustomization from './components/SingleCustomization'
+import CurrentCustomization from './components/ManageCustomization'
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -18,6 +21,18 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
+          <Route exact path="/drinks">
+            <AllDrinks />
+          </Route>
+          <Route exact path="/drinks/:drinkId">
+            <SingleDrink />
+          </Route>
+          <Route exact path="/customizations">
+            <CurrentCustomization />
+          </Route>
+          <Route exact path="/customizations/:customizationId">
+            <SingleCustomization />
+          </Route>
           <Route path="/login" >
             <LoginFormPage />
           </Route>
