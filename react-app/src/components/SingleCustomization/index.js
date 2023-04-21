@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Redirect, useLocation, useParams } from "react-router-dom";
 import * as customizationActions from '../../store/customization';
 
-const singleCustomization = () =>{
+const SingleCustomization = () =>{
     const {customizationId} = useParams();
     const dispatch = useDispatch();
 
-    const customization = useSelector((state)=>state.customization.singleCustomization);
+    const customization = useSelector((state)=>state.customizations.singleCustomization);
+    console.log('customization', customization)
     const user = useSelector((state)=>state.session.user);
 
     useEffect(() => {
@@ -18,9 +19,10 @@ const singleCustomization = () =>{
 
     return (
         <div>
-            <p>customization.</p>
+            <p>{customization.id}</p>
+            <p>{customization.size}</p>
         </div>
     )
 }
 
-export default singleCustomization;
+export default SingleCustomization;

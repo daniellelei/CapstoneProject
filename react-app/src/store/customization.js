@@ -18,7 +18,7 @@ export const actionLoadCustomizationDetail = (customization) => ({
 });
 
 export const actionLoadUserCustomizations = (customizations) => ({
-    type: CREATE_CUSTOMIZATION,
+    type: LOAD_USER_CUSTOMIZATIONS,
     customizations
 })
 
@@ -53,9 +53,12 @@ export const getCustomizationDetailThunk = (id) => async (dispatch) => {
   const response = await fetch(`/api/customizations/${id}`);
 
   if (response.ok) {
-    const customizations = await response.json();
-    await dispatch(actionLoadUserCustomizations(customizations));
-    return customizations;
+    const customization = await response.json();
+    // const customization = newCustomization.Customization;
+    console.log('inside thunk customization', customization)
+    // console.log('inside thunk customization.id', customization.id)
+    await dispatch(actionLoadCustomizationDetail(customization));
+    return customization;
   }
 };
 
@@ -65,7 +68,7 @@ export const getUserCustomizationThunk = (id) => async (dispatch) => {
 
   if (response.ok) {
     const customization = await response.json();
-    await dispatch(actionLoadCustomizationDetail(customization));
+    await dispatch(actionLoadUserCustomizations(customization));
     return customization;
   }
 };
@@ -82,7 +85,8 @@ export const createCustomizationThunk = (customization) => async (dispatch) => {
   if (response.ok) {
     const newCustomization = await response.json();
     const customization = newCustomization.Customization;
-    console.log('inside thunk newCustomization', newCustomization)
+    console.log('inside thunk customization', customization)
+    console.log('inside thunk customization.id', customization.id)
     
     await dispatch(actionCreateCustomization(customization));
     return customization;
@@ -121,7 +125,7 @@ export const deleteCustomization = (customization) => async (dispatch) => {
                    ////////   REDUCER   //////////
 const initialState = {
   allCustomizations: {},
-  singleCustomizations: {},
+  singleCustomization: {},
   
 };
 
@@ -145,7 +149,7 @@ const customizationReducer = (state = initialState, action) => {
         return {
           ...state,
           allCustomizations:{...state.allCustomizations, [action.customization.id]:action.customization},
-          singleCustomization: {},
+          singleCustomization: {...action.customization},
           allUserCustomizations:{...state.allUserCustomizations, [action.customization.id]: action.customization}
         }
       case UPDATE_CUSTOMIZATION:

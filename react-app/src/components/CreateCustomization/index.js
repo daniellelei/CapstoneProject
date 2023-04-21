@@ -70,7 +70,7 @@ const CreateCustomization = (drink) => {
       if (!createdRes.errors) {
         // history.push(`/customizations`);
         closeModal();
-        // history.push(`/customizations/${createdRes.id}`);
+        history.push(`/customizations/${createdRes.id}`);
         await reset();
       } else {
         await setResErrors(createdRes.errors);

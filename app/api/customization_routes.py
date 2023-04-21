@@ -22,7 +22,7 @@ def get_customization_by_id(id):
     """
     Query for a customization by id and returns that customization in a dictionary
     """
-    customization = customization.query.get(id)
+    customization = Customization.query.get(id)
     return customization.to_dict()
 
 @customization_routes.route('/current')
