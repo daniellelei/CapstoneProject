@@ -5,53 +5,67 @@ import {useModal} from "../../context/Modal"
 import * as customizationActions from '../../store/customization';
 
 const CreateCustomization = (drink) => {
+    
     const milks = ['None', 'Whole Milk', '2%', 'HalfNHalf', 'Fat Free'];
     const sizes = ['Tall', 'Grande', 'Venti'];
-    const shotOptions = [1, 2, 3];
-    const expressoRoastOptions = ["Blonde", "Medium Roast", "Dark Roast"];
+    const shots = [1, 2, 3];
+    const expressos = ["Blonde", "Medium Roast", "Dark Roast"];
     const history = useHistory();
     const dispatch = useDispatch();
     const { closeModal } = useModal();
     // const user = useSelector((state)=>state.session.user)
     const [size, setSize] = useState('');
     const [milk, setMilk] = useState('');
-    const [shotOption, setShotOption] = useState(0);
-    const [expressoRoastOption, setExpressoRoastOption] = useState('');
+    const [shotOptions, setshotOptions] = useState(0);
+    const [expressoRoastOptions, setexpressoRoastOptions] = useState('');
     const [errors, setErrors] = useState({});
     const [resErrors, setResErrors] = useState({});
     const [hasSubmitted, setHasSubmitted] = useState(false);
 
     const currentUser = useSelector((state) => state.session.user)
-    console.log('user data', currentUser);
+    
 
     //for handling errors
     useEffect(()=>{
         const err = {};
         if(!size.length) err.size = "Please choose a size."
         if(!milk.length) err.milk = "Please choose a milk option"
-        if(shotOption === 0) err.shotOption = "Please add a shot"
-        if(!expressoRoastOption.length) err.expressoRoastOption = 'Please choose a kind of expresso'
+        if(shotOptions === 0) err.shotOptions = "Please add a shot"
+        if(!expressoRoastOptions.length) err.expressoRoastOptions = 'Please choose a kind of expresso'
 
         setErrors(err);
-    },[size, milk, shotOption, expressoRoastOption]);
+    },[size, milk, shotOptions, expressoRoastOptions]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setHasSubmitted(true);
         setResErrors({});
-        const formData = new FormData()
-        formData.append("size", size)
-        formData.append("milk", milk)
-        formData.append("shotOptions", shotOption)
-        formData.append("expressoRoastOptions", expressoRoastOption)
-        formData.append("user_id", currentUser.id)
-        formData.append("drink_id", drink.id)
-        formData.append("cart_id", 1) //need to change later on
-        
+        // console.log('milk', milk);
+        // const formData = new FormData()
+        // formData.append("size", size)
+        // formData.append("milk", milk)
+        // formData.append("shotOptionss", shotOptions)
+        // formData.append("expressoRoastOptionss", expressoRoastOptions)
+        // formData.append("user_id", currentUser.id)
+        // formData.append("drink_id", drink.id)
+        // formData.append("cart_id", 1) //need to change later on
+        // console.log('formData', formData)
+    
+        let user_id = currentUser.id
+        let drink_id = drink.drink.id
+        let cart_id = 1
         if (!Boolean(Object.values(errors).length)) {
       const createdRes = await dispatch(
         // pinsAction.createPin(newPin, currentUser)
-        customizationActions.createCustomizationThunk(formData)
+        customizationActions.createCustomizationThunk({
+            size,
+            milk,
+            shotOptions,
+            expressoRoastOptions,
+            user_id,
+            drink_id,
+            cart_id
+        })
       );
       if (!createdRes.errors) {
         // history.push(`/customizations`);
@@ -67,8 +81,8 @@ const CreateCustomization = (drink) => {
     const reset = () => {
         setSize('');
         setMilk('');
-        setShotOption(0);
-        setExpressoRoastOption('');
+        setshotOptions(0);
+        setexpressoRoastOptions('');
         setErrors({});
         setResErrors({});
         setHasSubmitted(false);
@@ -128,45 +142,45 @@ const CreateCustomization = (drink) => {
                         )}
                     </div>
                     <div>
-                        <label>Choose shotOption: </label>
+                        <label>Choose shotOptions: </label>
                         <select
                         onChange={(e)=> {
-                            setShotOption(e.target.value);
+                            setshotOptions(e.target.value);
                         }}
-                        value = {shotOption}
-                        name="shotOption"
-                        placeholder="Choose shotOption"
+                        value = {shotOptions}
+                        name="shotOptions"
+                        placeholder="Choose shotOptions"
                         >
-                            {shotOptions.map((o)=>(
+                            {shots.map((o)=>(
                                 <option value={o} key={o}>
                                     {o}
                                 </option>
                             ))}
                         </select>
                         {hasSubmitted ? (
-                            <p className="error"> {errors.shotOption}</p>
+                            <p className="error"> {errors.shotOptions}</p>
                         ) : (
                             <p className="noErrorDisplay">{"  "}</p>
                         )}
                     </div>
                     <div>
-                        <label>Choose expressoRoastOption: </label>
+                        <label>Choose expressoRoastOptions: </label>
                         <select
                         onChange={(e)=> {
-                            setExpressoRoastOption(e.target.value);
+                            setexpressoRoastOptions(e.target.value);
                         }}
-                        value = {expressoRoastOption}
-                        name="expressoRoastOption"
-                        placeholder="Choose expressoRoastOption"
+                        value = {expressoRoastOptions}
+                        name="expressoRoastOptions"
+                        placeholder="Choose expressoRoastOptions"
                         >
-                            {expressoRoastOptions.map((e)=>(
+                            {expressos.map((e)=>(
                                 <option value={e} key={e}>
                                     {e}
                                 </option>
                             ))}
                         </select>
                         {hasSubmitted ? (
-                            <p className="error"> {errors.expressoRoastOption}</p>
+                            <p className="error"> {errors.expressoRoastOptions}</p>
                         ) : (
                             <p className="noErrorDisplay">{"  "}</p>
                         )}

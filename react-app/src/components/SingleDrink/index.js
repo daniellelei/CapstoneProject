@@ -22,7 +22,7 @@ const Drink = () => {
 
     }
 
-    
+
    
 
     if(!drink?.id) return <div>Loading</div>

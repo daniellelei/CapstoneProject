@@ -47,12 +47,12 @@ def create_customization():
     if form.validate_on_submit():
         new_customization = Customization(
             user_id = user['id'],
-            cart_id = cart_id,
-            drink_id = drink_id,
-            size = form.data["Size"],
-            milk = form.data['Milk'],
-            shotOptions = form.data['Shot options'],
-            expressoRoastOptions=form.data['Expresso Roast Options'],
+            cart_id = form.data["cart_id"],
+            drink_id = form.data["drink_id"],
+            size = form.data["size"],
+            milk = form.data['milk'],
+            shotOptions=form.data['shotOptions'],
+            expressoRoastOptions=form.data['expressoRoastOptions'],
         )
         db.session.add(new_customization)
         db.session.commit()
