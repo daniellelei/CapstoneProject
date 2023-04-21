@@ -68,6 +68,7 @@ export const getUserCustomizationThunk = (id) => async (dispatch) => {
 
   if (response.ok) {
     const customization = await response.json();
+    console.log('inside user thunk', customization)
     await dispatch(actionLoadUserCustomizations(customization));
     return customization;
   }
@@ -145,7 +146,7 @@ const customizationReducer = (state = initialState, action) => {
         action.customizations.forEach((customization)=>{
           allUserCustomizations[customization.id] = customization;
         })
-        return {...state, allCustomizations: {...allUserCustomizations}};
+        return {...state, allUserCustomizations: {...allUserCustomizations}};
       case CREATE_CUSTOMIZATION:
         return {
           ...state,

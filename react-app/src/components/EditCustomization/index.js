@@ -175,7 +175,7 @@ const EditCustomization = ({customization}) => {
                         )}
                     </div>
                     <button type="submit">
-                    Create
+                    Update
                     </button>
                 </div>
             </form>

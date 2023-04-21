@@ -8,6 +8,7 @@ import Navigation from "./components/Navigation";
 import AllDrinks from "./components/AllDrinks";
 import SingleDrink from "./components/SingleDrink";
 import SingleCustomization from './components/SingleCustomization'
+import CurrentCustomization from './components/ManageCustomization'
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -25,6 +26,9 @@ function App() {
           </Route>
           <Route exact path="/drinks/:drinkId">
             <SingleDrink />
+          </Route>
+          <Route exact path="/customizations">
+            <CurrentCustomization />
           </Route>
           <Route exact path="/customizations/:customizationId">
             <SingleCustomization />
