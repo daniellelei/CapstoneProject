@@ -39,7 +39,7 @@ def get_user_customization():
 
 @customization_routes.route('/', methods=['POST'])
 @login_required
-def create_customization(drink_id, cart_id):
+def create_customization():
     user = current_user.to_dict()
     form = CustomizationForm()
     form["csrf_token"].data = request.cookies["csrf_token"]

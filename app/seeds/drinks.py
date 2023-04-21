@@ -8,7 +8,7 @@ def seed_drinks():
         category = 'coldCoffee' ,
         subCategory = 'coldBrew',
         price = 4.95,
-        imageUrl='https://i.etsystatic.com/39755529/r/il/0d1161/4510365905/il_794xN.4510365905_twbe.jpg'
+        imageUrl='./assets/SaltedCaramelCreamColdBrew.png'
     )
 
     drink2 = Drink(

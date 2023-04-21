@@ -72,7 +72,8 @@ export const getUserCustomizationThunk = (id) => async (dispatch) => {
 
 //create
 export const createCustomizationThunk = (customization) => async (dispatch) => {
-  const response = await fetch("/api/customizations", {
+  console.log('hitting creat thunk')
+  const response = await fetch("/api/customizations/", {
     method: "POST",
     body: customization,
   });

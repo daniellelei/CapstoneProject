@@ -24,7 +24,13 @@ def authenticate():
     Authenticates a user.
     """
     if current_user.is_authenticated:
-        return current_user.to_dict()
+        user = current_user.to_dict()
+        this_user = User.query.get(user["id"])
+        # return current_user.to_dict()
+        return {**this_user.to_dict(),
+                "customizations":[customization.to_dict() for customization in this_user.customizations],
+                "carts": [cart.to_dict() for cart in this_user.carts]
+                }
     return {'errors': ['Unauthorized']}
 
 
@@ -41,7 +47,11 @@ def login():
         # Add the user to the session, we are logged in!
         user = User.query.filter(User.email == form.data['email']).first()
         login_user(user)
-        return user.to_dict()
+        
+        return {**user.to_dict(),
+                "carts":[cart.to_dict() for cart in user.carts],
+                "customizations":[customization.to_dict() for customization in user.customizations]
+                }
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 

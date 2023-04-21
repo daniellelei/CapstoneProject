@@ -21,5 +21,8 @@ def user(id):
     """
     Query for a user by id and returns that user in a dictionary
     """
-    user = User.query.get(id)
-    return user.to_dict()
+    this_user = User.query.get(id)
+    return {**this_user.to_dict(),
+            "carts": [cart.to_dict() for cart in user.carts],
+            "customizations": [customization.to_dict() for customization in this_user.customizations]
+            }
