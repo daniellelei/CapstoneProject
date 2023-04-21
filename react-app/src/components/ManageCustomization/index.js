@@ -28,6 +28,7 @@ function CurrentCustomizations() {
                         <p>{c.milk}</p>
                         <p>{c.size}</p>
                         <p>{c.shotOptions}</p>
+                        <p>{c.expressoRoastOptions}</p>
                     </NavLink>
                     <OpenModalButton
                     buttonText='Edit'

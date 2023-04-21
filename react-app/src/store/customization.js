@@ -55,7 +55,7 @@ export const getCustomizationDetailThunk = (id) => async (dispatch) => {
   if (response.ok) {
     const customization = await response.json();
     // const customization = newCustomization.Customization;
-    console.log('inside thunk customization', customization)
+    // console.log('inside thunk customization', customization)
     // console.log('inside thunk customization.id', customization.id)
     await dispatch(actionLoadCustomizationDetail(customization));
     return customization;

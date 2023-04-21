@@ -189,13 +189,6 @@ const EditCustomization = ({customization}) => {
 
 
     )
-
-
-
-
-
-
-
 }
 
 export default EditCustomization;
