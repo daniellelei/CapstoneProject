@@ -20,11 +20,7 @@ def cart(id):
     Query for a cart by id and returns that cart in a dictionary
     """
     cart = Cart.query.get(id)
-    # return [{**cart.to_dict(),
-    #         "User": cart.user.to_dict(),
-    #         "Customization": cart.customization.to_dict(),
-    #         "drinksInCart": cart.drinksInCart.to_dict()
-    #         } for cart in user_carts]
+    
     return [{**cart.to_dict(),
             "User": cart.user.to_dict(),
             "Customizations":[c.to_dict() for c in cart.customizations],
@@ -59,23 +55,6 @@ def create_cart():
     db.session.commit()
     return {**new_cart.to_dict(),
             "User": new_cart.user.to_dict()}
-    # form = CartForm()
-    # form["csrf_token"].data = request.cookies["csrf_token"]
-    # if form.validate_on_submit():
-    #     new_cart = Cart(
-    #         user_id=user['id'],
-    #         total_price=form.data["total_price"]
-    #     )
-    #     db.session.add(new_cart)
-    #     db.session.commit()
-    #     return {**new_cart.to_dict(),
-    #             'User': new_cart.user.to_dict(),
-    #             }
-
-    # if form.errors:
-    #     return {"message": "form errors", "errors": f"{form.errors}"}
-    # return {"message": 'Bad Data'}
-
 
 @cart_routes.route("/<int:id>", methods=["DELETE"])
 @login_required

@@ -40,7 +40,6 @@ class Customization (db.Model):
         return {
             'id': self.id,
             'user_id':self.user_id,
-            'cart_id':self.cart_id,
             'drink_id' : self.drink_id,
             'size': self.size,
             'milk': self.milk,

@@ -83,11 +83,11 @@ export const getUserCartThunk = (id) => async (dispatch) => {
     return cart;
   }
 };
-export const createCartThunk = (cart) => async (dispatch) => {
+export const createCartThunk = (user) => async (dispatch) => {
   const res = await fetch(`/api/carts/`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(cart),
+    body: JSON.stringify(user),
   });
   if (res.ok) {
     const cart = await res.json();
