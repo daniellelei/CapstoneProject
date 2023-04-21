@@ -4,28 +4,35 @@ import { useHistory } from "react-router-dom";
 import {useModal} from "../../context/Modal"
 import * as customizationActions from '../../store/customization';
 
-const CreateCustomization = (drink) => {
-    
+const EditCustomization = ({customization}) => {
     const milks = ['None', 'Whole Milk', '2%', 'HalfNHalf', 'Fat Free'];
     const sizes = ['Tall', 'Grande', 'Venti'];
     const shots = [1, 2, 3];
     const expressos = ["Blonde", "Medium Roast", "Dark Roast"];
-    const history = useHistory();
     const dispatch = useDispatch();
+    const history = useHistory();
     const { closeModal } = useModal();
-    // const user = useSelector((state)=>state.session.user)
-    const [size, setSize] = useState('');
-    const [milk, setMilk] = useState('');
-    const [shotOptions, setshotOptions] = useState(0);
-    const [expressoRoastOptions, setexpressoRoastOptions] = useState('');
+
+    const [size, setSize] = useState(customization.size);
+    const [milk, setMilk] = useState(customization.milk);
+    const [shotOptions, setshotOptions] = useState(customization.shotOptions);
+    const [expressoRoastOptions, setexpressoRoastOptions] = useState(customization.expressoRoastOptions);
     const [errors, setErrors] = useState({});
     const [resErrors, setResErrors] = useState({});
     const [hasSubmitted, setHasSubmitted] = useState(false);
 
     const currentUser = useSelector((state) => state.session.user)
-    
 
-    //for handling errors
+    // useEffect(()=>{
+    //     if (customization) {
+    //         setSize(cu)
+    //     }
+    // })
+    // const updateSize = (e) => setSize(e.target.value);
+    // const updateMilk = (e) => setMilk(e.target.value);
+    // const updateshotOptions = (e) => setshotOptions(e.target.value);
+    // const updateexpressoRoastOptions = (e) => setexpressoRoastOptions(e.target.value);
+
     useEffect(()=>{
         const err = {};
         if(!size.length) err.size = "Please choose a size."
@@ -42,42 +49,34 @@ const CreateCustomization = (drink) => {
         setResErrors({});
     
         let user_id = currentUser.id
-        let drink_id = drink.drink.id
+        let drink_id = customization.drink_id
         let cart_id = 1
+        let id = customization.id
         if (!Boolean(Object.values(errors).length)) {
-      const createdRes = await dispatch(
+      const updatedRes = await dispatch(
         // pinsAction.createPin(newPin, currentUser)
-        customizationActions.createCustomizationThunk({
+        customizationActions.updateCustomizationThunk({
             size,
             milk,
             shotOptions,
             expressoRoastOptions,
             user_id,
             drink_id,
-            cart_id
+            cart_id,
+            id
         })
       );
-      if (!createdRes.errors) {
+      if (!updatedRes.errors) {
         // history.push(`/customizations`);
         closeModal();
-        history.push(`/customizations/${createdRes.id}`);
-        await reset();
+        
+        await setHasSubmitted(false);
       } else {
-        await setResErrors(createdRes.errors);
+        await setResErrors(updatedRes.errors);
       }
     }
     }
-
-    const reset = () => {
-        setSize('');
-        setMilk('');
-        setshotOptions(0);
-        setexpressoRoastOptions('');
-        setErrors({});
-        setResErrors({});
-        setHasSubmitted(false);
-    };
-
+    
     return (
         <div>
             <form onSubmit={handleSubmit}>
@@ -188,6 +187,7 @@ const CreateCustomization = (drink) => {
             >Cancel</button>
         </div>
 
+
     )
 
 
@@ -195,7 +195,7 @@ const CreateCustomization = (drink) => {
 
 
 
-    
+
 }
 
-export default CreateCustomization;
+export default EditCustomization;

@@ -71,9 +71,9 @@ def create_customization():
     return {"message": 'Bad Data'}
 
 
-@customization_routes.route('/<int:id>', methods=['PATCH', 'PUT'])
+@customization_routes.route('/<int:id>', methods=["PATCH", "PUT"])
 @login_required
-def update_customization(id, drink_id, cart_id):
+def update_customization(id):
     user = current_user.to_dict()
     customization = Customization.query.get(id)
 
@@ -82,10 +82,10 @@ def update_customization(id, drink_id, cart_id):
         form["csrf_token"].data = request.cookies["csrf_token"]
 
         if form.validate_on_submit():
-            customization.size = form.data["Size"]
-            customization.milk = form.data['Milk']
-            customization.shotOptions=form.data['Shot options']
-            customization.expressoRoastOptions = form.data['Expresso Roast Options']
+            customization.size = form.data["size"]
+            customization.milk = form.data['milk']
+            customization.shotOptions = form.data['shotOptions']
+            customization.expressoRoastOptions = form.data['expressoRoastOptions']
             
             db.session.commit()
             updated_customization = Customization.query.get(id)

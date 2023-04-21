@@ -84,7 +84,7 @@ export const createCustomizationThunk = (customization) => async (dispatch) => {
 
   if (response.ok) {
     const newCustomization = await response.json();
-    const customization = newCustomization.Customization;
+    const customization = newCustomization;
     console.log('inside thunk customization', customization)
     console.log('inside thunk customization.id', customization.id)
     
@@ -97,22 +97,23 @@ export const createCustomizationThunk = (customization) => async (dispatch) => {
 //update
 export const updateCustomizationThunk = (customization) => async (dispatch) => {
   const response = await fetch (`/api/customizations/${customization.id}`,{
-    method:"PATCH",
-    body:customization,
+    method:"PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(customization),
   });
 
   if (response.ok) {
     const updatedCustomization = await response.json();
-    const updated_customization = updatedCustomization.customization;
-    await dispatch(actionUpdateCustomization(updated_customization));
-    return updated_customization;
+    
+    await dispatch(actionUpdateCustomization(updatedCustomization));
+    return updatedCustomization;
   }
   return response.json();
 }
 
 //delete
 export const deleteCustomization = (customization) => async (dispatch) => {
-  const response = await fetch(`/api/Customizations/${customization.id}`, {
+  const response = await fetch(`/api/customizations/${customization.id}`, {
     method: "DELETE",
   });
   if (response.ok) {
@@ -156,7 +157,7 @@ const customizationReducer = (state = initialState, action) => {
         return {
           ...state,
           allCustomizations:{...state.allCustomizations, [action.customization.id]:action.customization},
-          singleCustomization: {},
+          singleCustomization: {...action.customization},
           allUserCustomizations:{...state.allUserCustomizations, [action.customization.id]: action.customization}
         }
       case REMOVE_CUSTOMIZATION:
