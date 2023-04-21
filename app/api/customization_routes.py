@@ -23,7 +23,11 @@ def get_customization_by_id(id):
     Query for a customization by id and returns that customization in a dictionary
     """
     customization = Customization.query.get(id)
-    return customization.to_dict()
+    return {**customization.to_dict(),
+            'User': customization.user.to_dict(),
+            'Drink': customization.drink.to_dict(),
+            'Cart': customization.cart.to_dict()
+            }
 
 @customization_routes.route('/current')
 def get_user_customization():
@@ -56,7 +60,7 @@ def create_customization():
         )
         db.session.add(new_customization)
         db.session.commit()
-        return {'Customization':new_customization.to_dict(), 
+        return {**new_customization.to_dict(), 
                 'User':new_customization.user.to_dict(), 
                 'Drink':new_customization.drink.to_dict(),
                 'Cart':new_customization.cart.to_dict()
@@ -85,7 +89,7 @@ def update_customization(id, drink_id, cart_id):
             
             db.session.commit()
             updated_customization = Customization.query.get(id)
-            return {'Customization': updated_customization.to_dict(),
+            return {**updated_customization.to_dict(),
                     'User': updated_customization.user.to_dict(),
                     'Drink': updated_customization.drink.to_dict(),
                     'Cart': updated_customization.cart.to_dict()

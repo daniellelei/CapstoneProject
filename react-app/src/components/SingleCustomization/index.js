@@ -7,8 +7,11 @@ const SingleCustomization = () =>{
     const {customizationId} = useParams();
     const dispatch = useDispatch();
 
-    const customization = useSelector((state)=>state.customizations.singleCustomization);
-    console.log('customization', customization)
+    let customization = useSelector((state)=>state.customizations.singleCustomization);
+    // customization = customization.Customization
+    console.log('cust', customization)
+    // console.log('customization', customization.Customization)
+    // console.log('customization.drink.name', customization.Drink.name)
     const user = useSelector((state)=>state.session.user);
 
     useEffect(() => {
@@ -19,8 +22,13 @@ const SingleCustomization = () =>{
 
     return (
         <div>
-            <p>{customization.id}</p>
-            <p>{customization.size}</p>
+            <p>customization #: {customization.id}</p>
+            <p>drink: {customization.Drink.name}</p>
+            <img src = {customization.Drink.imageUrl} />
+            <p>size: {customization.size}</p>
+            <p>milk: {customization.milk}</p>
+            <p>expresso: {customization.expressoRoastOptions}</p>
+            
         </div>
     )
 }
