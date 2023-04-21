@@ -16,7 +16,6 @@ class Cart (db.Model):
 
     user = db.relationship('User', back_populates='carts')
     customizations = db.relationship('Customization', back_populates='cart')
-
     drinksInCart = db.relationship(
         "Drink", secondary=cart_drinks, back_populates="cart_drinks"
     )

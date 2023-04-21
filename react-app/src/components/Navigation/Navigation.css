@@ -10,3 +10,11 @@
   height:60px;
   width:60px;
 }
+
+.topNav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-right:10em;
+}

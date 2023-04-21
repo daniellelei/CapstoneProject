@@ -30,6 +30,7 @@ def get_customization_by_id(id):
             }
 
 @customization_routes.route('/current')
+@login_required
 def get_user_customization():
     user = current_user.to_dict()
     user_customizations = Customization.query.filter(Customization.user_id == user["id"])
