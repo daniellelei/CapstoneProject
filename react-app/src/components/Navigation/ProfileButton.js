@@ -38,6 +38,10 @@ function ProfileButton({ user }) {
   const manageCustClick = (e) =>{
     e.preventDefault();
   }
+  const cartClick = (e) =>{
+    e.preventDefault();
+  }
+
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
   const closeMenu = () => setShowMenu(false);
@@ -52,6 +56,11 @@ function ProfileButton({ user }) {
           <>
             <li>{user.username}</li>
             <li>{user.email}</li>
+            <li>
+              <button onClick={cartClick}>
+                <NavLink to={`/cart`}>My Cart</NavLink>
+              </button>
+            </li>
             <li>
               <button onClick={manageCustClick}>
                 <NavLink to={`/customizations`}>Mange Customizations</NavLink>
