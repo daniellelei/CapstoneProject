@@ -3,11 +3,12 @@ import thunk from 'redux-thunk';
 import session from './session'
 import drinkReducer from './drink';
 import customizationReducer from './customization';
-
+import cartReducer from './cart';
 const rootReducer = combineReducers({
   session,
   drinks:drinkReducer,
   customizations:customizationReducer,
+  carts:cartReducer
 });
 
 
