@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.models import Customization, User, db
+from app.models import Customization, User, db, Cart
 from flask_login import current_user, login_required
 from sqlalchemy.orm import joinedload
 from ..forms import CustomizationForm
@@ -26,7 +26,7 @@ def get_customization_by_id(id):
     return {**customization.to_dict(),
             'User': customization.user.to_dict(),
             'Drink': customization.drink.to_dict(),
-            'Cart': customization.cart.to_dict()
+            'carts': [cart.to_dict() for cart in customization.carts]
             }
 
 @customization_routes.route('/current')
@@ -110,3 +110,33 @@ def delete_customization(id):
         db.session.commit()
         return {"message": 'Customization Deleted!'}
     return {"message": 'Customization not found'}
+
+@customization_routes.route('/<int:id>/addtocart', methods = ['PATCH'])
+@login_required
+def add_to_cart(id):
+    user = current_user
+    customization = Customization.query.get(id)
+    request_obj = request.get_json()
+    if request_obj:
+        cartId = request_obj["id"]
+
+        if cartId:
+            cart = Cart.query.get(cartId)
+            if cart.user_id == user.id:
+                if customization.Cart:
+                    if cart not in customization.carts:
+                        customization.carts.append(cart)
+                else:
+                    customization.carts = []
+                    customization.carts.append(cart)
+            else:
+                return {"message": "User does not own this cart"}
+
+    db.session.commit()
+
+    user = User.query.get(user.id)
+    return [{**customization.to_dict(),
+             "User": customization.User.to_dict(),
+             "carts": [cart.to_dict() for cart in customization.carts],
+             'Drink': customization.drink.to_dict()
+             }]

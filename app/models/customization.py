@@ -26,7 +26,7 @@ class Customization (db.Model):
     # relationship attributes
     user = db.relationship('User', back_populates = "customizations")
     drink = db.relationship('Drink', back_populates = "customizations")
-    cart = db.relationship(
+    carts = db.relationship(
         'Cart', 
         secondary=cart_customizations,
         back_populates="customizations")
