@@ -44,6 +44,21 @@ def get_user_cart():
     return carts
 
 
+@cart_routes.route('/lastcurrent')
+@login_required
+def get_user_last_cart():
+    user = current_user.to_dict()
+    cart = Cart.query.filter(
+        Cart.user_id == user["id"]).order_by((Cart.id).desc()).first()
+    current_cart = [{**cart.to_dict(),
+              "User": cart.user.to_dict(),
+              "Customization": [c.to_dict() for c in cart.customizations],
+              "drinksInCart": [d.to_dict() for d in cart.drinksInCart]
+              }]
+
+    return current_cart
+
+
 @cart_routes.route('/', methods=['POST'])
 @login_required
 def create_cart():

@@ -1,6 +1,7 @@
 const LOAD_CARTS = "carts/load_all";
 const LOAD_CART_DETAIL = "carts/load_one";
-const LOAD_USER_CARTS = "carts/load_user_cart";
+const LOAD_ALL_USER_CARTS = "carts/load_all_user_carts";
+const LOAD_CURRENT_CART = 'carts/load_current_cart'
 const CREATE_CART = "carts/create_cart";
 const UPDATE_CART = "carts/update_cart";
 const REMOVE_CART = "carts/delete_cart";
@@ -19,8 +20,13 @@ export const actionLoadCartDetail = (cart) => ({
 });
 
 export const actionLoadUserCarts = (carts) => ({
-    type: LOAD_USER_CARTS,
+    type: LOAD_ALL_USER_CARTS,
     carts
+});
+
+export const actionLoadCurrentCart = (cart) => ({
+    type: LOAD_CURRENT_CART,
+    cart
 });
 
 export const actionCreateCart = (cart) => ({
@@ -72,7 +78,7 @@ export const getCartDetailThunk = (id) => async (dispatch) => {
   }
 };
 
-//get current
+//get user carts
 export const getUserCartThunk = (id) => async (dispatch) => {
   const response = await fetch(`/api/carts/current`);
 
@@ -83,6 +89,20 @@ export const getUserCartThunk = (id) => async (dispatch) => {
     return cart;
   }
 };
+//get current cart
+export const getCurrentCartThunk = () => async (dispatch) => {
+  const response = await fetch(`/api/carts/lastcurrent`);
+
+  if (response.ok) {
+    const cart = await response.json();
+    console.log('inside current cart thunk', cart)
+    await dispatch(actionLoadCurrentCart(cart));
+    return cart;
+  }
+};
+
+
+
 export const createCartThunk = (user) => async (dispatch) => {
   const res = await fetch(`/api/carts/`, {
     method: "POST",
@@ -124,8 +144,8 @@ export const deleteCartThunk = (cartId) => async (dispatch) => {
 ////////////   REDUCER     ///////////////
 const initialState = {
   allCarts: {},
-  singleCart: {},
-  
+  // singleCart: {},
+  currentCart:{}
 };
 
 const cartReducer = (state = initialState, action) => {
@@ -137,36 +157,48 @@ const cartReducer = (state = initialState, action) => {
             });
             return {...state, allCarts: {...allCarts}};
         case LOAD_CART_DETAIL:
-            return {...state, singleCart: {...action.cart}}
-        case LOAD_USER_CARTS:
+            return {
+              ...state, 
+              // singleCart: {...action.cart},
+              currentCart: {...action.cart},
+            }
+        case LOAD_ALL_USER_CARTS:
         const allUserCarts = {};
         action.carts.forEach((cart)=>{
           allUserCarts[cart.id] = cart;
         })
             return {...state, allUserCarts: {...allUserCarts}};
+        case LOAD_CURRENT_CART:
+          return {
+            ...state,
+            currentCart: {...action.cart},
+          }
         case CREATE_CART:
             return {
                 ...state,
                 allCarts: { ...state.allCarts, [action.cart.id]: action.cart },
-                singleCart: {...action.cart},
+                // singleCart: {...action.cart},
+                currentCart: {...action.cart},
                 allUserCarts:{...state.allUserCarts, [action.cart.id]: action.cart}
             };
         case UPDATE_CART:
         return {
           ...state,
           allCarts:{...state.allCarts, [action.cart.id]:action.cart},
-          singleCart: {...action.cart},
+          // singleCart: {...action.cart},
+          currentCart: {...action.cart},
           allUserCarts:{...state.allUserCarts, [action.cart.id]: action.cart}
         }
         case REMOVE_CART:
             const newState = {...state};
             delete newState.allCarts[action.id];
             delete newState.allUserCarts[action.id];
+            
             return newState;
         case CLEAR_CARTS:
             return { ...state, allCarts: {} };
         case CLEAR_CART:
-            return { ...state, singleCart: {} };
+            return { ...state, currentCart: {}, };
         default:
             return state;
     }

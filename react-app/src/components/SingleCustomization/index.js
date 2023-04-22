@@ -11,7 +11,7 @@ const SingleCustomization = () =>{
     const dispatch = useDispatch();
 
     let customization = useSelector((state)=>state.customizations.singleCustomization);
-    const cart = useSelector((state) => state.carts.singleCart);
+    const cart = useSelector((state) => state.carts.currentCart);
     console.log('singlecart', cart)
     const cartId = cart.id;
     // customization = customization.Customization
