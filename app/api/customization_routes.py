@@ -135,8 +135,9 @@ def add_to_cart(id):
     db.session.commit()
 
     user = User.query.get(user.id)
+    cart = Cart.query.get(cartId)
     return [{**customization.to_dict(),
              "User": customization.User.to_dict(),
-             "carts": [cart.to_dict() for cart in customization.carts],
+             "cart": cart.to_dict(),
              'Drink': customization.drink.to_dict()
-             }]
+             } for customization in cart.customizations]
