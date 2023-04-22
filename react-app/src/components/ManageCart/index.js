@@ -11,7 +11,7 @@ import * as cartActions from "../../store/cart"
 
 function CurrentCart() {
     const dispatch = useDispatch();
-    const cartObj = useSelector((state)=>state.carts.allUserCarts);
+    const cartObj = useSelector((state)=>state.carts.singleCart);
 
     useEffect(() => {
         dispatch(cartActions.getUserCartThunk());
