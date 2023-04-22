@@ -11,6 +11,9 @@ const SingleCustomization = () =>{
     const dispatch = useDispatch();
 
     let customization = useSelector((state)=>state.customizations.singleCustomization);
+    const cart = useSelector((state) => state.carts.singleCart);
+    console.log('singlecart', cart)
+    const cartId = cart.id;
     // customization = customization.Customization
     console.log('cust', customization)
     // console.log('customization', customization.Customization)
@@ -31,6 +34,12 @@ const SingleCustomization = () =>{
             <p>size: {customization.size}</p>
             <p>milk: {customization.milk}</p>
             <p>expresso: {customization.expressoRoastOptions}</p>
+            <button
+            onClick ={ async (e) => {
+                e.preventDefault();
+                await dispatch(customizationActions.addCustomizationToCartThunk(customization,cartId));
+            }}
+            >Add to Cart</button>
             <OpenModalButton
             buttonText='Edit'
             modalComponent={<EditCustomization customization={customization}/>} />

@@ -42,9 +42,9 @@ export const actionRemoveCustomization = (id) => ({
     id
 })
 
-export const actionLoadAddedToCartCustomiations = (customization) => ({
+export const actionLoadAddedToCartCustomiations = (customizations) => ({
   type: LOAD_ADDEDTOCART_CUSTOMIZATIONS,
-  customization
+  customizations
 })
 
 export const actionClearCustomizations = () => ({
@@ -146,10 +146,11 @@ export const deleteCustomization = (customization) => async (dispatch) => {
 };
 
 //add to cart
-export const addeCustomizationToCartThunk = (customization, cartId) => async (dispatch) => {
+export const addCustomizationToCartThunk = (customization, cartId) => async (dispatch) => {
   
   const cartResponse = await fetch(`/api/carts/${cartId}`);
   const cart = await cartResponse.json();
+  
 
   const response = await fetch(`/api/customizations/${customization.id}/addtocart`, {
     method: "PATCH",
@@ -161,6 +162,7 @@ export const addeCustomizationToCartThunk = (customization, cartId) => async (di
 
   if (response.ok) {
     const updatedCustomizations = await response.json();
+    console.log('addthunk', updatedCustomizations)
     await dispatch(actionLoadAddedToCartCustomiations(updatedCustomizations));
     return updatedCustomizations;
   }
@@ -190,8 +192,9 @@ const customizationReducer = (state = initialState, action) => {
         return {...state, allUserCustomizations: {...allUserCustomizations}};
       case LOAD_ADDEDTOCART_CUSTOMIZATIONS:
         const allCartCusts = {};
-        action.customizations.forEach((c) => {
-          allCartCusts[c.id] = c;
+        console.log('inside reducer', action.customizations)
+        action.customizations.forEach((customization) => {
+          allCartCusts[customization.id] = customization;
         });
         return {...state, cartCusts: {...allCartCusts}}
       case CREATE_CUSTOMIZATION:

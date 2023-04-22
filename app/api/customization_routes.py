@@ -37,7 +37,7 @@ def get_user_customization():
     customizations = [{**customization.to_dict(),
                 "User":customization.user.to_dict(),
                 "Drink":customization.drink.to_dict(),
-                "Cart": customization.cart.to_dict()
+                
                 } for customization in user_customizations]
 
     return customizations
@@ -117,15 +117,20 @@ def add_to_cart(id):
     user = current_user
     customization = Customization.query.get(id)
     request_obj = request.get_json()
+    print("**************************")
+    print("**************************")
+    print("**************************")
+    print("**************************")
+    print(request_obj)
     if request_obj:
-        cartId = request_obj["id"]
+        cartId = int(request_obj[0]["id"])
 
         if cartId:
             cart = Cart.query.get(cartId)
             if cart.user_id == user.id:
-                if customization.Cart:
-                    if cart not in customization.carts:
-                        customization.carts.append(cart)
+                if customization.carts:
+                    # if cart not in customization.carts:
+                    customization.carts.append(cart)
                 else:
                     customization.carts = []
                     customization.carts.append(cart)
@@ -137,7 +142,7 @@ def add_to_cart(id):
     user = User.query.get(user.id)
     cart = Cart.query.get(cartId)
     return [{**customization.to_dict(),
-             "User": customization.User.to_dict(),
+             "User": user.to_dict(),
              "cart": cart.to_dict(),
              'Drink': customization.drink.to_dict()
              } for customization in cart.customizations]
