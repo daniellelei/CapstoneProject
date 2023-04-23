@@ -13,7 +13,7 @@ import OpenModalButton from '../OpenModalButton';
 function CurrentCart() {
     const dispatch = useDispatch();
     const cart = useSelector((state)=>state.carts.currentCart);
-    
+    const user = useSelector((state) => state.session.user)
 
     useEffect(() => {
         dispatch(cartActions.getCurrentCartThunk());
@@ -49,6 +49,8 @@ function CurrentCart() {
         })
         return res.toFixed(2);
     }
+
+    let total = calculateTotalPrice([cart_custs, drinksInCart])
     
     return (
         <div className="myCart">
@@ -74,8 +76,11 @@ function CurrentCart() {
                     modalComponent={<RemoveFromCartModal customization={c}/>} />
                 </div>
             ))}
-            <p>Total Price: ${calculateTotalPrice([cart_custs, drinksInCart])}</p>
+            <p>Total Price: ${total}</p>
             <button
+            onClick={ async (e)=> {
+                e.preventDefault();
+            }}
             
             >Let's order</button>
         </div>
