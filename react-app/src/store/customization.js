@@ -1,7 +1,7 @@
 const LOAD_CUSTOMIZATIONS = "customizations/load_all";
 const LOAD_CUSTOMIZATION_DETAIL = "customizations/load_one";
 const LOAD_USER_CUSTOMIZATIONS = "customizations/load_user_customization";
-const LOAD_ADDEDTOCART_CUSTOMIZATIONS = "customizations/load_addedToCart_customizations";
+// const LOAD_ADDEDTOCART_CUSTOMIZATIONS = "customizations/load_addedToCart_customizations";
 
 const CREATE_CUSTOMIZATION = "customization/create"
 const UPDATE_CUSTOMIZATION = "customization/update"
@@ -42,10 +42,10 @@ export const actionRemoveCustomization = (id) => ({
     id
 })
 
-export const actionLoadAddedToCartCustomiations = (customizations) => ({
-  type: LOAD_ADDEDTOCART_CUSTOMIZATIONS,
-  customizations
-})
+// export const actionLoadAddedToCartCustomiations = (customizations) => ({
+//   type: LOAD_ADDEDTOCART_CUSTOMIZATIONS,
+//   customizations
+// })
 
 export const actionClearCustomizations = () => ({
   type: CLEAR_CUSTOMIZATIONS,
@@ -146,32 +146,32 @@ export const deleteCustomization = (customization) => async (dispatch) => {
 };
 
 //add to cart
-export const addCustomizationToCartThunk = (customization) => async (dispatch) => {
+// export const addCustomizationToCartThunk = (customization) => async (dispatch) => {
   
-  const cartResponse = await fetch(`/api/carts/lastcurrent`);
-  const cart = await cartResponse.json();
-  console.log('add to cart**********', cart)
+//   const cartResponse = await fetch(`/api/carts/lastcurrent`);
+//   const cart = await cartResponse.json();
+//   console.log('add to cart**********', cart)
 
-  const response = await fetch(`/api/customizations/${customization.id}/addtocart`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(cart),
-  });
+//   const response = await fetch(`/api/customizations/${customization.id}/addtocart`, {
+//     method: "PATCH",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(cart),
+//   });
 
-  if (response.ok) {
-    const updatedCustomizations = await response.json();
-    console.log('addthunk', updatedCustomizations)
-    await dispatch(actionLoadAddedToCartCustomiations(updatedCustomizations));
-    return updatedCustomizations;
-  }
-};
+//   if (response.ok) {
+//     const updatedCustomizations = await response.json();
+//     console.log('addthunk', updatedCustomizations)
+//     await dispatch(actionLoadAddedToCartCustomiations(updatedCustomizations));
+//     return updatedCustomizations;
+//   }
+// };
                    ////////   REDUCER   //////////
 const initialState = {
   allCustomizations: {},
   singleCustomization: {},
-  cartCusts: {}
+  // cartCusts: {}
 };
 
 const customizationReducer = (state = initialState, action) => {
@@ -190,13 +190,13 @@ const customizationReducer = (state = initialState, action) => {
           allUserCustomizations[customization.id] = customization;
         })
         return {...state, allUserCustomizations: {...allUserCustomizations}};
-      case LOAD_ADDEDTOCART_CUSTOMIZATIONS:
-        const allCartCusts = {};
-        console.log('inside reducer', action.customizations)
-        action.customizations.forEach((customization) => {
-          allCartCusts[customization.id] = customization;
-        });
-        return {...state, cartCusts: {...allCartCusts}}
+      // case LOAD_ADDEDTOCART_CUSTOMIZATIONS:
+      //   const allCartCusts = {};
+      //   console.log('inside reducer', action.customizations)
+      //   action.customizations.forEach((customization) => {
+      //     allCartCusts[customization.id] = customization;
+      //   });
+      //   return {...state, cartCusts: {...allCartCusts}}
       case CREATE_CUSTOMIZATION:
         return {
           ...state,
@@ -220,8 +220,8 @@ const customizationReducer = (state = initialState, action) => {
       return { ...state, allCustomizations: {} };
       case CLEAR_CUSTOMIZATION_DETAIL:
         return { ...state, singleCustomization: {} };
-      case CLEAR_SAVED_CUSTOMIZATIONS:
-        return { ...state, cartCusts: {} };
+      // case CLEAR_SAVED_CUSTOMIZATIONS:
+      //   return { ...state, cartCusts: {} };
       default:
           return state;
       }

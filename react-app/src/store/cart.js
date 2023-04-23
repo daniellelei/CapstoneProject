@@ -2,9 +2,12 @@ const LOAD_CARTS = "carts/load_all";
 const LOAD_CART_DETAIL = "carts/load_one";
 const LOAD_ALL_USER_CARTS = "carts/load_all_user_carts";
 const LOAD_CURRENT_CART = 'carts/load_current_cart'
+
+const ADDTOCART = "carts/addedToCart";
 const CREATE_CART = "carts/create_cart";
 const UPDATE_CART = "carts/update_cart";
 const REMOVE_CART = "carts/delete_cart";
+
 const CLEAR_CART = "carts/clear_cart";
 const CLEAR_CARTS = "carts/clear_carts";
 
@@ -28,6 +31,10 @@ export const actionLoadCurrentCart = (cart) => ({
     type: LOAD_CURRENT_CART,
     cart
 });
+export const actionAddToCart = (customizations) => ({
+  type: ADDTOCART,
+  customizations
+})
 
 export const actionCreateCart = (cart) => ({
   type: CREATE_CART,
@@ -141,11 +148,35 @@ export const deleteCartThunk = (cartId) => async (dispatch) => {
   return res;
 };
 
+//add to cart
+export const addToCartThunk = (customization) => async (dispatch) => {
+  
+  const cartResponse = await fetch(`/api/carts/lastcurrent`);
+  const cart = await cartResponse.json();
+  console.log('add to cart**********', cart)
+
+  const response = await fetch(`/api/customizations/${customization.id}/addtocart`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(cart),
+  });
+
+  if (response.ok) {
+    const updatedCustomizations = await response.json();
+    console.log('addthunk', updatedCustomizations)
+    await dispatch(actionAddToCart(updatedCustomizations));
+    return updatedCustomizations;
+  }
+};
+
 ////////////   REDUCER     ///////////////
 const initialState = {
   allCarts: {},
   // singleCart: {},
-  currentCart:{}
+  currentCart:{},
+  cartCusts: {}
 };
 
 const cartReducer = (state = initialState, action) => {
@@ -173,6 +204,13 @@ const cartReducer = (state = initialState, action) => {
             ...state,
             currentCart: {...action.cart},
           }
+        case ADDTOCART:
+        const allCartCusts = {};
+        console.log('inside reducer', action.customizations)
+        action.customizations.forEach((customization) => {
+          allCartCusts[customization.id] = customization;
+        });
+        return {...state, cartCusts: {...allCartCusts}}
         case CREATE_CART:
             return {
                 ...state,
