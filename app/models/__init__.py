@@ -2,7 +2,7 @@ from .db import db
 from .user import User
 from .db import environment, SCHEMA
 from .cart_drink import cart_drinks
-from .cart_customizations import cart_customizations
+from .cart_customizations import Cart_customization
 from .cart import Cart
 from .drink import Drink
 from .customization import Customization

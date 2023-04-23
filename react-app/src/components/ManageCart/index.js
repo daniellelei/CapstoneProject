@@ -11,55 +11,20 @@ import * as cartActions from "../../store/cart"
 
 function CurrentCart() {
     const dispatch = useDispatch();
-    const cartObj = useSelector((state)=>state.carts.singleCart);
+    const cart = useSelector((state)=>state.carts.currentCart);
 
     useEffect(() => {
-        dispatch(cartActions.getUserCartThunk());
+        dispatch(cartActions.getCurrentCartThunk());
     }, [dispatch])
-    if(!cartObj) return <div>Loading</div>
-    const carts = Object.values(cartObj);
-    console.log('carts', carts)
-    const custs = carts[0].Customization
-    console.log('cust', custs[0])
+    if(!cart) return <div>Loading</div>
 
     return (
         <div>
-            {carts.map((c) => (
-                <div>
-                    <p>cart Id: {c.id}</p>
-                    <p>user Id: {c.user_id}</p>
-                    <p>{c.total_price}</p>
-                    {custs.map((u)=> (
-                        <div>
-                            <p>customization {u.id}</p>
-                            <p>{u.milk}</p>
-                            <p>{u.expressoRoastOptions}</p>
-                        </div>
-                    ))}
-                    <div></div>
-                </div>
-            ))}
+            <h2>{cart.id}</h2>
         </div>
     )
 
-    // return (
-    //     <div className="AllCust">
-    //         {custs.map((c)=>(
-    //             <div key={c.id} className="eaCust">
-    //                 <NavLink className="eaCust" key={c.id} to={`/carts/${c.id}`}>
-    //                     <div>{c}</div>
-                        
-    //                 </NavLink>
-    //                 {/* <OpenModalButton
-    //                 buttonText='Edit'
-    //                 modalComponent={<EditCustomization customization={c}/>} />
-    //                 <OpenModalButton
-    //                 buttonText='Delete'
-    //                 modalComponent={<DeleteCustomization customization={c}/>} /> */}
-    //             </div>
-    //         ))}
-    //     </div>
-    // )
+    
 }
 
 export default CurrentCart;

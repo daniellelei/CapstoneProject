@@ -13,7 +13,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
-    funds = db.Column(db.Float, nullable=False)
+    funds = db.Column(db.Float, nullable=True)
 
     # relationship attributes
     customizations = db.relationship('Customization', back_populates='user')

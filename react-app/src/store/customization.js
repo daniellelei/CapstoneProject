@@ -76,7 +76,7 @@ export const getCustomizationDetailThunk = (id) => async (dispatch) => {
   if (response.ok) {
     const customization = await response.json();
     // const customization = newCustomization.Customization;
-    // console.log('inside thunk customization', customization)
+    console.log('inside thunk customization', customization)
     // console.log('inside thunk customization.id', customization.id)
     await dispatch(actionLoadCustomizationDetail(customization));
     return customization;
@@ -146,11 +146,11 @@ export const deleteCustomization = (customization) => async (dispatch) => {
 };
 
 //add to cart
-export const addCustomizationToCartThunk = (customization, cartId) => async (dispatch) => {
+export const addCustomizationToCartThunk = (customization) => async (dispatch) => {
   
-  const cartResponse = await fetch(`/api/carts/${cartId}`);
+  const cartResponse = await fetch(`/api/carts/lastcurrent`);
   const cart = await cartResponse.json();
-  
+  console.log('add to cart**********', cart)
 
   const response = await fetch(`/api/customizations/${customization.id}/addtocart`, {
     method: "PATCH",

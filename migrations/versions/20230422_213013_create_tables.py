@@ -1,19 +1,16 @@
 """create_tables
 
-Revision ID: 8db422fc6341
+Revision ID: 9db23046f680
 Revises: ffdc0a98111c
-Create Date: 2023-04-21 16:21:17.714164
+Create Date: 2023-04-22 21:30:13.626160
 
 """
 from alembic import op
 import sqlalchemy as sa
 
-import os
-environment = os.getenv("FLASK_ENV")
-SCHEMA = os.environ.get("SCHEMA")
 
 # revision identifiers, used by Alembic.
-revision = '8db422fc6341'
+revision = '9db23046f680'
 down_revision = 'ffdc0a98111c'
 branch_labels = None
 depends_on = None
@@ -62,22 +59,22 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('cart_customizations',
-    sa.Column('cart_id', sa.Integer(), nullable=True),
-    sa.Column('customization_id', sa.Integer(), nullable=True),
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('cart_id', sa.Integer(), nullable=False),
+    sa.Column('customization_id', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['cart_id'], ['carts.id'], ),
-    sa.ForeignKeyConstraint(['customization_id'], ['customizations.id'], )
+    sa.ForeignKeyConstraint(['customization_id'], ['customizations.id'], ),
+    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('cart_drink',
-    sa.Column('cart_id', sa.Integer(), nullable=False),
-    sa.Column('drink_id', sa.Integer(), nullable=False),
+    sa.Column('cart_id', sa.Integer(), nullable=True),
+    sa.Column('drink_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['cart_id'], ['carts.id'], ),
-    sa.ForeignKeyConstraint(['drink_id'], ['drinks.id'], ),
-    sa.PrimaryKeyConstraint('cart_id', 'drink_id')
+    sa.ForeignKeyConstraint(['drink_id'], ['drinks.id'], )
     )
     with op.batch_alter_table('users', schema=None) as batch_op:
-        batch_op.add_column(sa.Column('funds', sa.Float(), nullable=False))
-    if environment == "production":
-        op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
+        batch_op.add_column(sa.Column('funds', sa.Float(), nullable=True))
+
     # ### end Alembic commands ###
 
 

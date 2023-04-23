@@ -23,7 +23,7 @@ def cart(id):
     
     return [{**cart.to_dict(),
             "User": cart.user.to_dict(),
-            "Customizations":[c.to_dict() for c in cart.customizations],
+            # "Customizations":[c.to_dict() for c in cart.customizations],
             "drinksInCart":[d.to_dict() for d in cart.drinksInCart]
             }]
 
@@ -37,7 +37,7 @@ def get_user_cart():
         Cart.user_id == user["id"])
     carts = [{**cart.to_dict(),
                        "User": cart.user.to_dict(),
-                       "Customization": [c.to_dict() for c in cart.customizations],
+                    #    "Customization": [c.to_dict() for c in cart.customizations],
                        "drinksInCart": [d.to_dict() for d in cart.drinksInCart]
                        } for cart in user_carts]
 
@@ -50,11 +50,17 @@ def get_user_last_cart():
     user = current_user.to_dict()
     cart = Cart.query.filter(
         Cart.user_id == user["id"]).order_by((Cart.id).desc()).first()
-    current_cart = [{**cart.to_dict(),
+    print('*************************************')
+    print('*************************************')
+    print('*************************************')
+    print('*************************************')
+    # print (cart.cart_customization.to_dict())
+    current_cart = {**cart.to_dict(),
               "User": cart.user.to_dict(),
-              "Customization": [c.to_dict() for c in cart.customizations],
-              "drinksInCart": [d.to_dict() for d in cart.drinksInCart]
-              }]
+                    'cart_customizations': [c.to_dict() for c in cart.cart_customizations]
+            #   "Customization": [c.to_dict() for c in cart.customizations],
+            #   "drinksInCart": [d.to_dict() for d in cart.drinksInCart]
+              }
 
     return current_cart
 

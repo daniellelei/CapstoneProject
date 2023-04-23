@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.models import Customization, User, db, Cart
+from app.models import Customization, User, db, Cart, Cart_customization
 from flask_login import current_user, login_required
 from sqlalchemy.orm import joinedload
 from ..forms import CustomizationForm
@@ -26,7 +26,8 @@ def get_customization_by_id(id):
     return {**customization.to_dict(),
             'User': customization.user.to_dict(),
             'Drink': customization.drink.to_dict(),
-            'carts': [cart.to_dict() for cart in customization.carts]
+            'cart_customizations':[c.to_dict() for c in customization.cart_customizations]
+            # 'carts': [cart.to_dict() for cart in customization.carts]
             }
 
 @customization_routes.route('/current')
@@ -64,7 +65,7 @@ def create_customization():
         return {**new_customization.to_dict(), 
                 'User':new_customization.user.to_dict(), 
                 'Drink':new_customization.drink.to_dict(),
-                'Cart':new_customization.cart.to_dict()
+                # 'Cart':new_customization.cart.to_dict()
                 }
 
     if form.errors:
@@ -93,7 +94,7 @@ def update_customization(id):
             return {**updated_customization.to_dict(),
                     'User': updated_customization.user.to_dict(),
                     'Drink': updated_customization.drink.to_dict(),
-                    'Cart': updated_customization.cart.to_dict()
+                    # 'Cart': updated_customization.cart.to_dict()
                     }
 
         if form.errors:
@@ -123,17 +124,28 @@ def add_to_cart(id):
     print("**************************")
     print(request_obj)
     if request_obj:
-        cartId = int(request_obj[0]["id"])
+        cartId = int(request_obj["id"])
 
         if cartId:
             cart = Cart.query.get(cartId)
+            
+            print('cart from query',cart)
             if cart.user_id == user.id:
-                if customization.carts:
-                    # if cart not in customization.carts:
-                    customization.carts.append(cart)
-                else:
-                    customization.carts = []
-                    customization.carts.append(cart)
+                newCartCust = Cart_customization(
+                    cart_id = cartId,
+                    customization_id = id
+                )
+                db.session.add(newCartCust)
+                # if customization.cart_customizations:
+                #     customization.cart_customizations.append(cartId)
+                # else:
+                #     customization.cart_customizations = []
+                #     customization.cart_customizations.append(cartId)
+                # if cart.cart_customizations:
+                #     cart.cart_customizations.append(customization.id)
+                # else:
+                #     cart.cart_customizations = []
+                #     cart.cart_customizations.append(customization.id)
             else:
                 return {"message": "User does not own this cart"}
 
@@ -141,8 +153,9 @@ def add_to_cart(id):
 
     user = User.query.get(user.id)
     cart = Cart.query.get(cartId)
-    return [{**customization.to_dict(),
-             "User": user.to_dict(),
-             "cart": cart.to_dict(),
-             'Drink': customization.drink.to_dict()
-             } for customization in cart.customizations]
+    return [{**cart_customization.to_dict(),
+            "User": user.to_dict(),
+            "cart": cart.to_dict(),
+            'Drink': customization.drink.to_dict(),
+            'customization': customization.to_dict()
+            } for cart_customization in cart.cart_customizations]

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Redirect, useLocation, useParams } from "react-router-dom";
 import * as customizationActions from '../../store/customization';
+import * as cartActions from '../../store/cart';
 import OpenModalButton from '../OpenModalButton';
 import EditCustomization from '../EditCustomization';
 import DeleteCustomization from '../DeleteCustomization';
@@ -12,7 +13,7 @@ const SingleCustomization = () =>{
 
     let customization = useSelector((state)=>state.customizations.singleCustomization);
     const cart = useSelector((state) => state.carts.currentCart);
-    console.log('singlecart', cart)
+    console.log('currentcart', cart.id)
     const cartId = cart.id;
     // customization = customization.Customization
     console.log('cust', customization)
@@ -22,6 +23,7 @@ const SingleCustomization = () =>{
 
     useEffect(() => {
         dispatch(customizationActions.getCustomizationDetailThunk(customizationId))
+        dispatch(cartActions.getCurrentCartThunk())
     },[dispatch])
 
     if(!customization?.id) return <div>Loading</div>
@@ -37,7 +39,7 @@ const SingleCustomization = () =>{
             <button
             onClick ={ async (e) => {
                 e.preventDefault();
-                await dispatch(customizationActions.addCustomizationToCartThunk(customization,cartId));
+                await dispatch(customizationActions.addCustomizationToCartThunk(customization));
             }}
             >Add to Cart</button>
             <OpenModalButton

@@ -1,6 +1,6 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from .cart_drink import cart_drinks
-from .cart_customizations import cart_customizations
+from .cart_customizations import Cart_customization
 
 class Cart (db.Model):
     __tablename__ = 'carts'
@@ -17,10 +17,14 @@ class Cart (db.Model):
     )
 
     user = db.relationship('User', back_populates='carts')
-    customizations = db.relationship(
-        'Customization', 
-        secondary=cart_customizations,
-        back_populates='carts')
+    cart_customizations = db.relationship(
+        'Cart_customization',
+        back_populates = 'cart'
+    )
+    # customizations = db.relationship(
+    #     'Customization', 
+    #     secondary=Cart_customization,
+    #     back_populates='cart')
     drinksInCart = db.relationship(
         "Drink", 
         secondary=cart_drinks, 
