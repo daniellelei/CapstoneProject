@@ -49,11 +49,12 @@ function CurrentCart() {
     const user_funds = user.funds
     let cart_custs = cart.customizations
     let drinksInCart = cart.drinksInCart
-
+    let total = calculateTotalPrice ([cart_custs, drinksInCart])
     const [hasEnoughFund, setHasEnoughFund] = useState(true);
     const [errors, setErrors] = useState({});
     const [hasSubmitted, setHasSubmitted] = useState(false);
-    const [total, setTotal] = useState(calculateTotalPrice([cart_custs, drinksInCart]))
+    // const [total, setTotal] = useState(calculateTotalPrice([cart_custs, drinksInCart]))
+
     useEffect(() => {
         dispatch(cartActions.getCurrentCartThunk());
         return dispatch(cartActions.actionClearCart())
@@ -70,18 +71,17 @@ function CurrentCart() {
     const handleCheckOut = async (e) => {
         e.preventDefault();
         setHasSubmitted(true);
-        setTotal(calculateTotalPrice([cart_custs, drinksInCart]))
+        // setTotal(calculateTotalPrice([cart_custs, drinksInCart]))
+        // console.log('inside handleCheckOut', total)
 
         if(!Boolean(Object.values(errors).length)){
             const checkedOutRes = await dispatch(cartActions.checkOutThunk(total));
-            if(!checkedOutRes.errors) {
-                history.pushState(`/drinks`);
-                setHasSubmitted(false);
-                setErrors({});
-            }
+            // if(!checkedOutRes.errors) {
+            //     history.pushState(`/drinks`);
+            //     setHasSubmitted(false);
+            //     setErrors({});
+            // }
         } 
-
-
     }
     if(!cart.id) return <div>Loading</div>
     return (

@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.models import Cart, db, User
+from app.models import Cart, db, User, Cart_customization
 from flask_login import current_user, login_required
 from sqlalchemy.orm import joinedload
 # from ..forms import CartForm
@@ -108,14 +108,17 @@ def create_cart():
 def delete_cart(id):
     cart = Cart.query.get(id)
     user = current_user.to_dict()
-    userId = user.id
-    fund = user.funds
+    userId = user["id"]
+    fund = user["funds"]
     request_obj = float(request.get_json())  #totalCharge
     if request_obj:
         if cart:
+            user = User.query.get(userId)
             user.funds = fund - request_obj
-            db.session.commit()
-            updated_user = User.query.get(userId)
+            # updated_user = User.query.get(userId)
+            cart_customizations = Cart_customization.query.filter(
+                Cart_customization.cart_id == cart.id).all()
+            removed_cart_custs = [db.session.delete(c) for c in cart_customizations]
             db.session.delete(cart)
             db.session.commit()
             return {"message": 'Cart Deleted!'}
