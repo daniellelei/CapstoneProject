@@ -10,13 +10,16 @@ def seed_users():
         username='marnie', email='marnie@aa.io', password='password', funds = 50.0)
     bobbie = User(
         username='bobbie', email='bobbie@aa.io', password='password' , funds = 10.0)
+    leo = User(
+        username='leo', email='leo@aa.io', password='password', funds=100.0)
 
     db.session.add(demo)
     db.session.add(marnie)
     db.session.add(bobbie)
+    db.session.add(leo)
     db.session.commit()
 
-    all_users = [demo, marnie, bobbie]
+    all_users = [demo, marnie, bobbie, leo]
     return all_users
 
 
