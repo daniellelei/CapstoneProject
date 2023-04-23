@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.models import Customization, User, db
+from app.models import Customization, User, db, Cart, Cart_customization
 from flask_login import current_user, login_required
 from sqlalchemy.orm import joinedload
 from ..forms import CustomizationForm
@@ -26,7 +26,8 @@ def get_customization_by_id(id):
     return {**customization.to_dict(),
             'User': customization.user.to_dict(),
             'Drink': customization.drink.to_dict(),
-            'Cart': customization.cart.to_dict()
+            'cart_customizations':[c.to_dict() for c in customization.cart_customizations]
+            # 'carts': [cart.to_dict() for cart in customization.carts]
             }
 
 @customization_routes.route('/current')
@@ -37,7 +38,7 @@ def get_user_customization():
     customizations = [{**customization.to_dict(),
                 "User":customization.user.to_dict(),
                 "Drink":customization.drink.to_dict(),
-                "Cart": customization.cart.to_dict()
+                
                 } for customization in user_customizations]
 
     return customizations
@@ -52,7 +53,6 @@ def create_customization():
     if form.validate_on_submit():
         new_customization = Customization(
             user_id = user['id'],
-            cart_id = form.data["cart_id"],
             drink_id = form.data["drink_id"],
             size = form.data["size"],
             milk = form.data['milk'],
@@ -64,7 +64,6 @@ def create_customization():
         return {**new_customization.to_dict(), 
                 'User':new_customization.user.to_dict(), 
                 'Drink':new_customization.drink.to_dict(),
-                'Cart':new_customization.cart.to_dict()
                 }
 
     if form.errors:
@@ -93,7 +92,6 @@ def update_customization(id):
             return {**updated_customization.to_dict(),
                     'User': updated_customization.user.to_dict(),
                     'Drink': updated_customization.drink.to_dict(),
-                    'Cart': updated_customization.cart.to_dict()
                     }
 
         if form.errors:
@@ -110,3 +108,69 @@ def delete_customization(id):
         db.session.commit()
         return {"message": 'Customization Deleted!'}
     return {"message": 'Customization not found'}
+
+@customization_routes.route('/<int:id>/addtocart', methods = ['PATCH'])
+@login_required
+def add_to_cart(id):
+    user = current_user
+    customization = Customization.query.get(id)
+    request_obj = request.get_json()
+    # print("**************************")
+    # print("**************************")
+    # print("**************************")
+    # print("**************************")
+    # print(request_obj)
+    if request_obj:
+        cartId = int(request_obj["id"])
+
+        if cartId:
+            cart = Cart.query.get(cartId)
+            
+            print('cart from query',cart)
+            if cart.user_id == user.id:
+                newCartCust = Cart_customization(
+                    cart_id = cartId,
+                    customization_id = id
+                )
+                db.session.add(newCartCust)
+            else:
+                return {"message": "User does not own this cart"}
+
+    db.session.commit()
+
+    user = User.query.get(user.id)
+    cart = Cart.query.get(cartId)
+    return [{**cart_customization.to_dict(),
+            "User": user.to_dict(),
+            "cart": cart.to_dict(),
+            'Drink': customization.drink.to_dict(),
+            'customization': customization.to_dict()
+            } for cart_customization in cart.cart_customizations]
+
+
+@customization_routes.route('/<int:id>/removefromcart', methods=['PATCH'])
+@login_required
+def remove_from_cart(id):
+    user = current_user
+    customization = Customization.query.get(id)
+    request_obj = request.get_json()
+    # print("**************************")
+    # print("**************************")
+    # print("**************************")
+    # print("**************************")
+    # print(request_obj)
+    if request_obj:
+        cartId = int(request_obj["id"])
+        cart = Cart.query.get(cartId)
+
+        if cartId:
+            cart_customization = Cart_customization.query.filter(
+                Cart_customization.cart_id == cartId and 
+                Cart_customization.customization_id == customization.id).first()
+            if cart.user_id == user.id:
+                db.session.delete(cart_customization)
+                db.session.commit()
+                return {'message': 'cart_customization deleted'}
+            else:
+                return {"message": "User does not own this cart"}
+

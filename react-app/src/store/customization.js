@@ -1,10 +1,15 @@
 const LOAD_CUSTOMIZATIONS = "customizations/load_all";
 const LOAD_CUSTOMIZATION_DETAIL = "customizations/load_one";
 const LOAD_USER_CUSTOMIZATIONS = "customizations/load_user_customization";
+// const LOAD_ADDEDTOCART_CUSTOMIZATIONS = "customizations/load_addedToCart_customizations";
 
 const CREATE_CUSTOMIZATION = "customization/create"
 const UPDATE_CUSTOMIZATION = "customization/update"
 const REMOVE_CUSTOMIZATION = 'customization/delete'
+
+const CLEAR_CUSTOMIZATION_DETAIL = "customizations/clear_customization_state";
+const CLEAR_CUSTOMIZATIONS = "customizations/clear_customizations_state";
+const CLEAR_SAVED_CUSTOMIZATIONS = "customizations/clear_saved_customizations";
 
                 ////////   ACTIONS   //////////
 export const actionLoadAllCustomizations = (customizations) => ({
@@ -36,6 +41,22 @@ export const actionRemoveCustomization = (id) => ({
     type: REMOVE_CUSTOMIZATION,
     id
 })
+
+// export const actionLoadAddedToCartCustomiations = (customizations) => ({
+//   type: LOAD_ADDEDTOCART_CUSTOMIZATIONS,
+//   customizations
+// })
+
+export const actionClearCustomizations = () => ({
+  type: CLEAR_CUSTOMIZATIONS,
+});
+export const actionClearCustomization = () => ({
+  type: CLEAR_CUSTOMIZATION_DETAIL,
+});
+export const actionClearSavedCustomizations = () => ({
+  type: CLEAR_SAVED_CUSTOMIZATIONS,
+});
+
                   ////////   THUNKS     ////////////
 //get all
 export const getAllCustomizationsThunk = () => async (dispatch) => {
@@ -68,7 +89,7 @@ export const getUserCustomizationThunk = (id) => async (dispatch) => {
 
   if (response.ok) {
     const customization = await response.json();
-    console.log('inside user thunk', customization)
+    // console.log('inside user thunk', customization)
     await dispatch(actionLoadUserCustomizations(customization));
     return customization;
   }
@@ -76,7 +97,7 @@ export const getUserCustomizationThunk = (id) => async (dispatch) => {
 
 //create
 export const createCustomizationThunk = (customization) => async (dispatch) => {
-  console.log('hitting creat thunk', customization)
+  // console.log('hitting creat thunk', customization)
   const response = await fetch("/api/customizations/", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -86,8 +107,8 @@ export const createCustomizationThunk = (customization) => async (dispatch) => {
   if (response.ok) {
     const newCustomization = await response.json();
     const customization = newCustomization;
-    console.log('inside thunk customization', customization)
-    console.log('inside thunk customization.id', customization.id)
+    // console.log('inside thunk customization', customization)
+    // console.log('inside thunk customization.id', customization.id)
     
     await dispatch(actionCreateCustomization(customization));
     return customization;
@@ -124,11 +145,33 @@ export const deleteCustomization = (customization) => async (dispatch) => {
   return await response.json();
 };
 
+//add to cart
+// export const addCustomizationToCartThunk = (customization) => async (dispatch) => {
+  
+//   const cartResponse = await fetch(`/api/carts/lastcurrent`);
+//   const cart = await cartResponse.json();
+  // console.log('add to cart**********', cart)
+
+//   const response = await fetch(`/api/customizations/${customization.id}/addtocart`, {
+//     method: "PATCH",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(cart),
+//   });
+
+//   if (response.ok) {
+//     const updatedCustomizations = await response.json();
+//     console.log('addthunk', updatedCustomizations)
+//     await dispatch(actionLoadAddedToCartCustomiations(updatedCustomizations));
+//     return updatedCustomizations;
+//   }
+// };
                    ////////   REDUCER   //////////
 const initialState = {
   allCustomizations: {},
   singleCustomization: {},
-  
+  // cartCusts: {}
 };
 
 const customizationReducer = (state = initialState, action) => {
@@ -147,6 +190,13 @@ const customizationReducer = (state = initialState, action) => {
           allUserCustomizations[customization.id] = customization;
         })
         return {...state, allUserCustomizations: {...allUserCustomizations}};
+      // case LOAD_ADDEDTOCART_CUSTOMIZATIONS:
+      //   const allCartCusts = {};
+      //   console.log('inside reducer', action.customizations)
+      //   action.customizations.forEach((customization) => {
+      //     allCartCusts[customization.id] = customization;
+      //   });
+      //   return {...state, cartCusts: {...allCartCusts}}
       case CREATE_CUSTOMIZATION:
         return {
           ...state,
@@ -166,6 +216,12 @@ const customizationReducer = (state = initialState, action) => {
         delete newState.allCustomizations[action.id];
         delete newState.allUserCustomizations[action.id];
         return newState;
+      case CLEAR_CUSTOMIZATIONS:
+      return { ...state, allCustomizations: {} };
+      case CLEAR_CUSTOMIZATION_DETAIL:
+        return { ...state, singleCustomization: {} };
+      // case CLEAR_SAVED_CUSTOMIZATIONS:
+      //   return { ...state, cartCusts: {} };
       default:
           return state;
       }

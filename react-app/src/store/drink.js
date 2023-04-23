@@ -32,7 +32,7 @@ export const getDrinkDetailThunk = (id) => async (dispatch) => {
 
   if (response.ok) {
     const drink = await response.json();
-    console.log('from thunk', drink)
+    // console.log('from thunk', drink)
     await dispatch(actionLoadDrinkDetail(drink));
     return drink;
   }
