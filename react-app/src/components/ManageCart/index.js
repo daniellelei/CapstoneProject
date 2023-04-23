@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import './ManageCart.css'
 import * as cartActions from "../../store/cart"
 // import OpenModalicon from "../OpenModalicon";
@@ -14,7 +14,8 @@ const calculateTotalPrice = (allDrinks) => {
         // const sum = arr => arr.reduce((a, b)=> a+b, 0);
         // console.log('allDrinks[0]', allDrinks[0])
         // console.log('allDrinks[1]', allDrinks[1])
-        if(!allDrinks[0].length && !allDrinks[1].length) return res.toFixed(2);
+        if(allDrinks[0] === undefined && allDrinks[1] === undefined) return 0
+        if(!allDrinks[0].length && !allDrinks[1].length) return 0;
         if(!allDrinks[0].length && allDrinks[1].length !==0) {
             // res = sum(allDrinks[1])
             for (let i = 0; i < allDrinks[1].length; i++){
@@ -42,23 +43,26 @@ const calculateTotalPrice = (allDrinks) => {
 
 function CurrentCart() {
     const dispatch = useDispatch();
+    const history = useHistory();
     const cart = useSelector((state)=>state.carts.currentCart);
     const user = useSelector((state) => state.session.user)
     const user_funds = user.funds
+    let cart_custs = cart.customizations
+    let drinksInCart = cart.drinksInCart
 
     const [hasEnoughFund, setHasEnoughFund] = useState(true);
     const [errors, setErrors] = useState({});
     const [hasSubmitted, setHasSubmitted] = useState(false);
+    const [total, setTotal] = useState(calculateTotalPrice([cart_custs, drinksInCart]))
     useEffect(() => {
         dispatch(cartActions.getCurrentCartThunk());
         return dispatch(cartActions.actionClearCart())
     }, [dispatch])
 
-    let cart_custs = cart.customizations
-    let drinksInCart = cart.drinksInCart
-    let total = calculateTotalPrice([cart_custs, drinksInCart])
+    // let total = calculateTotalPrice([cart_custs, drinksInCart])
     useEffect(() => {
         const err = {};
+        
         if(total > user_funds) err.funds = "Please add more to your funds."
         setErrors(err)
     }, [total, user_funds])
@@ -66,9 +70,15 @@ function CurrentCart() {
     const handleCheckOut = async (e) => {
         e.preventDefault();
         setHasSubmitted(true);
+        setTotal(calculateTotalPrice([cart_custs, drinksInCart]))
 
         if(!Boolean(Object.values(errors).length)){
-            const checkedOutRes = dispatch()
+            const checkedOutRes = await dispatch(cartActions.checkOutThunk(total));
+            if(!checkedOutRes.errors) {
+                history.pushState(`/drinks`);
+                setHasSubmitted(false);
+                setErrors({});
+            }
         } 
 
 
@@ -100,11 +110,13 @@ function CurrentCart() {
                     modalComponent={<RemoveFromCartModal customization={c}/>} />
                 </div>
             ))}
+            
             <p>Total Price: ${total}</p>
             <button
             onClick={handleCheckOut}
-            
             >Let's order</button>
+            {hasSubmitted && Boolean(Object.values(errors).length) ? (
+                <p>{errors.funds}</p> ) : null}
         </div>
     )
 
