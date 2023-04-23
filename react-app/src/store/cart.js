@@ -156,29 +156,47 @@ export const deleteCartThunk = (cartId) => async (dispatch) => {
 };
 
 //add to cart
-export const addToCartThunk = (customization) => async (dispatch) => {
+export const addToCartThunk = (custOrDrink) => async (dispatch) => {
   
   const cartResponse = await fetch(`/api/carts/lastcurrent`);
   const cart = await cartResponse.json();
   console.log('add to cart**********', cart)
-
-  const response = await fetch(`/api/customizations/${customization.id}/addtocart`, {
-    method: "PATCH",
+  if(custOrDrink.name){
+    const response = await fetch(`/api/drinks/${custOrDrink.id}/addtocart`, {
+      method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(cart),
-  });
-
-  if (response.ok) {
+    });
+    if (response.ok) {
     const updatedCustomizations = await response.json();
-    console.log('addthunk', updatedCustomizations)
+    console.log('add drink thunk', updatedCustomizations)
     await dispatch(actionAddToCart(updatedCustomizations));
     const cartResponse = await fetch(`/api/carts/lastcurrent`);
     const cart = await cartResponse.json();
     await dispatch(actionLoadCurrentCart(cart));
     return updatedCustomizations;
   }
+  } else {
+    const response = await fetch(`/api/customizations/${custOrDrink.id}/addtocart`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(cart),
+    });
+    if (response.ok) {
+      const updatedCustomizations = await response.json();
+      console.log('addthunk', updatedCustomizations)
+      await dispatch(actionAddToCart(updatedCustomizations));
+      const cartResponse = await fetch(`/api/carts/lastcurrent`);
+      const cart = await cartResponse.json();
+      await dispatch(actionLoadCurrentCart(cart));
+      return updatedCustomizations;
+    }
+  }
+
 };
 
 //remove from cart

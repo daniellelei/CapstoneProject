@@ -53,7 +53,6 @@ def create_customization():
     if form.validate_on_submit():
         new_customization = Customization(
             user_id = user['id'],
-            cart_id = form.data["cart_id"],
             drink_id = form.data["drink_id"],
             size = form.data["size"],
             milk = form.data['milk'],
@@ -65,7 +64,6 @@ def create_customization():
         return {**new_customization.to_dict(), 
                 'User':new_customization.user.to_dict(), 
                 'Drink':new_customization.drink.to_dict(),
-                # 'Cart':new_customization.cart.to_dict()
                 }
 
     if form.errors:
@@ -94,7 +92,6 @@ def update_customization(id):
             return {**updated_customization.to_dict(),
                     'User': updated_customization.user.to_dict(),
                     'Drink': updated_customization.drink.to_dict(),
-                    # 'Cart': updated_customization.cart.to_dict()
                     }
 
         if form.errors:

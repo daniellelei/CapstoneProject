@@ -21,11 +21,32 @@ function CurrentCart() {
 
     if(!cart.id) return <div>Loading</div>
     let cart_custs = cart.customizations
+    let drinksInCart = cart.drinksInCart
 
-    const calculateTotalPrice = (cart_custs) => {
+    const calculateTotalPrice = (allDrinks) => {
+        console.log(allDrinks)
         let res = 0;
-        cart_custs.forEach((c)=>{
-            res += c.drinks_customization.price
+        if(!allDrinks[0].length && !allDrinks[1].length) return res.toFixed(2);
+        if(!allDrinks[0].length && allDrinks[1].length !==0) {
+            drinksInCart.forEach((d)=>{
+                res += d.pirce
+            })
+            return res.toFixed(2)
+        }
+        if(allDrinks[0].length !== 0 && !allDrinks[1].length) {
+            allDrinks[0].forEach((c)=>{
+                res += c.drinks_customization.price
+            })
+            return res.toFixed(2)
+        }
+    
+        allDrinks[0].forEach((c)=>{
+            // console.log('cust price', c.drinks_customization.price)
+            res += Number(c.drinks_customization.price)
+            // console.log('res cust price', res)
+        })
+       allDrinks[1].forEach((d)=>{
+            res = res + d.price 
         })
         return res.toFixed(2);
     }
@@ -33,6 +54,12 @@ function CurrentCart() {
     return (
         <div className="myCart">
             {!cart_custs.length ? <h1>Wanna add a drink to your cart?</h1> : null}
+            {drinksInCart.map((d)=> (
+                <div>
+                    <p>Drink name: {d.name}</p>
+                    <p>Price: {d.price}</p>
+                </div>
+            ))}
             {cart_custs.map((c) => (
                 <div className="eaCustInCart">
                     <p>Drink name: {c.drinks_customization.name}</p>
@@ -45,7 +72,7 @@ function CurrentCart() {
                     modalComponent={<RemoveFromCartModal customization={c}/>} />
                 </div>
             ))}
-            <p>Total Price: ${calculateTotalPrice(cart_custs)}</p>
+            <p>Total Price: ${calculateTotalPrice([cart_custs, drinksInCart])}</p>
             <button
             
             >Let's order</button>

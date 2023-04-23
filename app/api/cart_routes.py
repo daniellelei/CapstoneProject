@@ -50,19 +50,14 @@ def get_user_last_cart():
     user = current_user.to_dict()
     cart = Cart.query.filter(
         Cart.user_id == user["id"]).order_by((Cart.id).desc()).first()
-    print('*************************************')
-    print('*************************************')
-    print('*************************************')
-    print('*************************************')
-    # print (cart.cart_customization.to_dict())
     current_cart = {**cart.to_dict(),
                     "User": cart.user.to_dict(),
                     'customizations': [{**c.customization.to_dict(), 
                                        'drinks_customization':c.customization.drink.to_dict()} 
                                        for c in cart.cart_customizations],
+                    "drinksInCart": [d.to_dict() for d in cart.drinksInCart]
                     
             #   "Customization": [c.to_dict() for c in cart.customizations],
-            #   "drinksInCart": [d.to_dict() for d in cart.drinksInCart]
               }
 
     return current_cart
@@ -89,3 +84,4 @@ def delete_cart(id):
         db.session.commit()
         return {"message": 'Cart Deleted!'}
     return {"message": 'Cart not found'}
+
