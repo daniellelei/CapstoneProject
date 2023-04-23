@@ -24,6 +24,8 @@ const SingleCustomization = () =>{
     useEffect(() => {
         dispatch(customizationActions.getCustomizationDetailThunk(customizationId))
         dispatch(cartActions.getCurrentCartThunk())
+
+        return () => dispatch(customizationActions.actionClearCustomization())
     },[dispatch])
 
     if(!customization?.id) return <div>Loading</div>

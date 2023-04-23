@@ -15,6 +15,7 @@ function CurrentCustomizations() {
 
     useEffect(() => {
         dispatch(customizationActions.getUserCustomizationThunk());
+        return () => dispatch(customizationActions.actionClearCustomizations());
     }, [dispatch])
     if(!custObj) return <div>Loading</div>
     const custs = Object.values(custObj);
