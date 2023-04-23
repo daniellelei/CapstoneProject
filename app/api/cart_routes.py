@@ -50,17 +50,42 @@ def get_user_last_cart():
     user = current_user.to_dict()
     cart = Cart.query.filter(
         Cart.user_id == user["id"]).order_by((Cart.id).desc()).first()
-    current_cart = {**cart.to_dict(),
-                    "User": cart.user.to_dict(),
-                    'customizations': [{**c.customization.to_dict(), 
-                                       'drinks_customization':c.customization.drink.to_dict()} 
-                                       for c in cart.cart_customizations],
-                    "drinksInCart": [d.to_dict() for d in cart.drinksInCart]
-                    
-            #   "Customization": [c.to_dict() for c in cart.customizations],
-              }
+    print("**************************")
+    print("**************************")
+    print("**************************")
+    print("**************************")
+    print('CART ***', cart.to_dict())
+    print('CART ***', cart.cart_customizations)
+    if cart.cart_customizations is not None:
+        if cart.drinksInCart is not None:
+            current_cart = {**cart.to_dict(),
+                        "User": cart.user.to_dict(),
+                        'customizations': [{**c.customization.to_dict(), 
+                                        'drinks_customization':c.customization.drink.to_dict()} 
+                                        for c in cart.cart_customizations],
+                        "drinksInCart": [d.to_dict() for d in cart.drinksInCart]
+                }
+            return current_cart
+        else:
+            current_cart = {**cart.to_dict(),
+                            "User": cart.user.to_dict(),
+                            'customizations': [{**c.customization.to_dict(),
+                                                'drinks_customization': c.customization.drink.to_dict()}
+                                               for c in cart.cart_customizations],
+                            # "drinksInCart": [d.to_dict() for d in cart.drinksInCart]
+                            }
+            return current_cart
+    else:
+        current_cart = {**cart.to_dict(),
+                        "User": cart.user.to_dict(),
+                        # 'customizations': [{**c.customization.to_dict(),
+                        #                     'drinks_customization': c.customization.drink.to_dict()}
+                        #                    for c in cart.cart_customizations],
+                        # "drinksInCart": [d.to_dict() for d in cart.drinksInCart]
+                        }
+        return current_cart
 
-    return current_cart
+            
 
 
 @cart_routes.route('/', methods=['POST'])
@@ -69,11 +94,16 @@ def create_cart():
     user = current_user.to_dict()
     new_cart = Cart(
         user_id = user['id'],
+        cart_customizations = [],
+        drinksInCart = []
     )
     db.session.add(new_cart)
     db.session.commit()
     return {**new_cart.to_dict(),
-            "User": new_cart.user.to_dict()}
+            "User": new_cart.user.to_dict(),
+            "cart_customizations": {},
+            "drinksInCart":{}
+            }
 
 @cart_routes.route("/<int:id>", methods=["DELETE"])
 @login_required

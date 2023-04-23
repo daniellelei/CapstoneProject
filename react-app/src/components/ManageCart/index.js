@@ -65,7 +65,7 @@ function CurrentCart() {
                 </div>
             ))}
             {cart_custs.map((c) => (
-                <div className="eaCustInCart">
+                <div className="eaCustInCart" key={c}>
                     <p>Drink name: {c.drinks_customization.name}</p>
                     <p>Price: {c.drinks_customization.price}</p>
                     <p>{c.expressoRoastOptions}</p>
