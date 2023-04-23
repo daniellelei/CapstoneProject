@@ -8,7 +8,7 @@ import CreateCustomization from '../CreateCustomization';
 
 import "./SingleDrink.css"
 const Drink = () => {
-    console.log('inside single drink')
+    // console.log('inside single drink')
     const {drinkId} = useParams();
     const history = useHistory();
 
@@ -17,7 +17,7 @@ const Drink = () => {
     const user = useSelector((state)=> state.session.user);
 
     useEffect(()=>{
-        console.log('inside useEffect')
+        // console.log('inside useEffect')
         dispatch(drinkActions.getDrinkDetailThunk(drinkId));
     },[dispatch, drinkId])
 

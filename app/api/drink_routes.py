@@ -66,11 +66,11 @@ def remove_from_cart(id):
     user = current_user
     drink = Drink.query.get(id)
     request_obj = request.get_json()
-    print("**************************")
-    print("**************************")
-    print("**************************")
-    print("**************************")
-    print(request_obj)
+    # print("**************************")
+    # print("**************************")
+    # print("**************************")
+    # print("**************************")
+    # print(request_obj)
     if request_obj:
         cartId = int(request_obj["id"])
         cart = Cart.query.get(cartId)

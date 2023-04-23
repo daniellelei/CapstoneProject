@@ -13,10 +13,10 @@ const SingleCustomization = () =>{
 
     let customization = useSelector((state)=>state.customizations.singleCustomization);
     const cart = useSelector((state) => state.carts.currentCart);
-    console.log('currentcart', cart.id)
+    // console.log('currentcart', cart.id)
     const cartId = cart.id;
     // customization = customization.Customization
-    console.log('cust', customization)
+    // console.log('cust', customization)
     // console.log('customization', customization.Customization)
     // console.log('customization.drink.name', customization.Drink.name)
     const user = useSelector((state)=>state.session.user);

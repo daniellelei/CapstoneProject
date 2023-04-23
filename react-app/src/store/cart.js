@@ -86,7 +86,7 @@ export const getCartDetailThunk = (id) => async (dispatch) => {
 
   if (response.ok) {
     const cart = await response.json();
-    console.log('from thunk', cart)
+    // console.log('from thunk', cart)
     await dispatch(actionLoadCartDetail(cart));
     return cart;
   }
@@ -98,7 +98,7 @@ export const getUserCartThunk = (id) => async (dispatch) => {
 
   if (response.ok) {
     const cart = await response.json();
-    console.log('inside user thunk', cart)
+    // console.log('inside user thunk', cart)
     await dispatch(actionLoadUserCarts(cart));
     return cart;
   }
@@ -109,7 +109,7 @@ export const getCurrentCartThunk = () => async (dispatch) => {
 
   if (response.ok) {
     const cart = await response.json();
-    console.log('inside current cart thunk', cart)
+    // console.log('inside current cart thunk', cart)
     await dispatch(actionLoadCurrentCart(cart));
     return cart;
   }
@@ -160,7 +160,7 @@ export const addToCartThunk = (custOrDrink) => async (dispatch) => {
   
   const cartResponse = await fetch(`/api/carts/lastcurrent`);
   const cart = await cartResponse.json();
-  console.log('add to cart**********', cart)
+  // console.log('add to cart**********', cart)
   if(custOrDrink.name){
     const response = await fetch(`/api/drinks/${custOrDrink.id}/addtocart`, {
       method: "PATCH",
@@ -171,7 +171,7 @@ export const addToCartThunk = (custOrDrink) => async (dispatch) => {
     });
     if (response.ok) {
     const updatedCustomizations = await response.json();
-    console.log('add drink thunk', updatedCustomizations)
+    // console.log('add drink thunk', updatedCustomizations)
     await dispatch(actionAddToCart(updatedCustomizations));
     const cartResponse = await fetch(`/api/carts/lastcurrent`);
     const cart = await cartResponse.json();
@@ -188,7 +188,7 @@ export const addToCartThunk = (custOrDrink) => async (dispatch) => {
     });
     if (response.ok) {
       const updatedCustomizations = await response.json();
-      console.log('addthunk', updatedCustomizations)
+      // console.log('addthunk', updatedCustomizations)
       await dispatch(actionAddToCart(updatedCustomizations));
       const cartResponse = await fetch(`/api/carts/lastcurrent`);
       const cart = await cartResponse.json();
@@ -203,7 +203,7 @@ export const addToCartThunk = (custOrDrink) => async (dispatch) => {
 export const removeFromCartThunk = (custOrDrink) => async (dispatch) => {
   const cartResponse = await fetch(`/api/carts/lastcurrent`);
   const cart = await cartResponse.json();
-  console.log('add to cart**********', cart)
+  // console.log('add to cart**********', cart)
   if(custOrDrink.name){
     const response = await fetch(`/api/drinks/${custOrDrink.id}/removefromcart`, {
       method: "PATCH",
