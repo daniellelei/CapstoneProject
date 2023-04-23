@@ -57,7 +57,10 @@ def get_user_last_cart():
     # print (cart.cart_customization.to_dict())
     current_cart = {**cart.to_dict(),
                     "User": cart.user.to_dict(),
-                    'customizations': [c.customization.to_dict() for c in cart.cart_customizations]
+                    'customizations': [{**c.customization.to_dict(), 
+                                       'drinks_customization':c.customization.drink.to_dict()} 
+                                       for c in cart.cart_customizations],
+                    
             #   "Customization": [c.to_dict() for c in cart.customizations],
             #   "drinksInCart": [d.to_dict() for d in cart.drinksInCart]
               }

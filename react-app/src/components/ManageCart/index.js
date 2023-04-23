@@ -13,19 +13,30 @@ import OpenModalButton from '../OpenModalButton';
 function CurrentCart() {
     const dispatch = useDispatch();
     const cart = useSelector((state)=>state.carts.currentCart);
-    // const cartCusts = useSelector((state)=>state.carts.cartCusts);
+    
 
     useEffect(() => {
         dispatch(cartActions.getCurrentCartThunk());
     }, [dispatch])
 
     if(!cart.id) return <div>Loading</div>
+    let cart_custs = cart.customizations
 
+    const calculateTotalPrice = (cart_custs) => {
+        let res = 0;
+        cart_custs.forEach((c)=>{
+            res += c.drinks_customization.price
+        })
+        return res.toFixed(2);
+    }
+    
     return (
         <div className="myCart">
-            {cart.customizations.map((c) => (
+            {!cart_custs.length ? <h1>Wanna add a drink to your cart?</h1> : null}
+            {cart_custs.map((c) => (
                 <div className="eaCustInCart">
-                    <p>{c.drink_id}</p>
+                    <p>Drink name: {c.drinks_customization.name}</p>
+                    <p>Price: {c.drinks_customization.price}</p>
                     <p>{c.expressoRoastOptions}</p>
                     <p>{c.milk}</p>
                     <p>{c.size}</p>
@@ -34,6 +45,10 @@ function CurrentCart() {
                     modalComponent={<RemoveFromCartModal customization={c}/>} />
                 </div>
             ))}
+            <p>Total Price: ${calculateTotalPrice(cart_custs)}</p>
+            <button
+            
+            >Let's order</button>
         </div>
     )
 
