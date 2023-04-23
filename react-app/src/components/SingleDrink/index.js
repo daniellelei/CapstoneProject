@@ -19,6 +19,8 @@ const Drink = () => {
     useEffect(()=>{
         // console.log('inside useEffect')
         dispatch(drinkActions.getDrinkDetailThunk(drinkId));
+
+        return () => dispatch(drinkActions.actionClearDrink());
     },[dispatch, drinkId])
 
     if(!drink?.id) return <div>Loading</div>

@@ -11,9 +11,9 @@ const dispatch = useDispatch();
   useEffect(() => {
     dispatch(drinkActions.getAllDrinksThunk());
     
-    // return () => {
-    //   dispatch(actionClearDrinks());
-    // };
+    return () => {
+      dispatch(drinkActions.actionClearDrinks());
+    };
   }, [dispatch]);
 
   if(!drinksObj) return <div>Loading</div>

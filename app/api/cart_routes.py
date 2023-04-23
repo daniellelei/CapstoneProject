@@ -119,7 +119,7 @@ def delete_cart(id):
             cart_customizations = Cart_customization.query.filter(
                 Cart_customization.cart_id == cart.id).all()
             removed_cart_custs = [db.session.delete(c) for c in cart_customizations]
-            db.session.delete(cart)
+            # db.session.delete(cart)
             db.session.commit()
             return {"message": 'Cart Deleted!'}
         return {"message": 'Cart not found'}

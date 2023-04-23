@@ -1,6 +1,8 @@
 const LOAD_DRINKS = "drinks/load_all";
 const LOAD_DRINK_DETAIL = "drinks/load_one";
 
+const CLEAR_DRINK_DETAIL = "drinks/clear_drink_detail";
+const CLEAR_DRINKS = "drinks/clear_drinks"
 ///////////   ACTIONS    //////////////
 export const actionLoadAllDrinks = (drinks) => ({
   type: LOAD_DRINKS,
@@ -11,6 +13,14 @@ export const actionLoadDrinkDetail = (drink) => ({
   type: LOAD_DRINK_DETAIL,
   drink,
 });
+
+export const actionClearDrinks = () => ({
+  type: CLEAR_DRINKS
+});
+
+export const actionClearDrink = () => ({
+  type: CLEAR_DRINK_DETAIL
+})
 
 ///////////   THUNKS     ///////////////
 
@@ -56,6 +66,10 @@ const drinkReducer = (state = initialState, action) => {
             return {...state, allDrinks: {...allDrinks}};
         case LOAD_DRINK_DETAIL:
             return {...state, singleDrink: {...action.drink}}
+        case CLEAR_DRINKS:
+            return {...state, allDrinks: {}}
+        case CLEAR_DRINK_DETAIL:
+            return { ...state, singleDrink: {}};
         default:
             return state;
     }

@@ -46,7 +46,7 @@ function CurrentCart() {
     const history = useHistory();
     const cart = useSelector((state)=>state.carts.currentCart);
     const user = useSelector((state) => state.session.user)
-    const user_funds = user.funds
+    const user_funds = user?.funds
     let cart_custs = cart.customizations
     let drinksInCart = cart.drinksInCart
     let total = calculateTotalPrice ([cart_custs, drinksInCart])
