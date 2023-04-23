@@ -12,6 +12,7 @@ import * as cartActions from "../../store/cart"
 function CurrentCart() {
     const dispatch = useDispatch();
     const cart = useSelector((state)=>state.carts.currentCart);
+    // const cartCusts = useSelector((state)=>state.carts.cartCusts);
 
     useEffect(() => {
         dispatch(cartActions.getCurrentCartThunk());
@@ -20,7 +21,14 @@ function CurrentCart() {
 
     return (
         <div>
-            <h2>{cart.id}</h2>
+            {cart.customizations.map((c) => (
+                <div>
+                    <p>{c.drink_id}</p>
+                    <p>{c.expressoRoastOptions}</p>
+                    <p>{c.milk}</p>
+                    <p>{c.size}</p>
+                </div>
+            ))}
         </div>
     )
 

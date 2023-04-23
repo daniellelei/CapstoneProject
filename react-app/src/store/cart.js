@@ -214,6 +214,7 @@ const cartReducer = (state = initialState, action) => {
           allCartCusts[customization.id] = customization;
         });
         return {...state, cartCusts: {...allCartCusts}}
+        // return {...state, cartCusts: action.customizations}
         case CREATE_CART:
             return {
                 ...state,
