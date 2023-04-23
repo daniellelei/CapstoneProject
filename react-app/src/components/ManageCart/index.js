@@ -24,7 +24,6 @@ function CurrentCart() {
     let drinksInCart = cart.drinksInCart
 
     const calculateTotalPrice = (allDrinks) => {
-        console.log(allDrinks)
         let res = 0;
         if(!allDrinks[0].length && !allDrinks[1].length) return res.toFixed(2);
         if(!allDrinks[0].length && allDrinks[1].length !==0) {

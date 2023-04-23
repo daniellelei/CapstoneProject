@@ -60,4 +60,30 @@ def add_to_cart(id):
              } for cart_customization in cart.cart_customizations]
 
 
+@drink_routes.route('/<int:id>/removefromcart', methods=['PATCH'])
+@login_required
+def remove_from_cart(id):
+    user = current_user
+    drink = Drink.query.get(id)
+    request_obj = request.get_json()
+    print("**************************")
+    print("**************************")
+    print("**************************")
+    print("**************************")
+    print(request_obj)
+    if request_obj:
+        cartId = int(request_obj["id"])
+        cart = Cart.query.get(cartId)
+
+        if cartId:
+            cart = Cart.query.get(cartId)
+            if cart.user_id == user.id:
+                if drink.cart_drinks:
+                    drink.cart_drinks.remove(cart)
+                if cart.drinksInCart:
+                    cart.drinksInCart.remove(drink)
+                db.session.commit()
+                return {'message':'drink_cart deleted'}
+            else:
+                return {'message': "User does not own this cart"}
 
