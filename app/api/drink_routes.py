@@ -80,8 +80,8 @@ def remove_from_cart(id):
             if cart.user_id == user.id:
                 if drink.cart_drinks:
                     drink.cart_drinks.remove(cart)
-                if cart.drinksInCart:
-                    cart.drinksInCart.remove(drink)
+                # if cart.drinksInCart:
+                #     cart.drinksInCart.remove(drink)
                 db.session.commit()
                 return {'message':'drink_cart deleted'}
             else:

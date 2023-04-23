@@ -57,6 +57,9 @@ function CurrentCart() {
                 <div>
                     <p>Drink name: {d.name}</p>
                     <p>Price: {d.price}</p>
+                    <OpenModalButton
+                    buttonText='Delete'
+                    modalComponent={<RemoveFromCartModal customization={d}/>} />
                 </div>
             ))}
             {cart_custs.map((c) => (
