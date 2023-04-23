@@ -136,16 +136,6 @@ def add_to_cart(id):
                     customization_id = id
                 )
                 db.session.add(newCartCust)
-                # if customization.cart_customizations:
-                #     customization.cart_customizations.append(cartId)
-                # else:
-                #     customization.cart_customizations = []
-                #     customization.cart_customizations.append(cartId)
-                # if cart.cart_customizations:
-                #     cart.cart_customizations.append(customization.id)
-                # else:
-                #     cart.cart_customizations = []
-                #     cart.cart_customizations.append(customization.id)
             else:
                 return {"message": "User does not own this cart"}
 
@@ -159,3 +149,31 @@ def add_to_cart(id):
             'Drink': customization.drink.to_dict(),
             'customization': customization.to_dict()
             } for cart_customization in cart.cart_customizations]
+
+
+@customization_routes.route('/<int:id>/removefromcart', methods=['PATCH'])
+@login_required
+def remove_from_cart(id):
+    user = current_user
+    customization = Customization.query.get(id)
+    request_obj = request.get_json()
+    print("**************************")
+    print("**************************")
+    print("**************************")
+    print("**************************")
+    print(request_obj)
+    if request_obj:
+        cartId = int(request_obj["id"])
+        cart = Cart.query.get(cartId)
+
+        if cartId:
+            cart_customization = Cart_customization.query.filter(
+                Cart_customization.cart_id == cartId and 
+                Cart_customization.customization_id == customization.id).first()
+            if cart.user_id == user.id:
+                db.session.delete(cart_customization)
+                db.session.commit()
+                return {'message': 'cart_customization deleted'}
+            else:
+                return {"message": "User does not own this cart"}
+

@@ -3,7 +3,9 @@ const LOAD_CART_DETAIL = "carts/load_one";
 const LOAD_ALL_USER_CARTS = "carts/load_all_user_carts";
 const LOAD_CURRENT_CART = 'carts/load_current_cart'
 
-const ADDTOCART = "carts/addedToCart";
+const ADD_TO_CART = "carts/addedToCart";
+const REMOVE_FROM_CART = "carts/removeFromCart"
+
 const CREATE_CART = "carts/create_cart";
 const UPDATE_CART = "carts/update_cart";
 const REMOVE_CART = "carts/delete_cart";
@@ -32,8 +34,13 @@ export const actionLoadCurrentCart = (cart) => ({
     cart
 });
 export const actionAddToCart = (customizations) => ({
-  type: ADDTOCART,
+  type: ADD_TO_CART,
   customizations
+})
+
+export const actionRemoveFromCart = (customizationId) => ({
+  type: REMOVE_FROM_CART,
+  customizationId
 })
 
 export const actionCreateCart = (cart) => ({
@@ -174,6 +181,33 @@ export const addToCartThunk = (customization) => async (dispatch) => {
   }
 };
 
+//remove from cart
+export const removeFromCartThunk = (customization) => async (dispatch) => {
+  const cartResponse = await fetch(`/api/carts/lastcurrent`);
+  const cart = await cartResponse.json();
+  console.log('add to cart**********', cart)
+  
+
+  const response = await fetch(`/api/customizations/${customization.id}/removefromcart`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(cart),
+  });
+
+  if (response.ok) {
+    // const updatedCustomizations = await response.json();
+    // console.log('addthunk', updatedCustomizations)
+    await dispatch(actionRemoveFromCart(customization.id));
+    const cartResponse = await fetch(`/api/carts/lastcurrent`);
+    const cart = await cartResponse.json();
+    await dispatch(actionLoadCurrentCart(cart));
+    return cart;
+  }
+}
+
+
 ////////////   REDUCER     ///////////////
 const initialState = {
   allCarts: {},
@@ -207,7 +241,7 @@ const cartReducer = (state = initialState, action) => {
             ...state,
             currentCart: {...action.cart},
           }
-        case ADDTOCART:
+        case ADD_TO_CART:
         const allCartCusts = {};
         // console.log('inside reducer', action.customizations)
         action.customizations.forEach((customization) => {
@@ -215,6 +249,11 @@ const cartReducer = (state = initialState, action) => {
         });
         return {...state, cartCusts: {...allCartCusts}}
         // return {...state, cartCusts: action.customizations}
+        case REMOVE_FROM_CART:
+          const new_State = {...state};
+          delete new_State.cartCusts[action.id]
+          return new_State;
+
         case CREATE_CART:
             return {
                 ...state,
