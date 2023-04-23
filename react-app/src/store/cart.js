@@ -167,6 +167,9 @@ export const addToCartThunk = (customization) => async (dispatch) => {
     const updatedCustomizations = await response.json();
     console.log('addthunk', updatedCustomizations)
     await dispatch(actionAddToCart(updatedCustomizations));
+    const cartResponse = await fetch(`/api/carts/lastcurrent`);
+    const cart = await cartResponse.json();
+    await dispatch(actionLoadCurrentCart(cart));
     return updatedCustomizations;
   }
 };
@@ -206,7 +209,7 @@ const cartReducer = (state = initialState, action) => {
           }
         case ADDTOCART:
         const allCartCusts = {};
-        console.log('inside reducer', action.customizations)
+        // console.log('inside reducer', action.customizations)
         action.customizations.forEach((customization) => {
           allCartCusts[customization.id] = customization;
         });

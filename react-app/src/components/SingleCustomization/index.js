@@ -39,7 +39,7 @@ const SingleCustomization = () =>{
             <button
             onClick ={ async (e) => {
                 e.preventDefault();
-                await dispatch(customizationActions.addCustomizationToCartThunk(customization));
+                await dispatch(cartActions.addToCartThunk(customization));
             }}
             >Add to Cart</button>
             <OpenModalButton
