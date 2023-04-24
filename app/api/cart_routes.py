@@ -50,19 +50,20 @@ def get_user_last_cart():
     user = current_user.to_dict()
     cart = Cart.query.filter(
         Cart.user_id == user["id"]).order_by((Cart.id).desc()).first()
-    print("**************************")
-    print("**************************")
-    print("**************************")
-    print("**************************")
-    print('CART ***', cart.to_dict())
-    print('CART ***', cart.cart_customizations)
+    # print("**************************")
+    # print("**************************")
+    # print("**************************")
+    # print("**************************")
+    # print('CART ***', cart.to_dict())
+    # print('CART ***', cart.cart_customizations)
     if cart.cart_customizations is not None:
-        if cart.cart_customizations is not None:
+        if cart.cart_drinks is not None:
             current_cart = {**cart.to_dict(),
                         "User": cart.user.to_dict(),
                         'customizations': [{**c.customization.to_dict(), 
                                         'drinks_customization':c.customization.drink.to_dict()} 
                                         for c in cart.cart_customizations],
+                        'drinks': [d.drink.to_dict() for d in cart.cart_drinks],
                         # "drinksInCart": [d.to_dict() for d in cart.drinksInCart]
                 }
             return current_cart
@@ -72,7 +73,7 @@ def get_user_last_cart():
                             'customizations': [{**c.customization.to_dict(),
                                                 'drinks_customization': c.customization.drink.to_dict()}
                                                for c in cart.cart_customizations],
-                            'drinks': [{d.drink.to_dict()} for d in cart.cart_drinks],          
+                            # 'drinks': [d.drink.to_dict() for d in cart.cart_drinks],          
                             # "drinksInCart": [d.to_dict() for d in cart.drinksInCart]
                             }
             return current_cart

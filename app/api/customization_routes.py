@@ -124,16 +124,21 @@ def add_to_cart(id):
     # print(request_obj)
     if request_obj:
         cartId = int(request_obj["id"])
-
         if cartId:
             cart = Cart.query.get(cartId)
             
-            print('cart from query',cart)
+            # print('cart from query',cart)
             if cart.user_id == user.id:
                 newCartCust = Cart_customization(
                     cart_id = cartId,
                     customization_id = id
                 )
+                print("****************************************************")
+                print("**************************")
+                print("**************************")
+                print("**************************")
+                print('new CartCust', newCartCust)
+                print(newCartCust.to_dict())
                 db.session.add(newCartCust)
             else:
                 return {"message": "User does not own this cart"}

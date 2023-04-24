@@ -23,13 +23,18 @@ def drink(id):
     drink = Drink.query.get(id)
     return drink.to_dict()
 
-
+# add to cart
 @drink_routes.route('/<int:id>/addtocart', methods=['PATCH'])
 @login_required
 def add_to_cart(id):
     user=current_user
     drink = Drink.query.get(id)
     request_obj = request.get_json()
+    print("**************************")
+    print("**************************")
+    print("**************************")
+    print("**************************")
+    print(request_obj)
 
     if request_obj:
         cartId = int(request_obj["id"])
@@ -40,21 +45,17 @@ def add_to_cart(id):
                     cart_id = cartId,
                     drink_id = id
                 )
+                print("**************************")
+                print("**************************")
+                print("**************************")
+                print("**************************")
+                print(newCartDrink)
+                print(newCartDrink.to_dict())
                 db.session.add(newCartDrink)
-                # if drink.cart_drinks:
-                #     drink.cart_drinks.append(cart)
-                # else:
-                #     drink.cart_drinks = []
-                #     drink.cart_drinks.append(cart)
-                # if cart.drinksInCart:
-                #     cart.drinksInCart.append(drink)
-                # else:
-                #     cart.drinksInCart = []
-                #     cart.drinksInCart.append(drink)
+                print('==================================')
+                db.session.commit()
             else:
                 return {'message': "User does not own this cart"}
-            
-    db.session.commit()
 
     user = User.query.get(user.id)
     cart = Cart.query.get(cartId)
