@@ -1,8 +1,8 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
+from .cart_paid_ordered_drinks import cart_paid_ordered_drinks
 
 
-
-class Ordered_drinks (db.Model):
+class Ordered_drink (db.Model):
     __tablename__ = 'ordered_drinks'
 
     if environment == "production":
@@ -17,6 +17,7 @@ class Ordered_drinks (db.Model):
 
     cart_paid = db.relationship(
         'Cart_paid',
+        secondary=cart_paid_ordered_drinks,
         back_populates = 'ordered_drinks'
     )
 
