@@ -3,13 +3,13 @@ import {useDispatch, useSelector} from 'react-redux';
 import { useHistory } from "react-router-dom";
 import {useModal} from "../../context/Modal"
 import * as customizationActions from '../../store/customization';
-
+import './CreateCustomization.css'
 const CreateCustomization = (drink) => {
     
-    const milks = ['None', 'Whole Milk', '2%', 'HalfNHalf', 'Fat Free'];
-    const sizes = ['Tall', 'Grande', 'Venti'];
-    const shots = [1, 2, 3];
-    const expressos = ["Blonde", "Medium Roast", "Dark Roast"];
+    const milks = ['Choose','None', 'Whole Milk', '2%', 'HalfNHalf', 'Fat Free'];
+    const sizes = ['Choose','Tall', 'Grande', 'Venti'];
+    const shots = ['Choose', 1, 2, 3];
+    const expressos = ['Choose', "Blonde", "Medium Roast", "Dark Roast"];
     const history = useHistory();
     const dispatch = useDispatch();
     const { closeModal } = useModal();
@@ -89,6 +89,7 @@ const CreateCustomization = (drink) => {
                 <div>
                     <div>
                         <label>Choose size: </label>
+                        {/* <p>* size is required</p> */}
                         <select
                         onChange={(e)=> {
                             setSize(e.target.value);
@@ -176,16 +177,16 @@ const CreateCustomization = (drink) => {
                         )}
                     </div>
                     <button type="submit">
-                    Create
+                    Create Me
                     </button>
                 </div>
             </form>
-            <button
+            {/* <button
             onClick = {async (e) => {
                 e.preventDefault();
                 await closeModal()
             }}
-            >Cancel</button>
+            >Cancel</button> */}
         </div>
 
     )

@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.models import Customization, User, db, Cart, Cart_customization
+from app.models import Customization, User, db, Cart, Cart_customization, Cart_drink
 from flask_login import current_user, login_required
 from sqlalchemy.orm import joinedload
 from ..forms import CustomizationForm
@@ -70,7 +70,7 @@ def create_customization():
         return {"message": "form errors", "errors": f"{form.errors}"}
     return {"message": 'Bad Data'}
 
-
+# edit customization
 @customization_routes.route('/<int:id>', methods=["PATCH", "PUT"])
 @login_required
 def update_customization(id):
@@ -99,6 +99,7 @@ def update_customization(id):
 
     return {"message": 'User does not own this customization'}
 
+# delete customization
 @customization_routes.route("/<int:id>", methods=["DELETE"])
 @login_required
 def delete_customization(id):
@@ -109,6 +110,7 @@ def delete_customization(id):
         return {"message": 'Customization Deleted!'}
     return {"message": 'Customization not found'}
 
+# add to cart
 @customization_routes.route('/<int:id>/addtocart', methods = ['PATCH'])
 @login_required
 def add_to_cart(id):
@@ -122,16 +124,21 @@ def add_to_cart(id):
     # print(request_obj)
     if request_obj:
         cartId = int(request_obj["id"])
-
         if cartId:
             cart = Cart.query.get(cartId)
             
-            print('cart from query',cart)
+            # print('cart from query',cart)
             if cart.user_id == user.id:
                 newCartCust = Cart_customization(
                     cart_id = cartId,
                     customization_id = id
                 )
+                print("****************************************************")
+                print("**************************")
+                print("**************************")
+                print("**************************")
+                print('new CartCust', newCartCust)
+                print(newCartCust.to_dict())
                 db.session.add(newCartCust)
             else:
                 return {"message": "User does not own this cart"}
@@ -147,7 +154,7 @@ def add_to_cart(id):
             'customization': customization.to_dict()
             } for cart_customization in cart.cart_customizations]
 
-
+# remove from cart
 @customization_routes.route('/<int:id>/removefromcart', methods=['PATCH'])
 @login_required
 def remove_from_cart(id):

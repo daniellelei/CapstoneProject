@@ -33,7 +33,7 @@ def seed():
     all_users = seed_users()
     all_drinks = seed_drinks()
     
-    seed_carts(all_drinks)
+    seed_carts()
     seed_customizations()
     
     # Add other seed functions here

@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.models import Drink, Customization, User, db, Cart, Cart_customization
+from app.models import Drink, Customization, User, db, Cart, Cart_customization, Cart_drink
 from flask_login import current_user, login_required
 from sqlalchemy.orm import joinedload
 
@@ -23,33 +23,28 @@ def drink(id):
     drink = Drink.query.get(id)
     return drink.to_dict()
 
-
+# add to cart
 @drink_routes.route('/<int:id>/addtocart', methods=['PATCH'])
 @login_required
 def add_to_cart(id):
     user=current_user
     drink = Drink.query.get(id)
     request_obj = request.get_json()
+    
 
     if request_obj:
         cartId = int(request_obj["id"])
         if cartId:
             cart = Cart.query.get(cartId)
             if cart.user_id == user.id:
-                if drink.cart_drinks:
-                    drink.cart_drinks.append(cart)
-                else:
-                    drink.cart_drinks = []
-                    drink.cart_drinks.append(cart)
-                if cart.drinksInCart:
-                    cart.drinksInCart.append(drink)
-                else:
-                    cart.drinksInCart = []
-                    cart.drinksInCart.append(drink)
+                newCartDrink = Cart_drink(
+                    cart_id = cartId,
+                    drink_id = id
+                )
+                db.session.add(newCartDrink)
+                db.session.commit()
             else:
                 return {'message': "User does not own this cart"}
-            
-    db.session.commit()
 
     user = User.query.get(user.id)
     cart = Cart.query.get(cartId)
@@ -59,7 +54,7 @@ def add_to_cart(id):
              'Drink': drink.to_dict(),
              } for cart_customization in cart.cart_customizations]
 
-
+# remove from cart
 @drink_routes.route('/<int:id>/removefromcart', methods=['PATCH'])
 @login_required
 def remove_from_cart(id):
@@ -76,10 +71,15 @@ def remove_from_cart(id):
         cart = Cart.query.get(cartId)
 
         if cartId:
-            cart = Cart.query.get(cartId)
+            cart_drink = Cart_drink.query.filter(
+                Cart_drink.cart_id==cartId and
+                Cart_drink.drink_id==drink.id).first()
+
+            # cart = Cart.query.get(cartId)
             if cart.user_id == user.id:
-                if drink.cart_drinks:
-                    drink.cart_drinks.remove(cart)
+                db.session.delete(cart_drink)
+                # if drink.cart_drinks:
+                #     drink.cart_drinks.remove(cart)
                 # if cart.drinksInCart:
                 #     cart.drinksInCart.remove(drink)
                 db.session.commit()

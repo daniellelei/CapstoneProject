@@ -8,9 +8,10 @@ import CreateCustomization from '../CreateCustomization';
 
 import "./SingleDrink.css"
 const Drink = () => {
-    // console.log('inside single drink')
+    
     const {drinkId} = useParams();
     const history = useHistory();
+    
 
     const dispatch = useDispatch();
     const drink = useSelector((state)=>state.drinks.singleDrink);
@@ -27,23 +28,36 @@ const Drink = () => {
 
     return (
         <div className='OneDrink'>
-            <img 
-                className="drinkImg"
-                src = {drink.imageUrl}
-                alt = "drink.url"
-            />
-            <p>{drink.name}</p>
-            <p>{drink.price}</p>
-            <OpenModalButton
-            buttonText='Customize'
-            modalComponent={<CreateCustomization drink={drink}/>} />
-            <button
-            onClick = {async (e) => {
-                e.preventDefault();
-                await dispatch(cartActions.addToCartThunk(drink))
-                history.push('/drinks')
-            }}
-            >Add to Cart</button>
+            <div className='leftOneDrink'>
+                <img 
+                    className="drinkImg"
+                    src = {drink.imageUrl}
+                    alt = "drink.url"
+                />
+                <p>{drink.name}</p>
+                <p>Size: Grande</p>
+                <p>${drink.price}</p>
+                <button
+                onClick = {async (e) => {
+                    e.preventDefault();
+                    await dispatch(cartActions.addToCartThunk(drink))
+                    history.push('/drinks')
+                }}
+                >Add to Cart</button>
+            </div>
+            <div className='rightOneDrink'>
+                <h2>Customizations</h2>
+                <div>
+                    <CreateCustomization drink={drink} />
+                </div>
+                {/* <button
+                onClick = {async (e) => {
+                    e.preventDefault();
+                    await dispatch(cartActions.addToCartThunk(drink))
+                    history.push('/drinks')
+                }}
+                >Add to Cart</button> */}
+            </div>
         </div>
     )
 

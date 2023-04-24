@@ -1,1 +1,37 @@
 /* TODO Add site wide styles */
+*{
+    font-family: 'Quicksand',sans-serif;
+    text-decoration: none;
+    color:black;
+}
+
+button {
+    border: none;
+    background-color: darkgreen;
+    color:white;
+    padding: 0.8em;
+    border-radius: 30px;
+    box-shadow: 3px 3px 5px gray;
+    margin: 1em;
+    height: 40px;
+    width:100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+button:hover {
+    filter:brightness(130%)
+}
+
+button:active {
+    transform: translateY(4px);
+    transition: 0.2s;
+}
+
+i {
+    color:white;
+}
+
+li{
+    list-style-type: none;
+}

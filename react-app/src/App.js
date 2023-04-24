@@ -10,6 +10,7 @@ import SingleDrink from "./components/SingleDrink";
 import SingleCustomization from './components/SingleCustomization'
 import CurrentCustomization from './components/ManageCustomization'
 import CurrentCart from './components/ManageCart'
+import AfterCheckOut from "./components/AfterCheckOut";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -36,6 +37,9 @@ function App() {
           </Route>
           <Route exact path="/cart">
             <CurrentCart />
+          </Route>
+          <Route exact path="/aftercheckout">
+            <AfterCheckOut />
           </Route>
           <Route path="/login" >
             <LoginFormPage />

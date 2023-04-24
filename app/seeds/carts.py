@@ -1,7 +1,7 @@
 from app.models import db, Cart, environment, SCHEMA
 from sqlalchemy.sql import text
 
-def seed_carts(all_drinks):
+def seed_carts():
 
     cart1 = Cart(
         user_id = 1,

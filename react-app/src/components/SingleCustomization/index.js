@@ -31,13 +31,13 @@ const SingleCustomization = () =>{
     if(!customization?.id) return <div>Loading</div>
 
     return (
-        <div className='eaCust'>
-            <p>customization #: {customization.id}</p>
-            <p>drink: {customization.Drink.name}</p>
+        <div className='singleCust'>
+            <p>{customization.Drink.name}</p>
             <img className='drinkImg' src={customization.Drink.imageUrl} />
-            <p>size: {customization.size}</p>
-            <p>milk: {customization.milk}</p>
-            <p>expresso: {customization.expressoRoastOptions}</p>
+            <p>Size: {customization.size}</p>
+            <p>Milk options: {customization.milk}</p>
+            <p>Shot Options: {customization.shotOptions}</p>
+            <p>Expresso Roast: {customization.expressoRoastOptions}</p>
             <button
             onClick ={ async (e) => {
                 e.preventDefault();

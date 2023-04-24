@@ -69,7 +69,7 @@ def upgrade():
     sa.ForeignKeyConstraint(['customization_id'], ['customizations.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('cart_drink',
+    op.create_table('cart_drinks',
     sa.Column('cart_id', sa.Integer(), nullable=True),
     sa.Column('drink_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['cart_id'], ['carts.id'], ),
