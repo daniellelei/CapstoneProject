@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.models import Cart, db, User, Cart_customization
+from app.models import Cart, db, User, Cart_customization, Cart_drink
 from flask_login import current_user, login_required
 from sqlalchemy.orm import joinedload
 # from ..forms import CartForm
@@ -24,11 +24,11 @@ def cart(id):
     return [{**cart.to_dict(),
             "User": cart.user.to_dict(),
             # "Customizations":[c.to_dict() for c in cart.customizations],
-            "drinksInCart":[d.to_dict() for d in cart.drinksInCart]
+            # "drinksInCart":[d.to_dict() for d in cart.drinksInCart]
             }]
 
     
-
+# get all current user's carts
 @cart_routes.route('/current')
 @login_required
 def get_user_cart():
@@ -38,12 +38,12 @@ def get_user_cart():
     carts = [{**cart.to_dict(),
                        "User": cart.user.to_dict(),
                     #    "Customization": [c.to_dict() for c in cart.customizations],
-                       "drinksInCart": [d.to_dict() for d in cart.drinksInCart]
+                    #    "drinksInCart": [d.to_dict() for d in cart.drinksInCart]
                        } for cart in user_carts]
 
     return carts
 
-
+# get the most recent cart
 @cart_routes.route('/lastcurrent')
 @login_required
 def get_user_last_cart():
@@ -57,13 +57,13 @@ def get_user_last_cart():
     print('CART ***', cart.to_dict())
     print('CART ***', cart.cart_customizations)
     if cart.cart_customizations is not None:
-        if cart.drinksInCart is not None:
+        if cart.cart_customizations is not None:
             current_cart = {**cart.to_dict(),
                         "User": cart.user.to_dict(),
                         'customizations': [{**c.customization.to_dict(), 
                                         'drinks_customization':c.customization.drink.to_dict()} 
                                         for c in cart.cart_customizations],
-                        "drinksInCart": [d.to_dict() for d in cart.drinksInCart]
+                        # "drinksInCart": [d.to_dict() for d in cart.drinksInCart]
                 }
             return current_cart
         else:
@@ -72,6 +72,7 @@ def get_user_last_cart():
                             'customizations': [{**c.customization.to_dict(),
                                                 'drinks_customization': c.customization.drink.to_dict()}
                                                for c in cart.cart_customizations],
+                            'drinks': [{d.drink.to_dict()} for d in cart.cart_drinks],          
                             # "drinksInCart": [d.to_dict() for d in cart.drinksInCart]
                             }
             return current_cart
@@ -100,7 +101,8 @@ def create_cart():
     return {**new_cart.to_dict(),
             "User": new_cart.user.to_dict(),
             "cart_customizations": [],
-            "drinksInCart":[]
+            "cart_drinks": [],
+            # "drinksInCart":[]
             }
 
 @cart_routes.route("/<int:id>", methods=["DELETE"])
@@ -119,6 +121,10 @@ def delete_cart(id):
             cart_customizations = Cart_customization.query.filter(
                 Cart_customization.cart_id == cart.id).all()
             removed_cart_custs = [db.session.delete(c) for c in cart_customizations]
+            cart_drinks = Cart_drink.query.filter(
+                Cart_drink.cart_id == cart.id).all()
+            removed_cart_custs = [db.session.delete(
+                c) for c in cart_drinks]
             # db.session.delete(cart)
             db.session.commit()
             return {"message": 'Cart Deleted!'}
