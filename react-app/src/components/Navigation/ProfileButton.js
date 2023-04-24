@@ -65,8 +65,13 @@ function ProfileButton({ user }) {
               </button>
             </li> */}
             <li>
+              <button>
+                Add More Funds
+              </button>
+            </li>
+            <li>
               <button onClick={manageCustClick}>
-                <NavLink to={`/customizations`}>My Customizations</NavLink>
+                <NavLink to={`/customizations`} className='custButton'>My Favorites</NavLink>
               </button>
             </li>
             <li>

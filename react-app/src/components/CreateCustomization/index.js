@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import { useHistory } from "react-router-dom";
 import {useModal} from "../../context/Modal"
 import * as customizationActions from '../../store/customization';
-
+import './CreateCustomization.css'
 const CreateCustomization = (drink) => {
     
     const milks = ['Choose','None', 'Whole Milk', '2%', 'HalfNHalf', 'Fat Free'];
@@ -89,6 +89,7 @@ const CreateCustomization = (drink) => {
                 <div>
                     <div>
                         <label>Choose size: </label>
+                        {/* <p>* size is required</p> */}
                         <select
                         onChange={(e)=> {
                             setSize(e.target.value);
@@ -176,16 +177,16 @@ const CreateCustomization = (drink) => {
                         )}
                     </div>
                     <button type="submit">
-                    Create
+                    Create Me
                     </button>
                 </div>
             </form>
-            <button
+            {/* <button
             onClick = {async (e) => {
                 e.preventDefault();
                 await closeModal()
             }}
-            >Cancel</button>
+            >Cancel</button> */}
         </div>
 
     )

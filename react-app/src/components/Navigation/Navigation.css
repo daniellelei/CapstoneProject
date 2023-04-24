@@ -2,6 +2,14 @@
   position: absolute;
   background-color: white;
   right:50px;
+  z-index: 10;
+  border-radius: 15px;
+  box-shadow: 4px 4px 6px gray;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding:2em;
 }
 
 .hidden {
@@ -18,6 +26,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1.5em;
   /* padding-right:10em; */
 }
 
@@ -44,3 +53,6 @@
   margin: 0 20px 0 0;
 }
 
+.custButton {
+  color:white;
+}

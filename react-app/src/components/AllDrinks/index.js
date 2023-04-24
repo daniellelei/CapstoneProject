@@ -1,8 +1,10 @@
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from 'react-redux';
 import DrinkIndexItem from './DrinkIndexItem'
+import Drink from "../SingleDrink";
 import * as drinkActions from '../../store/drink';
 import './AllDrinks.css'
+import OpenModalItem from "../OpenModalItem";
 function AllDrinks(){
 const dispatch = useDispatch();
   const drinksObj = useSelector((state) => state.drinks.allDrinks);
@@ -22,6 +24,7 @@ const dispatch = useDispatch();
   return (
     <div>
       <nav className="allDrinks">
+        
         {drinks.map((drink) => (
           <div  key={drink.id}>
             <DrinkIndexItem drink={drink} key={drink.id} user={user} page="AllDrinks" />
