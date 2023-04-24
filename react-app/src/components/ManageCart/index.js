@@ -12,9 +12,9 @@ import OpenModalButton from '../OpenModalButton';
 const calculateTotalPrice = (allDrinks) => {
         let res = 0;
         // const sum = arr => arr.reduce((a, b)=> a+b, 0);
-        // console.log('allDrinks[0]', allDrinks[0])
-        // console.log('allDrinks[1]', allDrinks[1])
-        if(allDrinks[0] === undefined && allDrinks[1] === undefined) return 0
+        console.log('allDrinks[0]', allDrinks[0])
+        console.log('allDrinks[1]', allDrinks[1])
+        if(allDrinks[0] === undefined && allDrinks[1]=== undefined) return 0
         if(!allDrinks[0].length && !allDrinks[1].length) return 0;
         if(!allDrinks[0].length && allDrinks[1].length !==0) {
             // res = sum(allDrinks[1])
@@ -84,11 +84,12 @@ function CurrentCart() {
         } 
     }
     if(!cart.id) return <div>Loading</div>
+    if (cart_custs === undefined && drinksInCart.length === 0) return <h1>Wanna add a drink to your cart?</h1>
     return (
         <div className="myCart">
-            {!cart_custs.length && !drinksInCart.length ? <h1>Wanna add a drink to your cart?</h1> : 
+            {/* {cart_custs === undefined && !drinksInCart.length ? <h1>Wanna add a drink to your cart?</h1> :  */}
             <h1>Order Summary</h1>
-            }
+            {/* } */}
             {drinksInCart.map((d)=> (
                 <div key={d}>
                     <p>Drink name: {d.name}</p>

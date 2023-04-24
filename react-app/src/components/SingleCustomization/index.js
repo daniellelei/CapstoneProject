@@ -32,11 +32,12 @@ const SingleCustomization = () =>{
 
     return (
         <div className='eaCust'>
-            <p>customization #: {customization.id}</p>
-            <p>drink: {customization.Drink.name}</p>
+            <p>customization: {customization.id}</p>
+            <p>{customization.Drink.name}</p>
             <img className='drinkImg' src={customization.Drink.imageUrl} />
             <p>size: {customization.size}</p>
             <p>milk: {customization.milk}</p>
+            <p>shot Options: {customization.shotOptions}</p>
             <p>expresso: {customization.expressoRoastOptions}</p>
             <button
             onClick ={ async (e) => {

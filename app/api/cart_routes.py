@@ -99,8 +99,8 @@ def create_cart():
     db.session.commit()
     return {**new_cart.to_dict(),
             "User": new_cart.user.to_dict(),
-            "cart_customizations": {},
-            "drinksInCart":{}
+            "cart_customizations": [],
+            "drinksInCart":[]
             }
 
 @cart_routes.route("/<int:id>", methods=["DELETE"])

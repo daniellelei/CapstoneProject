@@ -18,3 +18,11 @@
   align-items: center;
   padding-right:10em;
 }
+
+.leftNav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 20%;
+}

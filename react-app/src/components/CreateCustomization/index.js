@@ -6,10 +6,10 @@ import * as customizationActions from '../../store/customization';
 
 const CreateCustomization = (drink) => {
     
-    const milks = ['None', 'Whole Milk', '2%', 'HalfNHalf', 'Fat Free'];
-    const sizes = ['Tall', 'Grande', 'Venti'];
-    const shots = [1, 2, 3];
-    const expressos = ["Blonde", "Medium Roast", "Dark Roast"];
+    const milks = ['Choose','None', 'Whole Milk', '2%', 'HalfNHalf', 'Fat Free'];
+    const sizes = ['Choose','Tall', 'Grande', 'Venti'];
+    const shots = ['Choose', 1, 2, 3];
+    const expressos = ['Choose', "Blonde", "Medium Roast", "Dark Roast"];
     const history = useHistory();
     const dispatch = useDispatch();
     const { closeModal } = useModal();

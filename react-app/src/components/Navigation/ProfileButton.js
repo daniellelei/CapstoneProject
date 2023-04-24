@@ -4,10 +4,11 @@ import { logout } from "../../store/session";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
+  const history = useHistory()
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
@@ -33,6 +34,7 @@ function ProfileButton({ user }) {
   const handleLogout = (e) => {
     e.preventDefault();
     dispatch(logout());
+    history.push('/drinks')
   };
 
   const manageCustClick = (e) =>{
@@ -56,6 +58,7 @@ function ProfileButton({ user }) {
           <>
             <li>{user.username}</li>
             <li>{user.email}</li>
+            <li>Available Funds: ${user.funds}</li>
             <li>
               <button onClick={cartClick}>
                 <NavLink to={`/cart`}>My Cart</NavLink>
@@ -63,7 +66,7 @@ function ProfileButton({ user }) {
             </li>
             <li>
               <button onClick={manageCustClick}>
-                <NavLink to={`/customizations`}>Mange Customizations</NavLink>
+                <NavLink to={`/customizations`}>My Customizations</NavLink>
               </button>
             </li>
             <li>

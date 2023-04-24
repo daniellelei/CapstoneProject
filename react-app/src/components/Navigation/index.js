@@ -9,10 +9,17 @@ function Navigation({ isLoaded }){
 
 	return (
 		<div className='topNav'>
-			<div>
-				<NavLink exact to="/drinks">
-					<img className ='logo' src={logo} alt='logo'/>
-				</NavLink>
+			<div className='leftNav'>
+				<div>
+					<NavLink exact to="/drinks">
+						<img className ='logo' src={logo} alt='logo'/>
+					</NavLink>
+				</div>
+				<div>
+					<NavLink exact to="/drinks">
+						<h2>Menu</h2>
+					</NavLink>
+				</div>
 			</div>
 			{isLoaded && (
 				<div>

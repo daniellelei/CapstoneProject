@@ -33,7 +33,8 @@ const Drink = () => {
                 alt = "drink.url"
             />
             <p>{drink.name}</p>
-            <p>{drink.price}</p>
+            <p>Size: Grande</p>
+            <p>${drink.price}</p>
             <OpenModalButton
             buttonText='Customize'
             modalComponent={<CreateCustomization drink={drink}/>} />
