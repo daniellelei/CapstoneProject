@@ -30,11 +30,7 @@ def add_to_cart(id):
     user=current_user
     drink = Drink.query.get(id)
     request_obj = request.get_json()
-    print("**************************")
-    print("**************************")
-    print("**************************")
-    print("**************************")
-    print(request_obj)
+    
 
     if request_obj:
         cartId = int(request_obj["id"])
@@ -45,14 +41,7 @@ def add_to_cart(id):
                     cart_id = cartId,
                     drink_id = id
                 )
-                print("**************************")
-                print("**************************")
-                print("**************************")
-                print("**************************")
-                print(newCartDrink)
-                print(newCartDrink.to_dict())
                 db.session.add(newCartDrink)
-                print('==================================')
                 db.session.commit()
             else:
                 return {'message': "User does not own this cart"}

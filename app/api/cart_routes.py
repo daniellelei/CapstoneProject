@@ -119,6 +119,7 @@ def delete_cart(id):
             user = User.query.get(userId)
             user.funds = fund - request_obj
             # updated_user = User.query.get(userId)
+            cart.total_price = request_obj
             cart_customizations = Cart_customization.query.filter(
                 Cart_customization.cart_id == cart.id).all()
             removed_cart_custs = [db.session.delete(c) for c in cart_customizations]

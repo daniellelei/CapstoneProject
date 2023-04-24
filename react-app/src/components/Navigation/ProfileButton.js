@@ -58,7 +58,7 @@ function ProfileButton({ user }) {
           <>
             <li>{user.username}</li>
             <li>{user.email}</li>
-            <li>Available Funds: ${user.funds}</li>
+            <li>Available Funds: ${user.funds.toFixed(2)}</li>
             <li>
               <button onClick={cartClick}>
                 <NavLink to={`/cart`}>My Cart</NavLink>

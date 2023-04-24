@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useHistory } from "react-router-dom";
 import './ManageCart.css'
 import * as cartActions from "../../store/cart"
+import * as sessionActions from "../../store/session"
 // import OpenModalicon from "../OpenModalicon";
 import RemoveFromCartModal from "../EditCart";
 import OpenModalButton from '../OpenModalButton';
@@ -23,7 +24,7 @@ const calculateTotalPrice = (allDrinks) => {
             }
             return res.toFixed(2)
         }
-        if(allDrinks[0].length !== 0 && !allDrinks[1].length) {
+        if(allDrinks[0].length !== 0 && !allDrinks[1]?.length) {
             allDrinks[0].forEach((c)=>{
                 res = res + c.drinks_customization.price
             })
@@ -48,7 +49,8 @@ function CurrentCart() {
     const user = useSelector((state) => state.session.user)
     const user_funds = user?.funds
     let cart_custs = cart.customizations
-    let cart_drinks = cart.cart_drinks
+    let cart_drinks = cart.drinks
+    console.log('cart_drinks', cart_drinks)
     let total = calculateTotalPrice ([cart_custs, cart_drinks])
     const [hasEnoughFund, setHasEnoughFund] = useState(true);
     const [errors, setErrors] = useState({});
@@ -76,6 +78,8 @@ function CurrentCart() {
 
         if(!Boolean(Object.values(errors).length)){
             const checkedOutRes = await dispatch(cartActions.checkOutThunk(total));
+            await dispatch(sessionActions.authenticate());
+            history.push('/drinks')
             // if(!checkedOutRes.errors) {
             //     history.pushState(`/drinks`);
             //     setHasSubmitted(false);
@@ -84,24 +88,40 @@ function CurrentCart() {
         } 
     }
     if(!cart.id) return <div>Loading</div>
-    if (cart_custs === undefined && cart_drinks.length === 0) return <h1>Wanna add a drink to your cart?</h1>
+    console.log("cart_custssssss", cart_custs)
+    console.log("cart_drinkssssss", cart_drinks)
+    if (cart_custs === undefined && cart_drinks === undefined ) return (
+        <div>
+            <h1>Wanna add a drink to your cart?</h1>
+            <h4>* Your cart is empty</h4>
+        </div>
+    )
+
+    if (cart_custs.length === 0 && cart_drinks.length === 0 ) return (
+        <div>
+            <h1>Wanna add a drink to your cart?</h1>
+            <h4>* Your cart is empty</h4>
+        </div>
+    )
+
     return (
         <div className="myCart">
-            {/* {cart_custs === undefined && !cart_drinks.length ? <h1>Wanna add a drink to your cart?</h1> :  */}
+            
             <h1>Order Summary</h1>
-            {/* } */}
-            {cart_drinks.map((d)=> (
-                <div key={d}>
+            {cart_drinks?.map((d)=> (
+                <div key={cart_drinks.indexOf(d)}>
                     <p>Drink name: {d.name}</p>
+                    <p>{d.id}</p>
                     <p>Price: {d.price}</p>
                     <OpenModalButton
                     buttonText='Delete'
                     modalComponent={<RemoveFromCartModal customization={d}/>} />
                 </div>
             ))}
-            {cart_custs.map((c) => (
-                <div className="eaCustInCart" key={c}>
+            {cart_custs?.map((c) => (
+                <div className="eaCustInCart" key={cart_custs.indexOf(c)}>
                     <p>Drink name: {c.drinks_customization.name}</p>
+                    <p>{c.id}</p>
                     <p>Price: {c.drinks_customization.price}</p>
                     <p>{c.expressoRoastOptions}</p>
                     <p>{c.milk}</p>
@@ -111,8 +131,9 @@ function CurrentCart() {
                     modalComponent={<RemoveFromCartModal customization={c}/>} />
                 </div>
             ))}
-            
-            <p>Total Price: ${total}</p>
+            <p>Tax(10.5%): ${(total*0.105).toFixed(2)}</p>
+            <p>Subtotal: ${total}</p>
+            <p>Total: ${(total*1.105).toFixed(2)}</p>
             <button
             onClick={handleCheckOut}
             >Let's order</button>
