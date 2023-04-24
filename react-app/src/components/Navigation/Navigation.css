@@ -1,5 +1,7 @@
 .profile-dropdown {
   position: absolute;
+  background-color: white;
+  right:50px;
 }
 
 .hidden {
@@ -16,7 +18,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-right:10em;
+  /* padding-right:10em; */
 }
 
 .leftNav {
@@ -26,3 +28,19 @@
   align-items: center;
   width: 20%;
 }
+
+.rightNav {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  width: 20%;
+}
+.navButton{
+  color:white;
+  height:40px;
+  width: 40px;
+  border: 50%;
+  margin: 0 20px 0 0;
+}
+

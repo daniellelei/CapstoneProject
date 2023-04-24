@@ -16,6 +16,14 @@
     width:350px;
     text-decoration: none;
     color: black;
+    position: relative;
+    top: 0;
+    transition: top ease 0.5s;
+}
+
+.eaDrink:hover{
+    top: -8px;
+
 }
 
 .drinkImg {

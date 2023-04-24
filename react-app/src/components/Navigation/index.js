@@ -1,11 +1,16 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
 import logo from "./assets/logo.jpg";
 function Navigation({ isLoaded }){
 	const sessionUser = useSelector(state => state.session.user);
+	const history = useHistory()
+	const cartClick = (e) =>{
+    e.preventDefault();
+	history.push('/cart')
+  }
 
 	return (
 		<div className='topNav'>
@@ -21,12 +26,17 @@ function Navigation({ isLoaded }){
 					</NavLink>
 				</div>
 			</div>
-			{isLoaded && (
-				<div>
-					<ProfileButton user={sessionUser} />
-				</div>
-			)}
-			
+			<div className='rightNav'>
+				{isLoaded && (
+					<div>
+						<ProfileButton user={sessionUser} />
+					</div>
+				)}
+				<button onClick={cartClick} className='navButton'>
+					<i className="fas fa-cart-shopping" />
+					{/* <i class="fa-light fa-cart-shopping"></i> */}
+				</button>
+			</div>
 		</div>
 	);
 }
