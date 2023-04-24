@@ -5,6 +5,7 @@ const LOAD_CURRENT_CART = 'carts/load_current_cart'
 
 const ADD_TO_CART = "carts/addedToCart";
 const REMOVE_FROM_CART = "carts/removeFromCart"
+const CHECK_OUT = 'carts/checkOut'
 
 const CREATE_CART = "carts/create_cart";
 const UPDATE_CART = "carts/update_cart";
@@ -41,6 +42,11 @@ export const actionAddToCart = (customizations) => ({
 export const actionRemoveFromCart = (customizationId) => ({
   type: REMOVE_FROM_CART,
   customizationId
+})
+
+export const actionCheckOut = (cart) => ({
+  type: CHECK_OUT,
+  cart
 })
 
 export const actionCreateCart = (cart) => ({
@@ -196,8 +202,27 @@ export const addToCartThunk = (custOrDrink) => async (dispatch) => {
       return updatedCustomizations;
     }
   }
-
 };
+
+//checkout
+export const checkOutThunk = (totalPrice) => async (dispatch) => {
+  const cartResponse = await fetch(`/api/carts/lastcurrent`);
+  const cart = await cartResponse.json();
+  if(totalPrice > 0){
+    const response = await fetch(`/api/carts/${cart.id}`, {
+      method: 'DELETE',
+      headers:{
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(totalPrice)
+    });
+    if(response.ok) {
+      await dispatch(actionCheckOut());
+    }
+
+  }
+}
+
 
 //remove from cart
 export const removeFromCartThunk = (custOrDrink) => async (dispatch) => {
@@ -287,7 +312,8 @@ const cartReducer = (state = initialState, action) => {
           const new_State = {...state};
           delete new_State.cartCusts[action.id]
           return new_State;
-
+        case CHECK_OUT:
+          return {...state, currentCart:{}}
         case CREATE_CART:
             return {
                 ...state,
