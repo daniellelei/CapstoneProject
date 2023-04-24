@@ -79,7 +79,7 @@ function CurrentCart() {
         if(!Boolean(Object.values(errors).length)){
             const checkedOutRes = await dispatch(cartActions.checkOutThunk(total));
             await dispatch(sessionActions.authenticate());
-            history.push('/drinks')
+            history.push('/aftercheckout')
             // if(!checkedOutRes.errors) {
             //     history.pushState(`/drinks`);
             //     setHasSubmitted(false);
@@ -111,7 +111,6 @@ function CurrentCart() {
             {cart_drinks?.map((d)=> (
                 <div key={cart_drinks.indexOf(d)}>
                     <p>Drink name: {d.name}</p>
-                    <p>{d.id}</p>
                     <p>Price: {d.price}</p>
                     <OpenModalButton
                     buttonText='Delete'
