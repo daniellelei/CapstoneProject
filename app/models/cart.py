@@ -1,5 +1,5 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
-from .cart_drink import cart_drinks
+from .cart_drinks import Cart_drink
 from .cart_customizations import Cart_customization
 
 class Cart (db.Model):
@@ -21,15 +21,17 @@ class Cart (db.Model):
         'Cart_customization',
         back_populates = 'cart'
     )
-    # customizations = db.relationship(
-    #     'Customization', 
-    #     secondary=Cart_customization,
-    #     back_populates='cart')
-    drinksInCart = db.relationship(
-        "Drink", 
-        secondary=cart_drinks, 
-        back_populates="cart_drinks"
+
+    cart_drinks = db.relationship(
+        'Cart_drink', 
+        back_populates='cart'
     )
+    
+    # drinksInCart = db.relationship(
+    #     "Drink", 
+    #     secondary=cart_drinks, 
+    #     back_populates="cart_drinks"
+    # )
 
 
     def to_dict(self):
