@@ -94,7 +94,7 @@ def create_cart():
     new_cart = Cart(
         user_id = user['id'],
         cart_customizations = [],
-        drinksInCart = []
+        cart_drinks = []
     )
     db.session.add(new_cart)
     db.session.commit()

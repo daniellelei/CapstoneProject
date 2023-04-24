@@ -48,8 +48,8 @@ function CurrentCart() {
     const user = useSelector((state) => state.session.user)
     const user_funds = user?.funds
     let cart_custs = cart.customizations
-    let drinksInCart = cart.drinksInCart
-    let total = calculateTotalPrice ([cart_custs, drinksInCart])
+    let cart_drinks = cart.cart_drinks
+    let total = calculateTotalPrice ([cart_custs, cart_drinks])
     const [hasEnoughFund, setHasEnoughFund] = useState(true);
     const [errors, setErrors] = useState({});
     const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -60,7 +60,7 @@ function CurrentCart() {
         return () => dispatch(cartActions.actionClearCart())
     }, [dispatch])
 
-    // let total = calculateTotalPrice([cart_custs, drinksInCart])
+    // let total = calculateTotalPrice([cart_custs, cart_drinks])
     useEffect(() => {
         const err = {};
         
@@ -71,7 +71,7 @@ function CurrentCart() {
     const handleCheckOut = async (e) => {
         e.preventDefault();
         setHasSubmitted(true);
-        // setTotal(calculateTotalPrice([cart_custs, drinksInCart]))
+        // setTotal(calculateTotalPrice([cart_custs, cart_drinks]))
         // console.log('inside handleCheckOut', total)
 
         if(!Boolean(Object.values(errors).length)){
@@ -84,13 +84,13 @@ function CurrentCart() {
         } 
     }
     if(!cart.id) return <div>Loading</div>
-    if (cart_custs === undefined && drinksInCart.length === 0) return <h1>Wanna add a drink to your cart?</h1>
+    if (cart_custs === undefined && cart_drinks.length === 0) return <h1>Wanna add a drink to your cart?</h1>
     return (
         <div className="myCart">
-            {/* {cart_custs === undefined && !drinksInCart.length ? <h1>Wanna add a drink to your cart?</h1> :  */}
+            {/* {cart_custs === undefined && !cart_drinks.length ? <h1>Wanna add a drink to your cart?</h1> :  */}
             <h1>Order Summary</h1>
             {/* } */}
-            {drinksInCart.map((d)=> (
+            {cart_drinks.map((d)=> (
                 <div key={d}>
                     <p>Drink name: {d.name}</p>
                     <p>Price: {d.price}</p>
