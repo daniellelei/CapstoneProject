@@ -1,8 +1,9 @@
 .myCart{
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-left: 50px;
 }
 .eaCustInCart {
     border: 1px solid black;
@@ -11,3 +12,9 @@
     justify-content: center;
     align-items: center;
 }
+
+.eaItem {
+    display: flex;
+    padding:10px;
+}
+

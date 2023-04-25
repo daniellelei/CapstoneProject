@@ -28,13 +28,15 @@ function CurrentCustomizations() {
                     <NavLink className="eaCust" key={c.id} to={`/customizations/${c.id}`}>
                         <p>{c.Drink.name}</p>
                         <img className="drinkImg" src = {c.Drink.imageUrl}/>
-                        <p>Size: {c.size}</p>
-                        <p>Milk Option:{c.milk}</p>
-                        <p>Shot Options: {c.shotOptions}</p>
-                        <p>Expresso Roast: {c.expressoRoastOptions}</p>
-                        <p>${c.Drink.price}</p>
+                        <div>
+                            <p>Size: {c.size}</p>
+                            <p>Milk Option:{c.milk}</p>
+                            <p>Shot Options: {c.shotOptions}</p>
+                            <p>Expresso Roast: {c.expressoRoastOptions}</p>
+                            <p>${c.Drink.price}</p>
+                        </div>
                     </NavLink>
-                    <div>
+                    <div className="allCustBottom">
                         <button
                         onClick ={ async (e) => {
                             e.preventDefault();

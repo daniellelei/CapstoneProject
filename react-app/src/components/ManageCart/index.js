@@ -109,12 +109,16 @@ function CurrentCart() {
             
             <h1>Order Summary</h1>
             {cart_drinks?.map((d)=> (
-                <div key={cart_drinks.indexOf(d)}>
-                    <p>Drink name: {d.name}</p>
-                    <p>Price: {d.price}</p>
-                    <OpenModalButton
-                    buttonText='Delete'
-                    modalComponent={<RemoveFromCartModal customization={d}/>} />
+                <div key={cart_drinks.indexOf(d)} className="eaItem">
+                    <div>
+                        <p>{d.name}</p>
+                        <p>Price: {d.price}</p>
+                    </div>
+                    <div>
+                        <OpenModalButton
+                        buttonText='Delete'
+                        modalComponent={<RemoveFromCartModal customization={d}/>} />
+                    </div>
                 </div>
             ))}
             {cart_custs?.map((c) => (
