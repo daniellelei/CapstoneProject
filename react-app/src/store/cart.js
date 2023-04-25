@@ -79,9 +79,10 @@ export const getAllCartsThunk = () => async (dispatch) => {
     const response = await fetch("/api/carts");
   if (response.ok) {
     const cartsRes = await response.json();
-    const carts = cartsRes.carts;
-    await dispatch(actionLoadAllCarts(carts));
-    return carts;
+    // const carts = cartsRes.carts;
+    console.log('inside get all thunk', cartsRes)
+    await dispatch(actionLoadAllCarts(cartsRes));
+    return cartsRes;
   }
   return response;
 };
@@ -210,7 +211,7 @@ export const checkOutThunk = (totalPrice) => async (dispatch) => {
   const cart = await cartResponse.json();
   if(totalPrice > 0){
     const response = await fetch(`/api/carts/${cart.id}`, {
-      method: 'DELETE',
+      method: 'PATCH',
       headers:{
         "Content-Type": "application/json",
       },

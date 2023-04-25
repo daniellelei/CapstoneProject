@@ -12,8 +12,9 @@ class Cart (db.Model):
     total_price = db.Column(db.Float)
     paid = db.Column(db.Boolean, default=False, nullable=False, unique=False)
     created_time = db.Column(db.DateTime, default=datetime.now())
-    paid_time = db.Column(db.DateTime(timezone=True))
-
+    paid_time = db.Column(db.DateTime)
+    processed = db.Column(db.Boolean, default = False, nullable=False, unique=False)
+    processed_time = db.Column(db.DateTime)
     
     user_id = db.Column(
         db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False

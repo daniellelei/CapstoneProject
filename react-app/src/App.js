@@ -11,6 +11,7 @@ import SingleCustomization from './components/SingleCustomization'
 import CurrentCustomization from './components/ManageCustomization'
 import CurrentCart from './components/ManageCart'
 import AfterCheckOut from "./components/AfterCheckOut";
+import AllCarts from "./components/ViewAllCarts";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -34,6 +35,9 @@ function App() {
           </Route>
           <Route exact path="/customizations/:customizationId">
             <SingleCustomization />
+          </Route>
+          <Route exact path="/carts">
+            <AllCarts />
           </Route>
           <Route exact path="/cart">
             <CurrentCart />
