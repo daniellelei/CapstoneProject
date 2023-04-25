@@ -8,6 +8,7 @@ function SignupFormModal() {
 	const dispatch = useDispatch();
 	const [email, setEmail] = useState("");
 	const [username, setUsername] = useState("");
+	const [funds, setFunds] = useState();
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [errors, setErrors] = useState([]);
@@ -16,7 +17,7 @@ function SignupFormModal() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (password === confirmPassword) {
-			const data = await dispatch(signUp(username, email, password));
+			const data = await dispatch(signUp(username, email, password, funds));
 			if (data) {
 				setErrors(data);
 			} else {
@@ -30,53 +31,67 @@ function SignupFormModal() {
 	};
 
 	return (
-		<>
+		<div className="login">
 			<h1>Sign Up</h1>
 			<form onSubmit={handleSubmit}>
-				<ul>
+				<ul className="errorUl">
 					{errors.map((error, idx) => (
-						<li key={idx}>{error}</li>
+						<li key={idx} className="errors">{error}</li>
 					))}
 				</ul>
 				<label>
 					Email
+				</label>
 					<input
 						type="text"
 						value={email}
+						placeholder="Please provide an email"
 						onChange={(e) => setEmail(e.target.value)}
 						required
 					/>
-				</label>
 				<label>
 					Username
+				</label>
 					<input
 						type="text"
 						value={username}
+						placeholder="Please provide a username"
 						onChange={(e) => setUsername(e.target.value)}
 						required
 					/>
+				<label>
+					Funds
 				</label>
+					<input
+						type="text"
+						value={funds}
+						placeholder="Please add at least $1"
+						onChange={(e) => setFunds(e.target.value)}
+						required
+					/>
 				<label>
 					Password
+				</label>
 					<input
 						type="password"
 						value={password}
+						placeholder="Please provide a password"
 						onChange={(e) => setPassword(e.target.value)}
 						required
 					/>
-				</label>
 				<label>
 					Confirm Password
+				</label>
 					<input
 						type="password"
 						value={confirmPassword}
+						placeholder="Please confirm your password"
 						onChange={(e) => setConfirmPassword(e.target.value)}
 						required
 					/>
-				</label>
-				<button type="submit">Sign Up</button>
+				<button type="submit" className="loginButton">Sign Up</button>
 			</form>
-		</>
+		</div>
 	);
 }
 

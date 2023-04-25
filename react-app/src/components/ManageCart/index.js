@@ -87,18 +87,22 @@ function CurrentCart() {
             // }
         } 
     }
-    if(!cart.id) return <div>Loading</div>
+    if(!cart?.id || !user?.id) return (
+        <div className="myCart">
+            <h2>Please Log in and start adding drinks to your cart</h2>    
+        </div>
+    )
     console.log("cart_custssssss", cart_custs)
     console.log("cart_drinkssssss", cart_drinks)
     if (cart_custs === undefined && cart_drinks === undefined ) return (
-        <div>
+        <div className="myCart">
             <h1>Wanna add a drink to your cart?</h1>
             <h4>* Your cart is empty</h4>
         </div>
     )
 
     if (cart_custs.length === 0 && cart_drinks.length === 0 ) return (
-        <div>
+        <div className="myCart">
             <h1>Wanna add a drink to your cart?</h1>
             <h4>* Your cart is empty</h4>
         </div>
@@ -110,11 +114,11 @@ function CurrentCart() {
             <h1>Order Summary</h1>
             {cart_drinks?.map((d)=> (
                 <div key={cart_drinks.indexOf(d)} className="eaItem">
-                    <div>
-                        <p>{d.name}</p>
-                        <p>Price: {d.price}</p>
+                    <div className="custcartDiv">
+                        <h4>{d.name}</h4>
+                        <p className="cartP">${d.price}</p>
                     </div>
-                    <div>
+                    <div className="deletButton">
                         <OpenModalButton
                         buttonText='Delete'
                         modalComponent={<RemoveFromCartModal customization={d}/>} />
@@ -123,25 +127,31 @@ function CurrentCart() {
             ))}
             {cart_custs?.map((c) => (
                 <div className="eaCustInCart" key={cart_custs.indexOf(c)}>
-                    <p>Drink name: {c.drinks_customization.name}</p>
-                    <p>{c.id}</p>
-                    <p>Price: {c.drinks_customization.price}</p>
-                    <p>{c.expressoRoastOptions}</p>
-                    <p>{c.milk}</p>
-                    <p>{c.size}</p>
+                    <div className="custcartDiv">
+                        <h4>{c.drinks_customization.name}</h4>
+                        <div className="custDetail">
+                            <p className="cartP">Size: {c.size}</p>
+                            <p className="cartP">Shots: {c.shotOptions} {c.shotOptions < 2 ? "shot" : "shots"}</p>
+                            <p className="cartP">Expresso: {c.expressoRoastOptions}</p>
+                            <p className="cartP">Milk: {c.milk}</p>
+                            <p className="cartP">${c.drinks_customization.price}</p>
+                        </div>
+                    </div>
                     <OpenModalButton
                     buttonText='Delete'
                     modalComponent={<RemoveFromCartModal customization={c}/>} />
                 </div>
             ))}
-            <p>Tax(10.5%): ${(total*0.105).toFixed(2)}</p>
-            <p>Subtotal: ${total}</p>
-            <p>Total: ${(total*1.105).toFixed(2)}</p>
-            <button
-            onClick={handleCheckOut}
-            >Let's order</button>
-            {hasSubmitted && Boolean(Object.values(errors).length) ? (
-                <p>{errors.funds}</p> ) : null}
+            <div className="priceSumDiv">
+                <p className="priceSummary">Subtotal: ${total}</p>
+                <p className="priceSummary">Tax(10.5%): ${(total*0.105).toFixed(2)}</p>
+                <p className="priceSummary">Total: ${(total*1.105).toFixed(2)}</p>
+                <button
+                onClick={handleCheckOut}
+                >Let's order</button>
+                {hasSubmitted && Boolean(Object.values(errors).length) ? (
+                    <p>{errors.funds}</p> ) : null}
+            </div>
         </div>
     )
 

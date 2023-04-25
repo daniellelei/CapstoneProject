@@ -21,6 +21,10 @@
     transition: top ease 0.5s;
 }
 
+.drinkname {
+    font-weight: bold;
+    font-size: 16px;
+}
 .eaDrink:hover{
     top: -8px;
 

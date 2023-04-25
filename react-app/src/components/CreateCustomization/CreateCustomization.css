@@ -1,0 +1,19 @@
+.error{
+    color:red;
+    font-size: 11px;
+}
+.custForm{
+    
+    padding:1em;
+    border-radius: 15px;
+    box-shadow: 4px 4px 4px 4px gray;
+}
+select {
+    padding:0.5em;
+    border-radius: 15px;
+    width: 100%;
+    border:1px solid rgb(133, 133, 133);
+}
+select:hover{
+    border:1px solid rgb(213, 211, 211)
+}

@@ -64,11 +64,11 @@ function ProfileButton({ user }) {
                 <NavLink to={`/cart`}>My Cart</NavLink>
               </button>
             </li> */}
-            <li>
+            {/* <li>
               <button>
                 Add More Funds
               </button>
-            </li>
+            </li> */}
             <li>
               <button onClick={manageCustClick}>
                 <NavLink to={`/customizations`} className='custButton'>My Favorites</NavLink>

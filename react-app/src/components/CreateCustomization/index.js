@@ -6,10 +6,10 @@ import * as customizationActions from '../../store/customization';
 import './CreateCustomization.css'
 const CreateCustomization = (drink) => {
     
-    const milks = ['Choose','None', 'Whole Milk', '2%', 'HalfNHalf', 'Fat Free'];
-    const sizes = ['Choose','Tall', 'Grande', 'Venti'];
-    const shots = ['Choose', 1, 2, 3];
-    const expressos = ['Choose', "Blonde", "Medium Roast", "Dark Roast"];
+    const milks = ['Choose an Option','None', 'Whole Milk', '2%', 'HalfNHalf', 'Fat Free'];
+    const sizes = ['Choose an Option','Tall', 'Grande', 'Venti'];
+    const shots = ['Choose an Option', 1, 2, 3];
+    const expressos = ['Choose an Option', "Blonde", "Medium Roast", "Dark Roast"];
     const history = useHistory();
     const dispatch = useDispatch();
     const { closeModal } = useModal();
@@ -28,10 +28,10 @@ const CreateCustomization = (drink) => {
     //for handling errors
     useEffect(()=>{
         const err = {};
-        if(!size.length) err.size = "Please choose a size."
-        if(!milk.length) err.milk = "Please choose a milk option"
-        if(shotOptions === 0) err.shotOptions = "Please add a shot"
-        if(!expressoRoastOptions.length) err.expressoRoastOptions = 'Please choose a kind of expresso'
+        if(!size.length) err.size = "* Please choose a size."
+        if(!milk.length) err.milk = "* Please choose a milk option"
+        if(shotOptions === 0) err.shotOptions = "* Please add a shot"
+        if(!expressoRoastOptions.length) err.expressoRoastOptions = '* Please choose a kind of expresso'
 
         setErrors(err);
     },[size, milk, shotOptions, expressoRoastOptions]);
@@ -40,8 +40,11 @@ const CreateCustomization = (drink) => {
         e.preventDefault();
         setHasSubmitted(true);
         setResErrors({});
-    
-        let user_id = currentUser.id
+
+        if(!currentUser){
+            window.alert('You must be logged in to customize a drink.')
+        } 
+        let user_id = currentUser?.id
         let drink_id = drink.drink.id
         let cart_id = 1
         if (!Boolean(Object.values(errors).length)) {
@@ -80,7 +83,7 @@ const CreateCustomization = (drink) => {
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="custForm">
                 <ul>
                     {hasSubmitted && Boolean(Object.values(resErrors).length) ? (
                         <li>{Object.values(resErrors)}</li>
@@ -133,14 +136,14 @@ const CreateCustomization = (drink) => {
                         )}
                     </div>
                     <div>
-                        <label>Choose shotOptions: </label>
+                        <label>Choose Shot Options: </label>
                         <select
                         onChange={(e)=> {
                             setshotOptions(e.target.value);
                         }}
                         value = {shotOptions}
                         name="shotOptions"
-                        placeholder="Choose shotOptions"
+                        placeholder="Choose Shot Options"
                         >
                             {shots.map((o)=>(
                                 <option value={o} key={o}>
@@ -155,14 +158,14 @@ const CreateCustomization = (drink) => {
                         )}
                     </div>
                     <div>
-                        <label>Choose expressoRoastOptions: </label>
+                        <label>Choose Expresso Roast Options: </label>
                         <select
                         onChange={(e)=> {
                             setexpressoRoastOptions(e.target.value);
                         }}
                         value = {expressoRoastOptions}
                         name="expressoRoastOptions"
-                        placeholder="Choose expressoRoastOptions"
+                        placeholder="Choose Expresso Roast Options"
                         >
                             {expressos.map((e)=>(
                                 <option value={e} key={e}>

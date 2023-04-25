@@ -23,6 +23,10 @@ def username_exists(form, field):
 class SignUpForm(FlaskForm):
     username = StringField(
         'username', validators=[DataRequired(), username_exists])
-    email = StringField('email', validators=[DataRequired(), user_exists])
+    email = StringField('email', validators=[DataRequired(
+    ), user_exists, Email(message="Please provide a valid email.")])
     password = StringField('password', validators=[DataRequired()])
-    funds = DecimalField('funds', places=2, validators=[DataRequired(),NumberRange(min=1)])
+    funds = DecimalField('funds'
+                        , places=2
+                        , validators=[DataRequired()
+                        , NumberRange(min=1, message="Please have at least $1.")])

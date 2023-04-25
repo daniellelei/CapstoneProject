@@ -22,8 +22,8 @@ const DrinkIndexItem = ({
                         alt = {drink.name}
                         className="drinkImg"
                     />
-                    <p>{drink.name}</p>
-                    <p>Size: Grande</p>
+                    <p className="drinkname">{drink.name}</p>
+                    <p>${drink.price}</p>
                     <button
                     onClick = {async (e) => {
                         e.preventDefault();
@@ -31,7 +31,7 @@ const DrinkIndexItem = ({
                             window.alert('You must be logged in to order a drink.')
                         } else {
                             await dispatch(cartActions.addToCartThunk(drink))
-                            history.push('/drinks')
+                            // history.push('/drinks')
                         }
                     }}
                     >Add to Cart</button>
