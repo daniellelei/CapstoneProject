@@ -34,14 +34,18 @@ const Drink = () => {
                     src = {drink.imageUrl}
                     alt = "drink.url"
                 />
-                <p>{drink.name}</p>
+                <h2>{drink.name}</h2>
                 <p>Size: Grande</p>
                 <p>${drink.price}</p>
                 <button
                 onClick = {async (e) => {
                     e.preventDefault();
-                    await dispatch(cartActions.addToCartThunk(drink))
-                    history.push('/drinks')
+                        if(!user){
+                            window.alert('You must be logged in to order a drink.')
+                        } else {
+                            await dispatch(cartActions.addToCartThunk(drink))
+                            // history.push('/drinks')
+                        }
                 }}
                 >Add to Cart</button>
             </div>

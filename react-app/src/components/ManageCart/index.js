@@ -87,18 +87,22 @@ function CurrentCart() {
             // }
         } 
     }
-    if(!cart.id) return <div>Loading</div>
+    if(!cart?.id || !user?.id) return (
+        <div className="myCart">
+            <h2>Please Log in and start adding drinks to your cart</h2>    
+        </div>
+    )
     console.log("cart_custssssss", cart_custs)
     console.log("cart_drinkssssss", cart_drinks)
     if (cart_custs === undefined && cart_drinks === undefined ) return (
-        <div>
+        <div className="myCart">
             <h1>Wanna add a drink to your cart?</h1>
             <h4>* Your cart is empty</h4>
         </div>
     )
 
     if (cart_custs.length === 0 && cart_drinks.length === 0 ) return (
-        <div>
+        <div className="myCart">
             <h1>Wanna add a drink to your cart?</h1>
             <h4>* Your cart is empty</h4>
         </div>
