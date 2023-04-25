@@ -24,7 +24,9 @@ const Drink = () => {
         return () => dispatch(drinkActions.actionClearDrink());
     },[dispatch, drinkId])
 
-    if(!drink?.id) return <div>Loading</div>
+    if(!drink?.id) return (<div>
+        <img src="https://cdn.dribbble.com/users/2520294/screenshots/7209485/media/cf226d98a06282e9cabf5c2f8f6d547f.gif"/>
+    </div>)
 
     return (
         <div className='OneDrink'>

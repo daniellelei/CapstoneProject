@@ -18,7 +18,9 @@ function CurrentCustomizations() {
         dispatch(customizationActions.getUserCustomizationThunk());
         return () => dispatch(customizationActions.actionClearCustomizations());
     }, [dispatch])
-    if(!custObj) return <div>Loading</div>
+    if(!custObj) return (<div>
+        <img src="https://cdn.dribbble.com/users/2520294/screenshots/7209485/media/cf226d98a06282e9cabf5c2f8f6d547f.gif"/>
+    </div>)
     const custs = Object.values(custObj);
 
     return (

@@ -18,12 +18,15 @@ const dispatch = useDispatch();
     };
   }, [dispatch]);
 
-  if(!drinksObj) return <div>Loading</div>
+  if(!drinksObj) return (<div>
+        <img src="https://cdn.dribbble.com/users/2520294/screenshots/7209485/media/cf226d98a06282e9cabf5c2f8f6d547f.gif"/>
+    </div>)
   const drinks = Object.values (drinksObj);
 
   return (
     <div>
       <nav className="allDrinks">
+        {/* <img src ='https://i.giphy.com/media/ZDNQdzCUjIK9VNUE2c/giphy.webp'/> */}
         
         {drinks.map((drink) => (
           <div  key={drink.id}>
