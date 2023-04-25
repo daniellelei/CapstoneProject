@@ -34,22 +34,26 @@ const SingleCustomization = () =>{
         <div className='singleCust'>
             <p>{customization.Drink.name}</p>
             <img className='drinkImg' src={customization.Drink.imageUrl} />
-            <p>Size: {customization.size}</p>
-            <p>Milk options: {customization.milk}</p>
-            <p>Shot Options: {customization.shotOptions}</p>
-            <p>Expresso Roast: {customization.expressoRoastOptions}</p>
-            <button
-            onClick ={ async (e) => {
-                e.preventDefault();
-                await dispatch(cartActions.addToCartThunk(customization));
-            }}
-            >Add to Cart</button>
-            <OpenModalButton
-            buttonText='Edit'
-            modalComponent={<EditCustomization customization={customization}/>} />
-            <OpenModalButton
-            buttonText='Delete'
-            modalComponent={<DeleteCustomization customization={customization}/>} />
+            <div>
+                <p>Size: {customization.size}</p>
+                <p>Milk options: {customization.milk}</p>
+                <p>Shot Options: {customization.shotOptions}</p>
+                <p>Expresso Roast: {customization.expressoRoastOptions}</p>
+            </div>
+            <div className='singleCustBottom'>
+                <button
+                onClick ={ async (e) => {
+                    e.preventDefault();
+                    await dispatch(cartActions.addToCartThunk(customization));
+                }}
+                >Add to Cart</button>
+                <OpenModalButton
+                buttonText='Edit'
+                modalComponent={<EditCustomization customization={customization}/>} />
+                <OpenModalButton
+                buttonText='Delete'
+                modalComponent={<DeleteCustomization customization={customization}/>} />
+            </div>
         </div>
     )
 }
