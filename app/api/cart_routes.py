@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from app.models import Cart, db, User, Cart_customization, Cart_drink
 from flask_login import current_user, login_required
 from sqlalchemy.orm import joinedload
+from datetime import datetime
 # from ..forms import CartForm
 cart_routes = Blueprint('carts', __name__)
 
@@ -120,15 +121,18 @@ def delete_cart(id):
             user.funds = fund - request_obj
             # updated_user = User.query.get(userId)
             cart.total_price = request_obj
-            cart_customizations = Cart_customization.query.filter(
-                Cart_customization.cart_id == cart.id).all()
-            removed_cart_custs = [db.session.delete(c) for c in cart_customizations]
-            cart_drinks = Cart_drink.query.filter(
-                Cart_drink.cart_id == cart.id).all()
-            removed_cart_custs = [db.session.delete(
-                c) for c in cart_drinks]
-            # db.session.delete(cart)
+            cart.paid = True
+            cart.paid_time = datetime.now()
             db.session.commit()
+
+            # cart_customizations = Cart_customization.query.filter(
+            #     Cart_customization.cart_id == cart.id).all()
+            # removed_cart_custs = [db.session.delete(c) for c in cart_customizations]
+            # cart_drinks = Cart_drink.query.filter(
+            #     Cart_drink.cart_id == cart.id).all()
+            # removed_cart_custs = [db.session.delete(
+                # c) for c in cart_drinks]
+            # db.session.delete(cart)
             return {"message": 'Cart Deleted!'}
         return {"message": 'Cart not found'}
     return {"message": 'Total charge is required'}

@@ -78,6 +78,7 @@ function CurrentCart() {
 
         if(!Boolean(Object.values(errors).length)){
             const checkedOutRes = await dispatch(cartActions.checkOutThunk(total));
+            await dispatch(cartActions.createCartThunk());
             await dispatch(sessionActions.authenticate());
             history.push('/aftercheckout')
             // if(!checkedOutRes.errors) {
