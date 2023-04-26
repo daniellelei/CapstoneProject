@@ -58,13 +58,18 @@ function AllDrinks(){
         </div>
         <div className="allDrinksBottom">
           <div className="leftDrinkNav">
-            <button
-            onClick = {icedCoffeeClick}
-            >Iced Coffee</button>
-            {/* <Category category={category} drinks={icedCoffee} user={user} page='AllDrinks' /> */}
-            <button
-            onClick = {hotCoffeeClick}
-            >Hot Coffee</button>
+            <ul>
+              <li 
+              className="eaCategory"
+              onClick={icedCoffeeClick}>
+                Ice Coffee
+              </li>
+              <li 
+              className="eaCategory"
+              onClick = {hotCoffeeClick}>
+                Hot Coffee
+              </li>
+            </ul>
           </div>
           <div className="rightDrinkNav">
             {categoryDrinks.length === 0 ? (
