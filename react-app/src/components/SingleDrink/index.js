@@ -11,7 +11,7 @@ const Drink = () => {
     
     const {drinkId} = useParams();
     const history = useHistory();
-    
+    const [loading, setLoading] = useState(true);
 
     const dispatch = useDispatch();
     const drink = useSelector((state)=>state.drinks.singleDrink);
@@ -19,13 +19,18 @@ const Drink = () => {
 
     useEffect(()=>{
         // console.log('inside useEffect')
+        if(loading) {
+            setTimeout(()=> {
+                setLoading(false)
+            }, 2500);
+        }
         dispatch(drinkActions.getDrinkDetailThunk(drinkId));
 
         return () => dispatch(drinkActions.actionClearDrink());
-    },[dispatch, drinkId])
+    },[dispatch, drinkId, loading])
 
-    if(!drink?.id) return (<div>
-        <img src="https://cdn.dribbble.com/users/2520294/screenshots/7209485/media/cf226d98a06282e9cabf5c2f8f6d547f.gif"/>
+    if(!drink?.id || loading) return (<div className='loadingPage'>
+        <img className="loadingImg" src="https://cdn.dribbble.com/users/2520294/screenshots/7209485/media/cf226d98a06282e9cabf5c2f8f6d547f.gif"/>
     </div>)
 
     return (

@@ -4,3 +4,14 @@
     justify-content: space-around;
     align-items: center;
 }
+.loadingPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loadingImg {
+    height: 300px;
+    width: 300px;
+    border-radius: 50%;
+}
