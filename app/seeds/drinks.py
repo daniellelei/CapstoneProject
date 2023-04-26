@@ -13,7 +13,7 @@ def seed_drinks():
 
     drink2 = Drink(
         name= 'Iced Caffe Americano',
-        category='coldCoffee',
+        category='IcedCoffee',
         subCategory='icedAmericano',
         price = 3.95,
         imageUrl='https://img.cdn4dd.com/p/fit=cover,width=600,format=auto,quality=50/media/photosV2/912906f2-354f-49e1-afcc-bad41180a61d-retina-large.jpg'
