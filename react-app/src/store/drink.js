@@ -1,7 +1,8 @@
 const LOAD_DRINKS = "drinks/load_all";
 const LOAD_DRINK_DETAIL = "drinks/load_one";
-
+const LOAD_DRINK_CATEGORY = 'drinks/load_category';
 const CLEAR_DRINK_DETAIL = "drinks/clear_drink_detail";
+const CLEAR_DRINK_CATEGORY = 'drinks/clear_drink_category';
 const CLEAR_DRINKS = "drinks/clear_drinks"
 ///////////   ACTIONS    //////////////
 export const actionLoadAllDrinks = (drinks) => ({
@@ -14,12 +15,21 @@ export const actionLoadDrinkDetail = (drink) => ({
   drink,
 });
 
+export const actionLoadCategory = (drinks) => ({
+  type: LOAD_DRINK_CATEGORY,
+  drinks,
+})
+
 export const actionClearDrinks = () => ({
   type: CLEAR_DRINKS
 });
 
 export const actionClearDrink = () => ({
   type: CLEAR_DRINK_DETAIL
+})
+
+export const actionClearCategory =()=>({
+  type: CLEAR_DRINK_CATEGORY
 })
 
 ///////////   THUNKS     ///////////////
@@ -53,6 +63,7 @@ export const getDrinkDetailThunk = (id) => async (dispatch) => {
 const initialState = {
   allDrinks: {},
   singleDrink: {},
+  categoryDrinks:{},
   
 };
 
@@ -66,10 +77,18 @@ const drinkReducer = (state = initialState, action) => {
             return {...state, allDrinks: {...allDrinks}};
         case LOAD_DRINK_DETAIL:
             return {...state, singleDrink: {...action.drink}}
+        case LOAD_DRINK_CATEGORY:
+            const allcategoryDrinks={};
+            action.drinks.forEach((drink)=> {
+              allcategoryDrinks[drink.id] = drink;
+            })
+            return {...state, categoryDrinks: {...allcategoryDrinks}}
         case CLEAR_DRINKS:
             return {...state, allDrinks: {}}
         case CLEAR_DRINK_DETAIL:
             return { ...state, singleDrink: {}};
+        case CLEAR_DRINK_CATEGORY:
+            return { ...state, categoryDrinks: {}};
         default:
             return state;
     }

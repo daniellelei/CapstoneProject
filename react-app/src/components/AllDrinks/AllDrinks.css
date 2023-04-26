@@ -1,9 +1,45 @@
-.allDrinks {
+.DrinksPage{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+/* .allDrinks {
     display:flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: center;
+} */
+.allDrinksTop{
+    margin-bottom: 30px;
+}
+.allDrinksBottom{
+    display: flex;
+    flex-direction: row;
+    width:100%;
+    justify-content: space-between;
+    align-items: flex-start;
+    
+}
+.leftDrinkNav {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width:20%;
+    height: 100%;
+    /* border: 1px solid black; */
+}
+.rightDrinkNav {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    width:80%;
+    /* border: 1px solid black; */
 }
 
 .eaDrink {
