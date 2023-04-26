@@ -3,10 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as cartActions from '../../store/cart';
 
 function UnprocessedItem ({ cart}) {
+    const dispatch = useDispatch()
     const user = useSelector((state) => state.session.user);
 
     const doneClick = async (e) => {
-        e.preventDefualt();
+        e.preventDefault();
+        if(user.username === 'boss' || user.username === 'brista'){
+            await dispatch(cartActions.processCartThunk(cart))
+            await dispatch(cartActions.getUnprocessedCartsThunk())
+        }
     }
 
     return (
@@ -38,7 +43,9 @@ function UnprocessedItem ({ cart}) {
                 ))}
             </div>
             }
-            <button>Done</button>
+            <button
+            onClick={doneClick}
+            >Done</button>
         </div>
     )
 }

@@ -173,7 +173,7 @@ def process_cart(id):
     cart = Cart.query.get(id)
     user = current_user.to_dict()
     if cart:
-        if user.username == 'boss' or user.username == 'staff':
+        if user["username"] == 'boss' or user["username"] == 'staff':
             cart.processed = True
             cart.processed_time = datetime.now()
             db.session.commit()

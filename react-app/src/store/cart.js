@@ -289,13 +289,21 @@ export const removeFromCartThunk = (custOrDrink) => async (dispatch) => {
   }
 }
 
-//checkout
+//process
 export const processCartThunk = (cart) => async (dispatch) => {
 
-  const cartResponse = await fetch(`/api/carts/${cart.id}/process`);
-  const cart = await cartResponse.json();
-  
-  
+  const response = await fetch(`/api/carts/${cart.id}/process`, {
+    method: "PATCH",
+    headers: {
+        "Content-Type": "application/json",
+      },
+    body: JSON.stringify(cart),
+  });
+  if (response.ok) {
+    const carts = await response.json();
+    await dispatch(actionProcessCart(cart));
+    return carts;
+  }
 }
 
 
@@ -313,13 +321,13 @@ const cartReducer = (state = initialState, action) => {
         case LOAD_CARTS:
             const allCarts = {};
             action.carts.forEach((cart)=> {
-                allCarts[action.carts.indexOf(cart)] = cart;
+                allCarts[cart.id] = cart;
             });
             return {...state, allCarts: {...allCarts}};
         case LOAD_UNPROCESSED_CARTS:
             const allUnprocessedCarts = {};
             action.carts.forEach((cart)=>{
-              allUnprocessedCarts[action.carts.indexOf(cart)] = cart;
+              allUnprocessedCarts[cart.id] = cart;
             });
             return {...state, unprocessedCarts: {...allUnprocessedCarts}}
         case LOAD_CART_DETAIL:
@@ -339,11 +347,15 @@ const cartReducer = (state = initialState, action) => {
             ...state,
             currentCart: {...action.cart},
           }
+        case PROCESS_CART:
+          const newS = {...state};
+          delete newS.unprocessedCarts[action.cart.id]
+          return newS;
         case ADD_TO_CART:
         const allCartCusts = {};
         // console.log('inside reducer', action.customizations)
         action.customizations.forEach((customization) => {
-          allCartCusts[action.customizations.indexOf(customization)] = customization;
+          allCartCusts[customization.id] = customization;
         });
         return {...state, cartCusts: {...allCartCusts}}
         // return {...state, cartCusts: action.customizations}
