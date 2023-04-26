@@ -1,0 +1,19 @@
+.allCarts{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: hide;
+}
+
+.eaSale {
+    
+    border-bottom: 1px solid gray;
+    width: 30%
+}
+
+.paidTime {
+    font-size: 11px;
+    color:gray;
+    margin: 0;
+}

@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 // import DrinkIndexItem from './DrinkIndexItem'
 // import Drink from "../SingleDrink";
 import * as cartActions from '../../store/cart';
-
+import './AllCarts.css'
 function AllCarts () {
     const dispatch = useDispatch();
     const cartsObj = useSelector((state) => state.carts.allCarts);
@@ -23,13 +23,13 @@ function AllCarts () {
     const carts = Object.values(cartsObj);
 
     return (
-        <div>
+        <div className="allCarts">
             <h1>All Orders</h1>
             {carts.map((cart) => (
-                <div key = {carts.indexOf(cart)}>
-                    <p>Cart Id: {cart.id}</p>
-                    <p>Purchased Time: {cart.paid_time}</p>
-                    <p>Customer Info: {cart.User.email}</p>
+                <div key = {carts.indexOf(cart)} className="eaSale">
+                    <h4>Order Id: {cart.id}</h4>
+                    <p className="paidTime">Purchased Time: {cart.paid_time}</p>
+                    <p className="paidTime">Customer Info: {cart.User.email}</p>
                     {!cart.drinks.length ? null :
                     <div>
                         <h4>Regular Drinks: </h4>
