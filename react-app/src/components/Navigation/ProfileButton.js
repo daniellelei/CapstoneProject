@@ -5,6 +5,7 @@ import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import { NavLink, useHistory } from "react-router-dom";
+import * as cartActions from '../../store/cart';
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ function ProfileButton({ user }) {
   const handleLogout = (e) => {
     e.preventDefault();
     dispatch(logout());
+    dispatch(cartActions.actionClearCart())
     history.push('/drinks')
   };
 

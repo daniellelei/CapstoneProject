@@ -1,12 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
 import logo from "./assets/logo.jpg";
+import * as cartActions from "../../store/cart"
+import * as sessionActions from "../../store/session"
+
 function Navigation({ isLoaded }){
 	const sessionUser = useSelector(state => state.session.user);
 	const history = useHistory()
+	const dispatch = useDispatch();
+	const cart = useSelector((state) => state.carts.currentCart)
+	const user = useSelector((state)=> state.session.user);
+	const [itemCount, setItemCount] = useState(0);
+	
+
+	// useEffect(()=> {
+	// 	if(user) dispatch(cartActions.getCurrentCartThunk());
+	// 	console.log('inside useEffect', cart)
+	// 	if(!cart) setItemCount(0)
+	// 	else drinksCount(cart)
+	// }, [dispatch, user])
+
+	// const drinksCount = (cart) => {
+	// 	let drinks = 0
+	// 	if(cart?.drinks?.length!==0) drinks = cart.drinks.length;
+	// 	let custs = 0
+	// 	if(cart?.customizations?.length !== 0) custs = cart.customizations.length
+	// 	setItemCount(drinks+custs)
+	// }
+
+
 	const cartClick = (e) =>{
     e.preventDefault();
 	history.push('/cart')
@@ -35,6 +60,9 @@ function Navigation({ isLoaded }){
 				)}
 				<button onClick={cartClick} className='navButton'>
 					<i className="fas fa-cart-shopping" />
+					{/* <p className='count'>
+						{itemCount}
+					</p> */}
 					{/* <i class="fa-light fa-cart-shopping"></i> */}
 				</button>
 			</div>

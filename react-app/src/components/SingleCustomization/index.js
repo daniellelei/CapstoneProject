@@ -10,25 +10,29 @@ import './SingleCustomization.css'
 const SingleCustomization = () =>{
     const {customizationId} = useParams();
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(true);
 
     let customization = useSelector((state)=>state.customizations.singleCustomization);
     const cart = useSelector((state) => state.carts.currentCart);
     // console.log('currentcart', cart.id)
     const cartId = cart.id;
-    // customization = customization.Customization
-    // console.log('cust', customization)
-    // console.log('customization', customization.Customization)
-    // console.log('customization.drink.name', customization.Drink.name)
     const user = useSelector((state)=>state.session.user);
 
     useEffect(() => {
+        if(loading) {
+            setTimeout(()=> {
+                setLoading(false)
+            }, 2500);
+        }
         dispatch(customizationActions.getCustomizationDetailThunk(customizationId))
         dispatch(cartActions.getCurrentCartThunk())
 
         return () => dispatch(customizationActions.actionClearCustomization())
-    },[dispatch])
+    },[dispatch, loading])
 
-    if(!customization?.id) return <div>Loading</div>
+    if(!customization?.id|| loading) return (<div className='loadingPage'>
+        <img className="loadingImg" src="https://cdn.dribbble.com/users/2520294/screenshots/7209485/media/cf226d98a06282e9cabf5c2f8f6d547f.gif"/>
+    </div>)
 
     return (
         <div className='singleCust'>

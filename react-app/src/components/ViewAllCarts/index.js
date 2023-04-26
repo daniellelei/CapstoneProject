@@ -25,12 +25,14 @@ function AllCarts () {
     return (
         <div className="allCarts">
             <h1>All Orders</h1>
-            {carts.map((cart) => (
+            <p>These are all the orders that are purchased in the past.</p>
+            {!carts?.length ? <h4>There is no orders yet!</h4> : null}
+            {carts?.map((cart) => (
                 <div key = {carts.indexOf(cart)} className="eaSale">
                     <h4>Order Id: {cart.id}</h4>
                     <p className="paidTime">Purchased Time: {cart.paid_time}</p>
                     <p className="paidTime">Customer Info: {cart.User.email}</p>
-                    {!cart.drinks.length ? null :
+                    {!cart.drinks?.length ? null :
                     <div>
                         <h4>Regular Drinks: </h4>
                         {cart.drinks.map((drink) => (
@@ -41,7 +43,7 @@ function AllCarts () {
                         ))}
                     </div>
                     }
-                    {!cart.customizations.length ? null :
+                    {!cart.customizations?.length ? null :
                     <div>
                         <h4>Customized Drinks: </h4>
                         {cart.customizations.map((customization) => (
