@@ -2,7 +2,9 @@ const LOAD_CARTS = "carts/load_all";
 const LOAD_CART_DETAIL = "carts/load_one";
 const LOAD_ALL_USER_CARTS = "carts/load_all_user_carts";
 const LOAD_CURRENT_CART = 'carts/load_current_cart'
+const LOAD_UNPROCESSED_CARTS = 'carts/load_unproccessed_carts'
 
+const PROCESS_CART = 'carts/process_cart';
 const ADD_TO_CART = "carts/addedToCart";
 const REMOVE_FROM_CART = "carts/removeFromCart"
 const CHECK_OUT = 'carts/checkOut'
@@ -13,7 +15,7 @@ const REMOVE_CART = "carts/delete_cart";
 
 const CLEAR_CART = "carts/clear_cart";
 const CLEAR_CARTS = "carts/clear_carts";
-
+const CLEAR_UNPROCESSED_CARTS = 'carts/clear_unprocessed_carts';
 ///////////   ACTIONS    //////////////
 export const actionLoadAllCarts = (carts) => ({
   type: LOAD_CARTS,
@@ -34,6 +36,17 @@ export const actionLoadCurrentCart = (cart) => ({
     type: LOAD_CURRENT_CART,
     cart
 });
+
+export const actionLoadUnprocessedCarts =  (carts) => ({
+  type: LOAD_UNPROCESSED_CARTS,
+  carts
+})
+
+export const actionProcessCart = (cart) => ({
+  type: PROCESS_CART,
+  cart
+})
+
 export const actionAddToCart = (customizations) => ({
   type: ADD_TO_CART,
   customizations
@@ -72,6 +85,9 @@ export const actionClearCarts = () => ({
   type: CLEAR_CARTS,
 });
 
+export const actionClearUnprocessedCart = () => ({
+  type:CLEAR_UNPROCESSED_CARTS,
+})
 ///////////   THUNKS     ///////////////
 
 //get all
@@ -86,7 +102,18 @@ export const getAllCartsThunk = () => async (dispatch) => {
   }
   return response;
 };
-
+//get unprocessed
+export const getUnprocessedCartsThunk = () => async (dispatch) => {
+    const response = await fetch("/api/carts/unprocessed");
+    console.log('hitting unprocessed thunk');
+  if (response.ok) {
+    const cartsRes = await response.json();
+    console.log('inside get unprocessed thunk', cartsRes)
+    await dispatch(actionLoadUnprocessedCarts(cartsRes));
+    return cartsRes;
+  }
+  return response;
+};
 //get one
 export const getCartDetailThunk = (id) => async (dispatch) => {
   const response = await fetch(`/api/carts/${id}`);
@@ -122,8 +149,7 @@ export const getCurrentCartThunk = () => async (dispatch) => {
   }
 };
 
-
-
+//create cart
 export const createCartThunk = (user) => async (dispatch) => {
   const res = await fetch(`/api/carts/`, {
     method: "POST",
@@ -135,7 +161,6 @@ export const createCartThunk = (user) => async (dispatch) => {
     await dispatch(actionCreateCart(cart));
     return cart;
   }
-  // return res
 };
 
 export const updateCartThunk = (cart, cartId) => async (dispatch) => {
@@ -239,9 +264,6 @@ export const removeFromCartThunk = (custOrDrink) => async (dispatch) => {
     body: JSON.stringify(cart),
     });
     if (response.ok) {
-    // const updatedCustomizations = await response.json();
-    // console.log('addthunk', updatedCustomizations)
-    // await dispatch(actionRemoveFromCart(custOrDrink.id));
     const cartResponse = await fetch(`/api/carts/lastcurrent`);
     const cart = await cartResponse.json();
     await dispatch(actionLoadCurrentCart(cart));
@@ -267,11 +289,21 @@ export const removeFromCartThunk = (custOrDrink) => async (dispatch) => {
   }
 }
 
+//checkout
+export const processCartThunk = (cart) => async (dispatch) => {
+
+  const cartResponse = await fetch(`/api/carts/${cart.id}/process`);
+  const cart = await cartResponse.json();
+  
+  
+}
+
+
 
 ////////////   REDUCER     ///////////////
 const initialState = {
   allCarts: {},
-  // singleCart: {},
+  unprocessedCarts: {},
   currentCart:{},
   cartCusts: {}
 };
@@ -281,9 +313,15 @@ const cartReducer = (state = initialState, action) => {
         case LOAD_CARTS:
             const allCarts = {};
             action.carts.forEach((cart)=> {
-                allCarts[cart.id] = cart;
+                allCarts[action.carts.indexOf(cart)] = cart;
             });
             return {...state, allCarts: {...allCarts}};
+        case LOAD_UNPROCESSED_CARTS:
+            const allUnprocessedCarts = {};
+            action.carts.forEach((cart)=>{
+              allUnprocessedCarts[action.carts.indexOf(cart)] = cart;
+            });
+            return {...state, unprocessedCarts: {...allUnprocessedCarts}}
         case LOAD_CART_DETAIL:
             return {
               ...state, 
@@ -305,7 +343,7 @@ const cartReducer = (state = initialState, action) => {
         const allCartCusts = {};
         // console.log('inside reducer', action.customizations)
         action.customizations.forEach((customization) => {
-          allCartCusts[customization.id] = customization;
+          allCartCusts[action.customizations.indexOf(customization)] = customization;
         });
         return {...state, cartCusts: {...allCartCusts}}
         // return {...state, cartCusts: action.customizations}
@@ -341,6 +379,8 @@ const cartReducer = (state = initialState, action) => {
             return { ...state, allCarts: {} };
         case CLEAR_CART:
             return { ...state, currentCart: {}, };
+        case CLEAR_UNPROCESSED_CARTS:
+            return { ...state, unprocessedCarts: {} };
         default:
             return state;
     }

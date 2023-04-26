@@ -12,6 +12,7 @@ import CurrentCustomization from './components/ManageCustomization'
 import CurrentCart from './components/ManageCart'
 import AfterCheckOut from "./components/AfterCheckOut";
 import AllCarts from "./components/ViewAllCarts";
+import UnprocessedCarts from "./components/UnprocessedCarts";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -38,6 +39,9 @@ function App() {
           </Route>
           <Route exact path="/carts">
             <AllCarts />
+          </Route>
+          <Route exact path="/carts/unprocessed">
+            <UnprocessedCarts />
           </Route>
           <Route exact path="/cart">
             <CurrentCart />

@@ -144,17 +144,17 @@ def delete_cart(id):
     return {"message": 'Total charge is required'}
 
 
-@cart_routes.route('/view_unprocessed_carts')
+@cart_routes.route('/unprocessed')
 @login_required
 def get_unprocessed_carts():
     """
     Query for all carts that are not processed and returns a list of carts dictionaries
     """
     carts = Cart.query.filter(
-        Cart.processed == False).order_by(Cart.paid_time).all()
+        Cart.processed == False, Cart.paid == True).order_by(Cart.paid_time).all()
     
     user = current_user.to_dict()
-    if user.username == 'boss' or user.username == 'staff':
+    if user["username"] == 'boss' or user["username"] == 'staff':
         return [{**cart.to_dict(),
                 'User': cart.user.to_dict(),
                 'drinks': [d.drink.to_dict() for d in cart.cart_drinks],

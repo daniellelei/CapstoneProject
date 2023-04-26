@@ -39,5 +39,7 @@ class Cart (db.Model):
             'total_price': self.total_price,
             'paid':self.paid,
             'created_time':self.created_time,
-            'paid_time':self.paid_time
+            'paid_time':self.paid_time,
+            'processed_time': self.processed_time,
+            "processed": self.processed
         }

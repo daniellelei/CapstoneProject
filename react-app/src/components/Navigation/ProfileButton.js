@@ -70,7 +70,7 @@ function ProfileButton({ user }) {
             {user.username === 'boss' ? (
               <li>
                 <button onClick={cartClick}>
-                  <NavLink to={`/carts/active`} className="navLink">Current Orders</NavLink>
+                  <NavLink to={`/carts/unprocessed`} className="navLink">Current Orders</NavLink>
                 </button>
               </li> 
             ) : null
