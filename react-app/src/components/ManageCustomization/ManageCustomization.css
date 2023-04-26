@@ -5,6 +5,12 @@
     justify-content: space-around;
     align-items: center;
 }
+.emptyCust {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
 .eaCust {
     display: flex;

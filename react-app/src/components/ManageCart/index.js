@@ -58,9 +58,9 @@ function CurrentCart() {
     // const [total, setTotal] = useState(calculateTotalPrice([cart_custs, drinksInCart]))
 
     useEffect(() => {
-        dispatch(cartActions.getCurrentCartThunk());
+        if(user) dispatch(cartActions.getCurrentCartThunk());
         return () => dispatch(cartActions.actionClearCart())
-    }, [dispatch])
+    }, [dispatch,user])
 
     // let total = calculateTotalPrice([cart_custs, cart_drinks])
     useEffect(() => {
