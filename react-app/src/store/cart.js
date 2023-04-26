@@ -2,7 +2,9 @@ const LOAD_CARTS = "carts/load_all";
 const LOAD_CART_DETAIL = "carts/load_one";
 const LOAD_ALL_USER_CARTS = "carts/load_all_user_carts";
 const LOAD_CURRENT_CART = 'carts/load_current_cart'
+const LOAD_UNPROCESSED_CARTS = 'carts/load_unproccessed_carts'
 
+const PROCESS_CART = 'carts/process_cart';
 const ADD_TO_CART = "carts/addedToCart";
 const REMOVE_FROM_CART = "carts/removeFromCart"
 const CHECK_OUT = 'carts/checkOut'
@@ -13,7 +15,7 @@ const REMOVE_CART = "carts/delete_cart";
 
 const CLEAR_CART = "carts/clear_cart";
 const CLEAR_CARTS = "carts/clear_carts";
-
+const CLEAR_UNPROCESSED_CARTS = 'carts/clear_unprocessed_carts';
 ///////////   ACTIONS    //////////////
 export const actionLoadAllCarts = (carts) => ({
   type: LOAD_CARTS,
@@ -34,6 +36,17 @@ export const actionLoadCurrentCart = (cart) => ({
     type: LOAD_CURRENT_CART,
     cart
 });
+
+export const actionLoadUnprocessedCarts =  (carts) => ({
+  type: LOAD_UNPROCESSED_CARTS,
+  carts
+})
+
+export const actionProcessCart = (cart) => ({
+  type: PROCESS_CART,
+  cart
+})
+
 export const actionAddToCart = (customizations) => ({
   type: ADD_TO_CART,
   customizations
@@ -72,6 +85,9 @@ export const actionClearCarts = () => ({
   type: CLEAR_CARTS,
 });
 
+export const actionClearUnprocessedCart = () => ({
+  type:CLEAR_UNPROCESSED_CARTS,
+})
 ///////////   THUNKS     ///////////////
 
 //get all
@@ -79,13 +95,25 @@ export const getAllCartsThunk = () => async (dispatch) => {
     const response = await fetch("/api/carts");
   if (response.ok) {
     const cartsRes = await response.json();
-    const carts = cartsRes.carts;
-    await dispatch(actionLoadAllCarts(carts));
-    return carts;
+    // const carts = cartsRes.carts;
+    console.log('inside get all thunk', cartsRes)
+    await dispatch(actionLoadAllCarts(cartsRes));
+    return cartsRes;
   }
   return response;
 };
-
+//get unprocessed
+export const getUnprocessedCartsThunk = () => async (dispatch) => {
+    const response = await fetch("/api/carts/unprocessed");
+    console.log('hitting unprocessed thunk');
+  if (response.ok) {
+    const cartsRes = await response.json();
+    console.log('inside get unprocessed thunk', cartsRes)
+    await dispatch(actionLoadUnprocessedCarts(cartsRes));
+    return cartsRes;
+  }
+  return response;
+};
 //get one
 export const getCartDetailThunk = (id) => async (dispatch) => {
   const response = await fetch(`/api/carts/${id}`);
@@ -121,8 +149,7 @@ export const getCurrentCartThunk = () => async (dispatch) => {
   }
 };
 
-
-
+//create cart
 export const createCartThunk = (user) => async (dispatch) => {
   const res = await fetch(`/api/carts/`, {
     method: "POST",
@@ -134,7 +161,6 @@ export const createCartThunk = (user) => async (dispatch) => {
     await dispatch(actionCreateCart(cart));
     return cart;
   }
-  // return res
 };
 
 export const updateCartThunk = (cart, cartId) => async (dispatch) => {
@@ -210,7 +236,7 @@ export const checkOutThunk = (totalPrice) => async (dispatch) => {
   const cart = await cartResponse.json();
   if(totalPrice > 0){
     const response = await fetch(`/api/carts/${cart.id}`, {
-      method: 'DELETE',
+      method: 'PATCH',
       headers:{
         "Content-Type": "application/json",
       },
@@ -238,9 +264,6 @@ export const removeFromCartThunk = (custOrDrink) => async (dispatch) => {
     body: JSON.stringify(cart),
     });
     if (response.ok) {
-    // const updatedCustomizations = await response.json();
-    // console.log('addthunk', updatedCustomizations)
-    // await dispatch(actionRemoveFromCart(custOrDrink.id));
     const cartResponse = await fetch(`/api/carts/lastcurrent`);
     const cart = await cartResponse.json();
     await dispatch(actionLoadCurrentCart(cart));
@@ -266,11 +289,29 @@ export const removeFromCartThunk = (custOrDrink) => async (dispatch) => {
   }
 }
 
+//process
+export const processCartThunk = (cart) => async (dispatch) => {
+
+  const response = await fetch(`/api/carts/${cart.id}/process`, {
+    method: "PATCH",
+    headers: {
+        "Content-Type": "application/json",
+      },
+    body: JSON.stringify(cart),
+  });
+  if (response.ok) {
+    const carts = await response.json();
+    await dispatch(actionProcessCart(cart));
+    return carts;
+  }
+}
+
+
 
 ////////////   REDUCER     ///////////////
 const initialState = {
   allCarts: {},
-  // singleCart: {},
+  unprocessedCarts: {},
   currentCart:{},
   cartCusts: {}
 };
@@ -283,6 +324,12 @@ const cartReducer = (state = initialState, action) => {
                 allCarts[cart.id] = cart;
             });
             return {...state, allCarts: {...allCarts}};
+        case LOAD_UNPROCESSED_CARTS:
+            const allUnprocessedCarts = {};
+            action.carts.forEach((cart)=>{
+              allUnprocessedCarts[cart.id] = cart;
+            });
+            return {...state, unprocessedCarts: {...allUnprocessedCarts}}
         case LOAD_CART_DETAIL:
             return {
               ...state, 
@@ -300,6 +347,10 @@ const cartReducer = (state = initialState, action) => {
             ...state,
             currentCart: {...action.cart},
           }
+        case PROCESS_CART:
+          const newS = {...state};
+          delete newS.unprocessedCarts[action.cart.id]
+          return newS;
         case ADD_TO_CART:
         const allCartCusts = {};
         // console.log('inside reducer', action.customizations)
@@ -340,6 +391,8 @@ const cartReducer = (state = initialState, action) => {
             return { ...state, allCarts: {} };
         case CLEAR_CART:
             return { ...state, currentCart: {}, };
+        case CLEAR_UNPROCESSED_CARTS:
+            return { ...state, unprocessedCarts: {} };
         default:
             return state;
     }

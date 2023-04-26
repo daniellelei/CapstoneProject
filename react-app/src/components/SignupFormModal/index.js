@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect} from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { signUp } from "../../store/session";
+import { signUp, authenticate } from "../../store/session";
 import "./SignupForm.css";
-
+import { createCartThunk } from "../../store/cart"
 function SignupFormModal() {
 	const dispatch = useDispatch();
 	const [email, setEmail] = useState("");
@@ -13,6 +13,12 @@ function SignupFormModal() {
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [errors, setErrors] = useState([]);
 	const { closeModal } = useModal();
+	const user = useSelector((state)=>state.session.user);
+
+	useEffect(()=>{
+    dispatch(authenticate());
+  },[dispatch])
+
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -21,6 +27,7 @@ function SignupFormModal() {
 			if (data) {
 				setErrors(data);
 			} else {
+				await dispatch(createCartThunk(user))
 				closeModal();
 			}
 		} else {

@@ -23,7 +23,7 @@ const DrinkIndexItem = ({
                         className="drinkImg"
                     />
                     <p className="drinkname">{drink.name}</p>
-                    <p>${drink.price}</p>
+                    <p className="price">${drink.price}</p>
                     <button
                     onClick = {async (e) => {
                         e.preventDefault();
@@ -34,7 +34,7 @@ const DrinkIndexItem = ({
                             // history.push('/drinks')
                         }
                     }}
-                    >Add to Cart</button>
+                    >Add</button>
                 </div>
             </Link>
         </div>

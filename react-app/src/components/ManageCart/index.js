@@ -8,6 +8,8 @@ import * as sessionActions from "../../store/session"
 // import OpenModalicon from "../OpenModalicon";
 import RemoveFromCartModal from "../EditCart";
 import OpenModalButton from '../OpenModalButton';
+import LoginFormModal from "../LoginFormModal";
+import SignupFormModal from "../SignupFormModal";
 
 // import DeleteCustomization from "../DeleteCustomization";
 const calculateTotalPrice = (allDrinks) => {
@@ -58,9 +60,9 @@ function CurrentCart() {
     // const [total, setTotal] = useState(calculateTotalPrice([cart_custs, drinksInCart]))
 
     useEffect(() => {
-        dispatch(cartActions.getCurrentCartThunk());
+        if(user) dispatch(cartActions.getCurrentCartThunk());
         return () => dispatch(cartActions.actionClearCart())
-    }, [dispatch])
+    }, [dispatch,user])
 
     // let total = calculateTotalPrice([cart_custs, cart_drinks])
     useEffect(() => {
@@ -78,6 +80,7 @@ function CurrentCart() {
 
         if(!Boolean(Object.values(errors).length)){
             const checkedOutRes = await dispatch(cartActions.checkOutThunk(total));
+            await dispatch(cartActions.createCartThunk());
             await dispatch(sessionActions.authenticate());
             history.push('/aftercheckout')
             // if(!checkedOutRes.errors) {
@@ -89,7 +92,16 @@ function CurrentCart() {
     }
     if(!cart?.id || !user?.id) return (
         <div className="myCart">
-            <h2>Please Log in and start adding drinks to your cart</h2>    
+            <h2>Please Log in and start adding drinks to your cart 😃</h2> 
+            <OpenModalButton
+              buttonText="Log In"
+              modalComponent={<LoginFormModal />}
+            />
+            <OpenModalButton
+              buttonText="Sign Up"
+              modalComponent={<SignupFormModal />}
+            />
+
         </div>
     )
     console.log("cart_custssssss", cart_custs)
@@ -150,7 +162,7 @@ function CurrentCart() {
                 onClick={handleCheckOut}
                 >Let's order</button>
                 {hasSubmitted && Boolean(Object.values(errors).length) ? (
-                    <p>{errors.funds}</p> ) : null}
+                    <p className="errors">{errors.funds}</p> ) : null}
             </div>
         </div>
     )

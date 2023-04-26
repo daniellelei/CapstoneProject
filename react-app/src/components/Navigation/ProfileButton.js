@@ -51,7 +51,7 @@ function ProfileButton({ user }) {
   return (
     <>
       <button className='navButton'onClick={openMenu}>
-        <i class="fa-solid fa-user"></i>
+        <i className="fa-solid fa-user"></i>
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
@@ -59,11 +59,23 @@ function ProfileButton({ user }) {
             <li>{user.username}</li>
             <li>{user.email}</li>
             <li>Available Funds: ${user.funds.toFixed(2)}</li>
-            {/* <li>
-              <button onClick={cartClick}>
-                <NavLink to={`/cart`}>My Cart</NavLink>
-              </button>
-            </li> */}
+            {user.username === 'boss' || user.username === 'brista' ? (
+              <li>
+                <button onClick={cartClick}>
+                  <NavLink to={`/carts`} className="navLink">Sales Report</NavLink>
+                </button>
+              </li> 
+            ) : null
+            }
+            {user.username === 'boss' ? (
+              <li>
+                <button onClick={cartClick}>
+                  <NavLink to={`/carts/unprocessed`} className="navLink">Current Orders</NavLink>
+                </button>
+              </li> 
+            ) : null
+            }
+            
             {/* <li>
               <button>
                 Add More Funds

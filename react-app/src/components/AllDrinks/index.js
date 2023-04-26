@@ -23,16 +23,25 @@ const dispatch = useDispatch();
     </div>)
   const drinks = Object.values (drinksObj);
 
+  const IcedCoffee = drinks.filter(drink => drink.category === 'IcedCoffee')
+  const HotCoffee = drinks.filter(drink => drink.category === 'HotCoffee')
+
+
   return (
     <div>
       <nav className="allDrinks">
         {/* <img src ='https://i.giphy.com/media/ZDNQdzCUjIK9VNUE2c/giphy.webp'/> */}
-        
-        {drinks.map((drink) => (
-          <div  key={drink.id}>
-            <DrinkIndexItem drink={drink} key={drink.id} user={user} page="AllDrinks" />
-          </div>
-        ))}
+        {/* <div className='leftAllDrinks'>
+          <h2>Iced Coffee</h2>
+          <h2>Hot Coffee</h2>
+        </div>
+        <div className='rightDrinks'> */}
+          {drinks.map((drink) => (
+            <div  key={drink.id}>
+              <DrinkIndexItem drink={drink} key={drink.id} user={user} page="AllDrinks" />
+            </div>
+          ))}
+        {/* </div> */}
       </nav>
     </div>
   )

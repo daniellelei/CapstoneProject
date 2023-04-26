@@ -25,36 +25,46 @@ function CurrentCustomizations() {
 
     return (
         <div className="AllCust">
-            {custs.map((c)=>(
-                <div key={c.id} className="eaCust">
-                    <NavLink className="eaCust" key={c.id} to={`/customizations/${c.id}`}>
-                        <p>{c.Drink.name}</p>
-                        <img className="drinkImg" src = {c.Drink.imageUrl}/>
-                        <div>
-                            <p>Size: {c.size}</p>
-                            <p>Milk Option:{c.milk}</p>
-                            <p>Shot Options: {c.shotOptions}</p>
-                            <p>Expresso Roast: {c.expressoRoastOptions}</p>
-                            <p>${c.Drink.price}</p>
-                        </div>
-                    </NavLink>
-                    <div className="allCustBottom">
-                        <button
-                        onClick ={ async (e) => {
-                            e.preventDefault();
-                            await dispatch(cartActions.addToCartThunk(c));
-                        }}
-                        >Add to Cart</button>
-                        <OpenModalButton
-                        buttonText='Edit'
-                        modalComponent={<EditCustomization customization={c}/>} />
-                        <OpenModalButton
-                        buttonText='Delete'
-                        modalComponent={<DeleteCustomization customization={c}/>} />
-                    </div>
-                </div>
+            
+            {!custs.length ? <div className="emptyCust">
+                <h1>My Favorites</h1>
+                <h2>Oops! There is no customizations created yet.</h2>
                 
-            ))}
+            </div> : null}
+            {custs.length !== 0 ? 
+                <div>
+                    <h1>My Favorites</h1>
+                    {
+                        custs.map((c)=>(
+                        <div key={c.id} className="eaCust">
+                            <NavLink className="eaCust" key={c.id} to={`/customizations/${c.id}`}>
+                                <p>{c.Drink.name}</p>
+                                <img className="drinkImg" src = {c.Drink.imageUrl}/>
+                                <div>
+                                    <p>Size: {c.size}</p>
+                                    <p>Milk Option:{c.milk}</p>
+                                    <p>Shot Options: {c.shotOptions}</p>
+                                    <p>Expresso Roast: {c.expressoRoastOptions}</p>
+                                    <p>${c.Drink.price}</p>
+                                </div>
+                            </NavLink>
+                            <div className="allCustBottom">
+                                <button
+                                onClick ={ async (e) => {
+                                    e.preventDefault();
+                                    await dispatch(cartActions.addToCartThunk(c));
+                                }}
+                                >Add to Cart</button>
+                                <OpenModalButton
+                                buttonText='Edit'
+                                modalComponent={<EditCustomization customization={c}/>} />
+                                <OpenModalButton
+                                buttonText='Delete'
+                                modalComponent={<DeleteCustomization customization={c}/>} />
+                            </div>
+                        </div>))} 
+                </div> : null}
+                
         </div>
     )
 }

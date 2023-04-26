@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from app.models import Cart, db, User, Cart_customization, Cart_drink
 from flask_login import current_user, login_required
 from sqlalchemy.orm import joinedload
+from datetime import datetime
 # from ..forms import CartForm
 cart_routes = Blueprint('carts', __name__)
 
@@ -10,8 +11,14 @@ def carts():
     """
     Query for all carts and returns them in a list of carts dictionaries
     """
-    carts = Cart.query.all()
-    return {'carts': [cart.to_dict() for cart in carts]}
+    carts = Cart.query.filter(Cart.paid == True).order_by(Cart.paid_time.desc()).all()
+    return [{**cart.to_dict(),
+             'User': cart.user.to_dict(),
+             'drinks': [d.drink.to_dict() for d in cart.cart_drinks],
+             'customizations': [{**c.customization.to_dict(),
+                                 'drinks_customization': c.customization.drink.to_dict()}
+                                for c in cart.cart_customizations],
+             } for cart in carts]
 
 
 @cart_routes.route('/<int:id>')
@@ -27,7 +34,7 @@ def cart(id):
             # "drinksInCart":[d.to_dict() for d in cart.drinksInCart]
             }]
 
-    
+
 # get all current user's carts
 @cart_routes.route('/current')
 @login_required
@@ -106,7 +113,7 @@ def create_cart():
             # "drinksInCart":[]
             }
 
-@cart_routes.route("/<int:id>", methods=["DELETE"])
+@cart_routes.route("/<int:id>", methods=["PATCH"])
 @login_required
 def delete_cart(id):
     cart = Cart.query.get(id)
@@ -120,20 +127,68 @@ def delete_cart(id):
             user.funds = fund - request_obj
             # updated_user = User.query.get(userId)
             cart.total_price = request_obj
-            cart_customizations = Cart_customization.query.filter(
-                Cart_customization.cart_id == cart.id).all()
-            removed_cart_custs = [db.session.delete(c) for c in cart_customizations]
-            cart_drinks = Cart_drink.query.filter(
-                Cart_drink.cart_id == cart.id).all()
-            removed_cart_custs = [db.session.delete(
-                c) for c in cart_drinks]
-            # db.session.delete(cart)
+            cart.paid = True
+            cart.paid_time = datetime.now()
             db.session.commit()
+
+            # cart_customizations = Cart_customization.query.filter(
+            #     Cart_customization.cart_id == cart.id).all()
+            # removed_cart_custs = [db.session.delete(c) for c in cart_customizations]
+            # cart_drinks = Cart_drink.query.filter(
+            #     Cart_drink.cart_id == cart.id).all()
+            # removed_cart_custs = [db.session.delete(
+                # c) for c in cart_drinks]
+            # db.session.delete(cart)
             return {"message": 'Cart Deleted!'}
         return {"message": 'Cart not found'}
     return {"message": 'Total charge is required'}
 
 
-
+@cart_routes.route('/unprocessed')
+@login_required
+def get_unprocessed_carts():
+    """
+    Query for all carts that are not processed and returns a list of carts dictionaries
+    """
+    carts = Cart.query.filter(
+        Cart.processed == False, Cart.paid == True).order_by(Cart.paid_time).all()
     
+    user = current_user.to_dict()
+    if user["username"] == 'boss' or user["username"] == 'staff':
+        return [{**cart.to_dict(),
+                'User': cart.user.to_dict(),
+                'drinks': [d.drink.to_dict() for d in cart.cart_drinks],
+                'customizations': [{**c.customization.to_dict(),
+                                    'drinks_customization': c.customization.drink.to_dict()}
+                                   for c in cart.cart_customizations],
+                } for cart in carts]
+    else: 
+        return{"message": "Only owner and staff could view this data."}
+
+
+@cart_routes.route('/<int:id>/process', methods = ['PATCH'])
+@login_required
+def process_cart(id):
+
+    cart = Cart.query.get(id)
+    user = current_user.to_dict()
+    if cart:
+        if user["username"] == 'boss' or user["username"] == 'staff':
+            cart.processed = True
+            cart.processed_time = datetime.now()
+            db.session.commit()
+            processed_cart = Cart.query.get(id)
+            return {**processed_cart.to_dict(),
+                    'User': processed_cart.user.to_dict(),
+                    'drinks': [d.drink.to_dict() for d in processed_cart.cart_drinks],
+                    'customizations': [{**c.customization.to_dict(),
+                                       'drinks_customization': c.customization.drink.to_dict()}
+                                      for c in cart.cart_customizations],
+                    }
+        else: 
+            return {"message": "Only owner and staff could process drinks."}
+    else:
+        return {"message": "cart is not found"}
+
+
 

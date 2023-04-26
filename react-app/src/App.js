@@ -11,6 +11,9 @@ import SingleCustomization from './components/SingleCustomization'
 import CurrentCustomization from './components/ManageCustomization'
 import CurrentCart from './components/ManageCart'
 import AfterCheckOut from "./components/AfterCheckOut";
+import AllCarts from "./components/ViewAllCarts";
+import UnprocessedCarts from "./components/UnprocessedCarts";
+import LandingPage from "./components/LandingPage";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -23,6 +26,9 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
+          <Route exact path="/">
+            <LandingPage />
+          </Route>
           <Route exact path="/drinks">
             <AllDrinks />
           </Route>
@@ -34,6 +40,12 @@ function App() {
           </Route>
           <Route exact path="/customizations/:customizationId">
             <SingleCustomization />
+          </Route>
+          <Route exact path="/carts">
+            <AllCarts />
+          </Route>
+          <Route exact path="/carts/unprocessed">
+            <UnprocessedCarts />
           </Route>
           <Route exact path="/cart">
             <CurrentCart />

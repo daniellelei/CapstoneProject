@@ -16,7 +16,7 @@ function Navigation({ isLoaded }){
 		<div className='topNav'>
 			<div className='leftNav'>
 				<div>
-					<NavLink exact to="/drinks">
+					<NavLink exact to="/">
 						{/* <img className ='logo' src={logo} alt='logo'/> */}
 						<img className='logo' src="https://i.giphy.com/media/ZDNQdzCUjIK9VNUE2c/giphy.webp" alt='logo' />
 					</NavLink>
