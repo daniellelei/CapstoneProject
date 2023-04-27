@@ -1,7 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
-
+from .likes import likes
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -14,11 +14,24 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
     funds = db.Column(db.Float, nullable=True)
+    profile_pic = db.Column(db.String(250))
 
     # relationship attributes
     customizations = db.relationship('Customization', back_populates='user')
     carts = db.relationship('Cart', back_populates="user")
     reviews = db.relationship('Review', back_populates="user")
+
+    posts = db.relationship(
+        "Post",
+        back_populates="user"
+    )
+
+    user_likes = db.relationship(
+        "Post",
+        secondary=likes,
+        back_populates="post_likes",
+        cascade="all, delete"
+    )
 
     @property
     def password(self):
@@ -36,5 +49,15 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'username': self.username,
             'email': self.email,
-            'funds': self.funds
+            'funds': self.funds,
+            "profilePic": self.profile_pic,
         }
+    
+    # def to_dict_no_post(self):
+    #     return {
+    #         "id": self.id,
+    #         "username": self.username,
+    #         "email": self.email,
+    #         "profilePic": self.profile_pic,
+    #         "likes": len(self.user_likes)
+    #     }

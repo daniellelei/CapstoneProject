@@ -1,0 +1,16 @@
+.singlePostPage{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.postCusts{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.eaPostCust{
+    margin:2em;
+}

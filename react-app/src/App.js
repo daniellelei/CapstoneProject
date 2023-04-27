@@ -14,6 +14,10 @@ import AfterCheckOut from "./components/AfterCheckOut";
 import AllCarts from "./components/ViewAllCarts";
 import UnprocessedCarts from "./components/UnprocessedCarts";
 import LandingPage from "./components/LandingPage";
+import AllPosts from "./components/Feed";
+import SinglePost from "./components/SinglePost";
+import CreatePost from "./components/CreatePost";
+import EditPost from "./components/EditPost";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -52,6 +56,15 @@ function App() {
           </Route>
           <Route exact path="/aftercheckout">
             <AfterCheckOut />
+          </Route>
+          <Route exact path="/posts">
+            <AllPosts />
+          </Route>
+          <Route exact path="/posts/new">
+            <CreatePost />
+          </Route>
+          <Route exact path="/posts/:postId">
+            <SinglePost />
           </Route>
           <Route path="/login" >
             <LoginFormPage />

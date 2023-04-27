@@ -66,3 +66,12 @@
 .navLink {
   color: white
 }
+
+.count {
+  /* background-color: red; */
+  color:white;
+  height:20px;
+  width:20px;
+  border-radius: 50%;
+  text-align: center;
+}

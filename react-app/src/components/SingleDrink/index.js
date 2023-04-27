@@ -22,7 +22,7 @@ const Drink = () => {
         if(loading) {
             setTimeout(()=> {
                 setLoading(false)
-            }, 2500);
+            }, 1500);
         }
         dispatch(drinkActions.getDrinkDetailThunk(drinkId));
 

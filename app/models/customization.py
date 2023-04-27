@@ -1,6 +1,6 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from .cart_customizations import Cart_customization
-
+from .post_custs import post_custs
 
 class Customization (db.Model):
     __tablename__ = 'customizations'
@@ -26,10 +26,12 @@ class Customization (db.Model):
     # relationship attributes
     user = db.relationship('User', back_populates = "customizations")
     drink = db.relationship('Drink', back_populates = "customizations")
-    # cart = db.relationship(
-    #     'Cart', 
-    #     secondary=Cart_customization,
-    #     back_populates="customizations")
+
+    customization_posts = db.relationship(
+        "Post",
+        secondary=post_custs,
+        back_populates="post_customizations"
+    )
     cart_customizations = db.relationship(
         'Cart_customization',
         back_populates = 'customization'
