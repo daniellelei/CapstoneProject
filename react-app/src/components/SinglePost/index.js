@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, Redirect, useLocation, useParams } from "react-router-dom";
+import { NavLink, Redirect, useLocation, useParams, useHistory } from "react-router-dom";
 import * as customizationActions from '../../store/customization';
 import * as cartActions from '../../store/cart';
 import * as postActions from '../../store/post';
+import OpenModalButton from '../OpenModalButton';
+import DeletePostModal from '../DeletePost';
 import './SinglePost.css'
 const SinglePost = () => {
     const {postId} = useParams();
     const dispatch = useDispatch();
+    const history = useHistory();
     const [loading, setLoading] = useState(true);
     const cart = useSelector((state) => state.carts.currentCart);
     const user = useSelector((state)=> state.session.user);
     const post = useSelector((state)=> state.posts.singlePost)
     console.log('this is Post', post)
     const customizations = post.customizations; //array of customizations
+    const author_id = post.author_id
 
     useEffect(()=>{
         if(loading) {
@@ -72,6 +76,21 @@ const SinglePost = () => {
                     </div>
                 ))}
             </div>
+            {user.id === author_id 
+            ? (
+                <div>
+                    <button onClick = {e => {
+                        e.preventDefault();
+                        history.push(`/posts/${post.id}/edit`)
+                    }}
+                    >Edit
+                    </button>
+                    <OpenModalButton
+                    buttonText='Delete'
+                    modalComponent={<DeletePostModal post={post}/>} />
+                </div>
+            ) 
+            : null}
             
 
         </div>

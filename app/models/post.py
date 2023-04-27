@@ -33,6 +33,7 @@ class Post(db.Model):
             "caption": self.caption,
             "image": self.image,
             "postDate": self.post_date,
+            "author_id":self.author,
             # "user": self.user.to_dict_no_post()
         }
     
