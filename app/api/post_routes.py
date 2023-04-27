@@ -35,7 +35,6 @@ def add_new_post():
     if form.validate_on_submit():
         new_post = Post(
             author=user['id'],
-            customization_id = form.data["customization_id"],
             caption=form.data["caption"],
             image=form.data["image"],
             post_date=date.today(),

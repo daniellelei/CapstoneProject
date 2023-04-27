@@ -16,6 +16,7 @@ import UnprocessedCarts from "./components/UnprocessedCarts";
 import LandingPage from "./components/LandingPage";
 import AllPosts from "./components/Feed";
 import SinglePost from "./components/SinglePost";
+import CreatePost from "./components/CreatePost";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -57,6 +58,9 @@ function App() {
           </Route>
           <Route exact path="/posts">
             <AllPosts />
+          </Route>
+          <Route exact path="/posts/new">
+            <CreatePost />
           </Route>
           <Route exact path="/posts/:postId">
             <SinglePost />

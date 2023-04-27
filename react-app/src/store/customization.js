@@ -171,6 +171,7 @@ export const deleteCustomization = (customization) => async (dispatch) => {
 const initialState = {
   allCustomizations: {},
   singleCustomization: {},
+  allUserCustomizations:{}
   // cartCusts: {}
 };
 
@@ -220,8 +221,8 @@ const customizationReducer = (state = initialState, action) => {
       return { ...state, allCustomizations: {} };
       case CLEAR_CUSTOMIZATION_DETAIL:
         return { ...state, singleCustomization: {} };
-      // case CLEAR_SAVED_CUSTOMIZATIONS:
-      //   return { ...state, cartCusts: {} };
+      case CLEAR_SAVED_CUSTOMIZATIONS:
+        return { ...state, allUserCustomizations: {} };
       default:
           return state;
       }
