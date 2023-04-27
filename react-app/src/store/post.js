@@ -80,10 +80,11 @@ export const createPost = (post) => async (dispatch) => {
   return response.json();
 };
 
-export const updatePost = (post, postId) => async (dispatch) => {
-  const response = await fetch(`/api/posts/${postId}`, {
+export const updatePost = (post) => async (dispatch) => {
+  const response = await fetch(`/api/posts/${post.id}`, {
     method: "PATCH",
-    body: post,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(post),
   });
 
   if (response.ok) {

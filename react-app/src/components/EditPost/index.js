@@ -4,7 +4,7 @@ import { useHistory, NavLink } from "react-router-dom";
 import {useModal} from "../../context/Modal"
 import * as postsAction from '../../store/post';
 import * as customizationActions from '../../store/customization'
-
+import './EditPost.css'
 const EditPost = ({post}) => {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -54,26 +54,26 @@ const EditPost = ({post}) => {
 
         if(!Boolean(Object.values(errors).length)) {
             console.log('i am here')
-            const createdRes = await dispatch(
-                postsAction.createPost({
+            const updatedRes = await dispatch(
+                postsAction.updatePost({
                     caption,
                     image,
                     custChosen,
                 })
             )
-            if (!createdRes.errors) {
-                console.log('this is create', createdRes.id)
-                await dispatch(postsAction.getPostDetail(createdRes.id));
-                history.push(`/posts/${createdRes.id}`);
+            if (!updatedRes.errors) {
+                console.log('this is update', updatedRes.id)
+                await dispatch(postsAction.getPostDetail(updatedRes.id));
+                history.push(`/posts/${updatedRes.id}`);
                 
             } else {
-                await setResErrors(createdRes.errors);
+                await setResErrors(updatedRes.errors);
             }
         }
     }
 
     return (
-        <div>
+        <div className="editModal">
             <h1>Edit a Post</h1>
             <form onSubmit={handleSubmit}>
                 <ul>
@@ -110,7 +110,7 @@ const EditPost = ({post}) => {
                             <p>{errors.image}</p>
                         ) : null}
                     </div>
-                    {/* <div>
+                    <div>
                         {custs.length !== 0 ? 
                             <div>
                                 <h1>My Favorites</h1>
@@ -139,8 +139,8 @@ const EditPost = ({post}) => {
                                             >Choose</button>
                                         </div>
                                     </div>))} 
-                            </div> : null} */}
-                        {/* </div> */}
+                            </div> : null} 
+                        </div>
                     <button type="submit">
                         Post
                     </button>
