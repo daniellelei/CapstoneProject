@@ -50,6 +50,9 @@ function Navigation({ isLoaded }){
 					<NavLink exact to="/drinks">
 						<h2>Menu</h2>
 					</NavLink>
+					<NavLink exact to="/posts">
+						<h2>Feed</h2>
+					</NavLink>
 				</div>
 			</div>
 			<div className='rightNav'>

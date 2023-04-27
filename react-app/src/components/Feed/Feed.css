@@ -1,0 +1,38 @@
+.feedPage{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.eaPost{
+   
+    border-radius: 15px;
+    margin:1em;
+    background-color: rgba(198, 196, 196, 0.311);
+    position: relative;
+    top:0px;
+    transition: ease 0.5s;
+}
+.eaPost:hover{
+    top: -10px;
+}
+
+.postDetail {
+    padding:1em;
+}
+.postImg {
+    height:400px;
+    width: 350px;
+    object-fit: cover;
+    border-top-radius: 15px;
+    
+}
+
+.postDate {
+    font-size: 12px;
+    color:gray;
+    margin: 0;
+}
+.fa-thumbs-up:hover{
+    color: red;
+}

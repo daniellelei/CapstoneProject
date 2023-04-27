@@ -14,8 +14,16 @@ def get_all_posts():
     """get all posts and display them"""
     posts = Post.query.order_by(Post.post_date.desc()).all()
     return [{**post.to_dict(),
-             "post_custs": [c.to_dict() for c in post.post_customizations]
+             "customizations": [c.to_dict() for c in post.post_customizations]
              } for post in posts]
+
+@post_routes.route('/<int:id>')
+def get_post_detail(id):
+    post = Post.query.get(id)
+
+    return {**post.to_dict(),
+            "customizations": [c.to_dict() for c in post.post_customizations]
+            }
 
 @post_routes.route('/new', methods=["GET", "POST"])
 @login_required
@@ -61,7 +69,7 @@ def update_post(id):
             db.session.commit()
             updated_post = Post.query.get(id)
             return {**updated_post.to_dict(),
-                    'customization': updated_post.post_customizations.to_dict()
+                    'customizations': updated_post.post_customizations.to_dict()
                     }
 
 @post_routes.route('/<int:id>', methods=['DELETE'])

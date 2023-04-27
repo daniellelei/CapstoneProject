@@ -8,7 +8,7 @@ class Post(db.Model):
     author = db.Column(db.Integer, db.ForeignKey("users.id"))
     image = db.Column(db.String(250), nullable=False)
     post_date = db.Column(db.Date, nullable=False)
-    customization_id = db.Column(db.Integer, db.ForeignKey("customizations.id"))
+    
     # RELATIONSHIP ATTRIBUTED
     user = db.relationship(
         "User",
