@@ -29,11 +29,14 @@ function AllPosts () {
 
     return (
         <div className="feedPage">
-            <h1>Welcome to our community!</h1>
+            <div className="feedNav">
+                <div className="feedNavLeft"></div>
+                <h1>Welcome to our community!</h1>
             <div>
                 <i className="fa-solid fa-plus fa-lg"
                 onClick={plusClicked}
                 ></i>
+            </div>
             </div>
             {posts.map((post) => (
                 <div key={post.id}>

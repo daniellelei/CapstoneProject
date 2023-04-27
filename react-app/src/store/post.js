@@ -88,9 +88,9 @@ export const updatePost = (post, postId) => async (dispatch) => {
 
   if (response.ok) {
     const updatedPost = await response.json();
-    const updated_post = updatedPost.post;
-    await dispatch(actionUpdatePost(updated_post));
-    return updated_post;
+    // const updated_post = updatedPost.post;
+    await dispatch(actionUpdatePost(updatedPost));
+    return updatedPost;
   }
   return response.json();
 };

@@ -6,6 +6,7 @@ import * as cartActions from '../../store/cart';
 import * as postActions from '../../store/post';
 import OpenModalButton from '../OpenModalButton';
 import DeletePostModal from '../DeletePost';
+import EditPost from '../EditPost';
 import './SinglePost.css'
 const SinglePost = () => {
     const {postId} = useParams();
@@ -57,12 +58,9 @@ const SinglePost = () => {
             {user.id === author_id 
             ? (
                 <div>
-                    <button onClick = {e => {
-                        e.preventDefault();
-                        history.push(`/posts/${post.id}/edit`)
-                    }}
-                    >Edit
-                    </button>
+                    <OpenModalButton
+                buttonText='Edit'
+                modalComponent={<EditPost post={post}/>} />
                     <OpenModalButton
                     buttonText='Delete'
                     modalComponent={<DeletePostModal post={post}/>} />
@@ -70,7 +68,9 @@ const SinglePost = () => {
             ) 
             : null}
 
-            <h3>This is what I would like to share with you. Hope you'd like it 😋</h3>
+            {!customizations.length ? null :(
+                <h3>This is what I would like to share with you. Hope you'd like it 😋</h3>
+            )}
             <div className='postCusts'>
                 {customizations.map((customization) => (
                     <div className='eaPostCust'>
@@ -91,6 +91,7 @@ const SinglePost = () => {
                     </div>
                 ))}
             </div>
+
             
             
 

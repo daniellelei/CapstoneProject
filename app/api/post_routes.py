@@ -5,6 +5,7 @@ from random import randint
 from ..models import db, User, Post, Customization
 from flask_login import current_user, login_required
 from datetime import datetime
+from sqlalchemy.orm import joinedload
 
 post_routes = Blueprint('posts', __name__)
 
@@ -87,10 +88,13 @@ def add_new_post():
     return {"message": 'Bad Data'}
 
 
+# Edit Post
 @post_routes.route('/<int:id>', methods=["PATCH", "PUT"])
 @login_required
 def update_post(id):
     user = current_user.to_dict()
+    request_obj = request.get_json()
+    customizations = request_obj["custChosen"]
     post = Post.query.get(id)
 
     if post.user_id == user["id"]:
@@ -99,14 +103,32 @@ def update_post(id):
         if form.validate_on_submit():
             post.caption = form.data["caption"]
             post.image = form.data["image"]
-            post.customization_id=form.data["customization_id"]
             post.post_date = date.today()
-
             db.session.commit()
+            if len(customizations) > 0:
+                post = Post.query.options(joinedload(Post.post_customizations)).get(id)
+                new_post_custs = [Customization.query.get(c['id']) for c in customizations]
+                old_post_custs = [customization for customization in post.post_customizations]
+
+                for o in old_post_custs:
+                    if o not in new_post_custs:
+                        post.post_customizations.remove(o)
+                for n in new_post_custs:
+                    if n not in old_post_custs:
+                        post.post_customizations.append(n)
+
+                db.session.commit()
             updated_post = Post.query.get(id)
-            return {**updated_post.to_dict(),
-                    'customizations': updated_post.post_customizations.to_dict()
+            return {**updated_post.to_dict()
+                    , 'user': updated_post.user.to_dict()
+                    , "customizations": [{**c.to_dict(),
+                                            'drinks_customization': c.drink.to_dict()}
+                                            for c in updated_post.post_customizations]
                     }
+        if form.errors:
+            return {"message": "form errors", "errors": f"{form.errors}"}
+        return {"message": 'Bad Data'}
+            
 
 @post_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
