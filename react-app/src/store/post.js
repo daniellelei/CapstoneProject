@@ -63,16 +63,18 @@ export const getPostDetail = (id) => async (dispatch) => {
 };
 
 export const createPost = (post) => async (dispatch) => {
-  const response = await fetch("/api/posts", {
+  console.log('post in thunk', post)
+  const response = await fetch("/api/posts/new", {
     method: "POST",
-    body: post,
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(post),
   });
 
   if (response.ok) {
     const newPost = await response.json();
-    const post = newPost.post;
-    await dispatch(actionCreatePost(post));
-    return post;
+    // const post = newPost.post;
+    await dispatch(actionCreatePost(newPost));
+    return newPost;
   }
   return response.json();
 };

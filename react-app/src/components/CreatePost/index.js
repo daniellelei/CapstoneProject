@@ -21,7 +21,7 @@ const CreatePost = () => {
     const user = useSelector((state) => state.session.user);
     const user_id = user.id;
 
-    const custsObj = ((state)=>state.customizations.allUserCustomizations)
+    const custsObj = useSelector((state)=>state.customizations.allUserCustomizations)
     const [custChosen, setCustChosen] = useState([]);
 
     useEffect(()=>{
@@ -37,6 +37,8 @@ const CreatePost = () => {
     } else {
         custs = Object.values(custsObj)
     }
+    console.log('custsObj', custsObj)
+    console.log('custs', custs)
 
 
 
@@ -44,22 +46,23 @@ const CreatePost = () => {
         const err = {};
         if(caption.length<5) err.caption = 'Caption needs to be at least 5 characters long.'
         if(!image.length) err.image = 'Image is required'
-        if(!image.includes('.jpg')||!image.includes('.png')) err.image = 'Image is not valid'
+        // if(!image.includes('.jpg')||!image.includes('.png')) err.image = 'Image is not valid'
 
         setErrors(err);
     },[caption, image])
 
     const handleSubmit = async (e) => {
+        console.log('i am here', Object.values(errors))
         e.preventDefault();
         setHasSubmitted(true);
         setResErrors({});
 
         if(!Boolean(Object.values(errors).length)) {
+            console.log('i am here')
             const createdRes = await dispatch(
                 postsAction.createPost({
                     caption,
                     image,
-                    user_id,
                     custChosen,
                 })
             )
@@ -112,7 +115,7 @@ const CreatePost = () => {
                             placeholder="image url is required"
                             value={image}
                             name = {image}
-                            onChange = {(e)=>setCaption(e.target.value)}
+                            onChange = {(e)=>setImage(e.target.value)}
                         >
                         </input>
                         {hasSubmitted ? (
@@ -120,35 +123,39 @@ const CreatePost = () => {
                         ) : null}
                     </div>
                     <div>
-                        <label>Wanna share your favorite customizations? </label>
                         {custs.length !== 0 ? 
                             <div>
                                 <h1>My Favorites</h1>
+                                <h4>Choose any that you would like to share</h4>
                                 {
                                     custs.map((c)=>(
                                     <div key={c.id} className="eaCust">
                                         <NavLink className="eaCust" key={c.id} to={`/customizations/${c.id}`}>
-                                            {/* <p>{c.Drink.name}</p>
-                                            <img className="drinkImg" src = {c.Drink.imageUrl}/> */}
+                                            <p>{c.Drink.name}</p>
+                                            <img className="drinkImg" src = {c.Drink.imageUrl}/>
                                             <div>
                                                 <p>Size: {c.size}</p>
                                                 <p>Milk Option:{c.milk}</p>
                                                 <p>Shot Options: {c.shotOptions}</p>
                                                 <p>Expresso Roast: {c.expressoRoastOptions}</p>
-                                                {/* <p>${c.Drink.price}</p> */}
+                                                <p>${c.Drink.price}</p>
                                             </div>
                                         </NavLink>
                                         <div className="allCustBottom">
                                             <button
                                             onClick ={ async (e) => {
                                                 e.preventDefault();
-                                                await dispatch(cartActions.addToCartThunk(c));
+                                                custChosen.push(c)
+                                                setCustChosen(custChosen)
                                             }}
-                                            >Add to Cart</button>
+                                            >Choose</button>
                                         </div>
                                     </div>))} 
                             </div> : null}
                         </div>
+                    <button type="submit">
+                        Post
+                    </button>
                 </div>
 
             </form>
