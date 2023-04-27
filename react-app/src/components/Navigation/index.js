@@ -40,20 +40,18 @@ function Navigation({ isLoaded }){
 	return (
 		<div className='topNav'>
 			<div className='leftNav'>
-				<div>
-					<NavLink exact to="/">
-						{/* <img className ='logo' src={logo} alt='logo'/> */}
-						<img className='logo' src="https://i.giphy.com/media/ZDNQdzCUjIK9VNUE2c/giphy.webp" alt='logo' />
-					</NavLink>
-				</div>
-				<div>
-					<NavLink exact to="/drinks">
-						<h2>Menu</h2>
-					</NavLink>
-					<NavLink exact to="/posts">
-						<h2>Feed</h2>
-					</NavLink>
-				</div>
+			
+				<NavLink exact to="/">
+					{/* <img className ='logo' src={logo} alt='logo'/> */}
+					<img className='logo' src="https://i.giphy.com/media/ZDNQdzCUjIK9VNUE2c/giphy.webp" alt='logo' />
+				</NavLink>
+				<NavLink exact to="/drinks">
+					<h2>Menu</h2>
+				</NavLink>
+				<NavLink exact to="/posts">
+					<h2>Feed</h2>
+				</NavLink>
+				
 			</div>
 			<div className='rightNav'>
 				{isLoaded && (

@@ -54,11 +54,26 @@ const SinglePost = () => {
                 <p>1.2k likes</p>
                 <i className="fa-solid fa-thumbs-up"></i>
             </div>
+            {user.id === author_id 
+            ? (
+                <div>
+                    <button onClick = {e => {
+                        e.preventDefault();
+                        history.push(`/posts/${post.id}/edit`)
+                    }}
+                    >Edit
+                    </button>
+                    <OpenModalButton
+                    buttonText='Delete'
+                    modalComponent={<DeletePostModal post={post}/>} />
+                </div>
+            ) 
+            : null}
 
             <h3>This is what I would like to share with you. Hope you'd like it 😋</h3>
-            <div>
+            <div className='postCusts'>
                 {customizations.map((customization) => (
-                    <div>
+                    <div className='eaPostCust'>
                         <img 
                         className='drinkImg'
                         src = {customization.drinks_customization.imageUrl}
@@ -76,21 +91,7 @@ const SinglePost = () => {
                     </div>
                 ))}
             </div>
-            {user.id === author_id 
-            ? (
-                <div>
-                    <button onClick = {e => {
-                        e.preventDefault();
-                        history.push(`/posts/${post.id}/edit`)
-                    }}
-                    >Edit
-                    </button>
-                    <OpenModalButton
-                    buttonText='Delete'
-                    modalComponent={<DeletePostModal post={post}/>} />
-                </div>
-            ) 
-            : null}
+            
             
 
         </div>
