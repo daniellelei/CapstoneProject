@@ -68,7 +68,9 @@ const CreatePost = () => {
                 })
             )
             if (!createdRes.errors) {
-                history.push(`posts/${createdRes.id}`);
+                console.log('this is create', createdRes.id)
+                await dispatch(postsAction.getPostDetail(createdRes.id));
+                history.push(`/posts/${createdRes.id}`);
                 await reset();
             } else {
                 await setResErrors(createdRes.errors);

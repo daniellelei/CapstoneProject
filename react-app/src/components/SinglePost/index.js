@@ -4,7 +4,7 @@ import { NavLink, Redirect, useLocation, useParams } from "react-router-dom";
 import * as customizationActions from '../../store/customization';
 import * as cartActions from '../../store/cart';
 import * as postActions from '../../store/post';
-
+import './SinglePost.css'
 const SinglePost = () => {
     const {postId} = useParams();
     const dispatch = useDispatch();
@@ -12,6 +12,7 @@ const SinglePost = () => {
     const cart = useSelector((state) => state.carts.currentCart);
     const user = useSelector((state)=> state.session.user);
     const post = useSelector((state)=> state.posts.singlePost)
+    console.log('this is Post', post)
     const customizations = post.customizations; //array of customizations
 
     useEffect(()=>{
@@ -33,8 +34,10 @@ const SinglePost = () => {
         <img className="loadingImg" src="https://cdn.dribbble.com/users/2520294/screenshots/7209485/media/cf226d98a06282e9cabf5c2f8f6d547f.gif"/>
     </div>)
 
+    console.log('this is single Post', post)
+
     return (
-        <div>
+        <div className='singlePostPage'>
             <img 
                 className="postImg"
                 src = {post.image}
@@ -47,10 +50,13 @@ const SinglePost = () => {
                 <p>1.2k likes</p>
                 <i className="fa-solid fa-thumbs-up"></i>
             </div>
+
+            <h3>This is what I would like to share with you. Hope you'd like it 😋</h3>
             <div>
                 {customizations.map((customization) => (
                     <div>
                         <img 
+                        className='drinkImg'
                         src = {customization.drinks_customization.imageUrl}
                         />
                         <p>Size: {customization.size}</p>
