@@ -33,14 +33,14 @@ class Post(db.Model):
             "caption": self.caption,
             "image": self.image,
             "postDate": self.post_date,
-            "user": self.user.to_dict_no_post()
+            # "user": self.user.to_dict_no_post()
         }
     
-    def to_dict_no_user(self):
-        return {
-            "id": self.id,
-            "caption": self.caption,
-            "image": self.image,
-            "postDate": self.post_date,
-            "likes": len(self.post_likes)
-        }
+    # def to_dict_no_user(self):
+    #     return {
+    #         "id": self.id,
+    #         "caption": self.caption,
+    #         "image": self.image,
+    #         "postDate": self.post_date,
+    #         "likes": len(self.post_likes)
+    #     }

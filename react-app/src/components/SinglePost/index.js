@@ -50,6 +50,9 @@ const SinglePost = () => {
             <div>
                 {customizations.map((customization) => (
                     <div>
+                        <img 
+                        src = {customization.drinks_customization.imageUrl}
+                        />
                         <p>Size: {customization.size}</p>
                         <p>Milk options: {customization.milk}</p>
                         <p>Shot Options: {customization.shotOptions}</p>

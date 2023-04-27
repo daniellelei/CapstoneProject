@@ -51,15 +51,13 @@ class User(db.Model, UserMixin):
             'email': self.email,
             'funds': self.funds,
             "profilePic": self.profile_pic,
-            "posts": [post.to_dict_no_user() for post in self.posts],
-            "likes": len(self.user_likes)
         }
     
-    def to_dict_no_post(self):
-        return {
-            "id": self.id,
-            "username": self.username,
-            "email": self.email,
-            "profilePic": self.profile_pic,
-            "likes": len(self.user_likes)
-        }
+    # def to_dict_no_post(self):
+    #     return {
+    #         "id": self.id,
+    #         "username": self.username,
+    #         "email": self.email,
+    #         "profilePic": self.profile_pic,
+    #         "likes": len(self.user_likes)
+    #     }

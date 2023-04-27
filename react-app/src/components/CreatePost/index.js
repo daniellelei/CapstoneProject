@@ -37,8 +37,8 @@ const CreatePost = () => {
     } else {
         custs = Object.values(custsObj)
     }
-    console.log('custsObj', custsObj)
-    console.log('custs', custs)
+    // console.log('custsObj', custsObj)
+    // console.log('custs', custs)
 
 
 
@@ -56,6 +56,7 @@ const CreatePost = () => {
         e.preventDefault();
         setHasSubmitted(true);
         setResErrors({});
+        console.log("custChose", custChosen)
 
         if(!Boolean(Object.values(errors).length)) {
             console.log('i am here')
