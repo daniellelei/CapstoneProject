@@ -46,8 +46,14 @@ def add_new_post():
     # print("**************************")
     # print("**************************")
     # print(request_obj)
-    customizations = request_obj["custChosen"] #an array of customizations included drinks info
+    # an array of customizations included drinks info
+    customizations = request_obj["chosenCust"]
     # customization["id"]
+    print("==========================")
+    print("==========================")
+    print("==========================")
+    print("==========================")
+    print('After commit: ***', customizations)
 
     if form.validate_on_submit():
         new_post = Post(
@@ -58,11 +64,11 @@ def add_new_post():
         )
         db.session.add(new_post)
         db.session.commit()
-        print("==========================")
-        print("==========================")
-        print("==========================")
-        print("==========================")
-        print('After commit: ***', new_post.to_dict())
+        # print("==========================")
+        # print("==========================")
+        # print("==========================")
+        # print("==========================")
+        # print('After commit: ***', new_post.to_dict())
 
         if len(customizations) > 0:
             print("========================== before", new_post.post_customizations)
@@ -94,40 +100,39 @@ def add_new_post():
 def update_post(id):
     user = current_user.to_dict()
     request_obj = request.get_json()
-    customizations = request_obj["custChosen"]
+    customizations = request_obj["chosenCust"]
     post = Post.query.get(id)
 
-    if post.user_id == user["id"]:
-        form = PostForm()
-        form["csrf_token"].data = request.cookies["csrf_token"]
-        if form.validate_on_submit():
-            post.caption = form.data["caption"]
-            post.image = form.data["image"]
-            post.post_date = date.today()
+    form = PostForm()
+    form["csrf_token"].data = request.cookies["csrf_token"]
+    if form.validate_on_submit():
+        post.caption = form.data["caption"]
+        post.image = form.data["image"]
+        post.post_date = date.today()
+        db.session.commit()
+        if len(customizations) > 0:
+            post = Post.query.options(joinedload(Post.post_customizations)).get(id)
+            new_post_custs = [Customization.query.get(c['id']) for c in customizations]
+            old_post_custs = [customization for customization in post.post_customizations]
+
+            for o in old_post_custs:
+                if o not in new_post_custs:
+                    post.post_customizations.remove(o)
+            for n in new_post_custs:
+                if n not in old_post_custs:
+                    post.post_customizations.append(n)
+
             db.session.commit()
-            if len(customizations) > 0:
-                post = Post.query.options(joinedload(Post.post_customizations)).get(id)
-                new_post_custs = [Customization.query.get(c['id']) for c in customizations]
-                old_post_custs = [customization for customization in post.post_customizations]
-
-                for o in old_post_custs:
-                    if o not in new_post_custs:
-                        post.post_customizations.remove(o)
-                for n in new_post_custs:
-                    if n not in old_post_custs:
-                        post.post_customizations.append(n)
-
-                db.session.commit()
-            updated_post = Post.query.get(id)
-            return {**updated_post.to_dict()
-                    , 'user': updated_post.user.to_dict()
-                    , "customizations": [{**c.to_dict(),
-                                            'drinks_customization': c.drink.to_dict()}
-                                            for c in updated_post.post_customizations]
-                    }
-        if form.errors:
-            return {"message": "form errors", "errors": f"{form.errors}"}
-        return {"message": 'Bad Data'}
+        updated_post = Post.query.get(id)
+        return {**updated_post.to_dict()
+                , 'user': updated_post.user.to_dict()
+                , "customizations": [{**c.to_dict(),
+                                        'drinks_customization': c.drink.to_dict()}
+                                        for c in updated_post.post_customizations]
+                }
+    if form.errors:
+        return {"message": "form errors", "errors": f"{form.errors}"}
+    return {"message": 'Bad Data'}
             
 
 @post_routes.route('/<int:id>', methods=['DELETE'])

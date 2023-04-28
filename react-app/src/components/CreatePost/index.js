@@ -6,8 +6,19 @@ import * as cartActions from "../../store/cart";
 import * as customizationActions from '../../store/customization'
 import "./CreatePost.css";
 import { useModal } from "../../context/Modal";
+import SingleCust from "./SingleCust";
 
-
+export const chosen = (customization, custs) => {
+    let chosenOrNot = false;
+    const custsIdArr = []
+    if (custs?.length > 0) {
+        for ( let i in custs) {
+            custsIdArr.push(i.id)
+        }
+        if(custsIdArr.includes(customization.id)) chosenOrNot = true;
+    }
+    return chosenOrNot;
+}
 
 const CreatePost = () => {
 
@@ -22,24 +33,32 @@ const CreatePost = () => {
     const user_id = user.id;
 
     const custsObj = useSelector((state)=>state.customizations.allUserCustomizations)
-    const [custChosen, setCustChosen] = useState([]);
+    const [custChosen, setCustChosen] = useState({}); //an array of id's
+    const chosenCustObj = useSelector((state)=>state.posts.chosenCust);
 
     useEffect(()=>{
         dispatch(customizationActions.getUserCustomizationThunk(user_id))
-
-        return () => dispatch(customizationActions.actionClearSavedCustomizations())
-    },[dispatch])
+        
+        return () => {
+            dispatch(customizationActions.actionClearSavedCustomizations())
+            dispatch(postsAction.actionClearChosenCusts())
+        }
+    },[dispatch, custChosen])
 
     let custs = []
+
 
     if (!custsObj) {
         custs = [] 
     } else {
         custs = Object.values(custsObj)
     }
-    // console.log('custsObj', custsObj)
-    // console.log('custs', custs)
-
+    let chosenCust = []
+    if(!chosenCustObj) {
+        chosenCust = []
+    } else {
+        chosenCust = Object.values(chosenCustObj)
+    }
 
 
     useEffect(()=>{
@@ -52,11 +71,11 @@ const CreatePost = () => {
     },[caption, image])
 
     const handleSubmit = async (e) => {
-        console.log('i am here', Object.values(errors))
         e.preventDefault();
+        console.log('i am here', Object.values(errors))
         setHasSubmitted(true);
         setResErrors({});
-        console.log("custChose", custChosen)
+        // console.log("custChose", custChosen)
 
         if(!Boolean(Object.values(errors).length)) {
             console.log('i am here')
@@ -64,7 +83,7 @@ const CreatePost = () => {
                 postsAction.createPost({
                     caption,
                     image,
-                    custChosen,
+                    chosenCust,
                 })
             )
             if (!createdRes.errors) {
@@ -86,7 +105,8 @@ const CreatePost = () => {
         setHasSubmitted(false);
     };
     
-
+    // const custOptionClassName = "custOps" + ( custs.includes(c) ? "" : " hidden");
+    
     return (
         <div className="create_post_page">
             <h1>Create a Post</h1>
@@ -127,42 +147,27 @@ const CreatePost = () => {
                     </div>
                 </div>
                     <div>
-                        {custs.length !== 0 ? 
+                        {custs?.length !== 0 ? 
                             <div>
                                 <div className="title_my_favorite">
                                     <h3>My Favorites</h3>
                                     <h4>Choose any that you would like to share</h4>
                                 </div>
                                 {
-                                    custs.map((c)=>(
-                                    <div key={c.id} className="eaCust">
-                                        <NavLink className="eaCust" key={c.id} to={`/customizations/${c.id}`}>
-                                            <p>{c.Drink.name}</p>
-                                            <img className="drinkImg" src = {c.Drink.imageUrl}/>
-                                            <div>
-                                                <p>Size: {c.size}</p>
-                                                <p>Milk Option:{c.milk}</p>
-                                                <p>Shot Options: {c.shotOptions}</p>
-                                                <p>Expresso Roast: {c.expressoRoastOptions}</p>
-                                                <p>${c.Drink.price}</p>
-                                            </div>
-                                        </NavLink>
-                                        <div className="allCustBottom">
-                                            <button
-                                            onClick ={ async (e) => {
-                                                e.preventDefault();
-                                                custChosen.push(c)
-                                                setCustChosen(custChosen)
-                                            }}
-                                            >Choose</button>
-                                        </div>
-                                    </div>))} 
+                                    custs.map((cust)=>(
+                                    <SingleCust 
+                                    key={cust.id}
+                                    cust={cust} 
+                                    user={user} 
+                                    setCustChosen={setCustChosen} 
+                                    custChosen={custChosen} 
+                                    />
+                                    ))} 
                             </div> : null}
                         </div>
                     <button type="submit">
                         Post
                     </button>
-
             </form>
         </div>
     )
@@ -170,3 +175,27 @@ const CreatePost = () => {
 }
 
 export default CreatePost;
+
+
+
+
+{/* { checkChosen(custChosen, c)===true ? 
+                                            (<button
+                                            key={c.id}
+                                            onClick = {(e) => {
+                                                e.preventDefault();
+                                                console.log(`Inside onClick, index from getIndex for id of ${c.id}`, getIndex(custChosen, c))
+                                                custChosen.splice(getIndex(custChosen, c), 1)
+                                                setCustChosen(custChosen)
+                                            }
+                                            }
+                                            >remove</button> )
+                                            : (<button
+                                            key={c.id}
+                                            onClick = { (e) => {
+                                                e.preventDefault();
+                                                custChosen.push(c)
+                                                setCustChosen(custChosen)
+                                            }}
+                                            >choose</button>)
+                                            } */}

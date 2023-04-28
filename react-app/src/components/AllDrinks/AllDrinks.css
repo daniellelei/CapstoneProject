@@ -43,7 +43,7 @@
 .eaCategory:hover {
     color: black;
 }
-.eaCategory:active {
+.eaCategory:focus {
     color:black;
 }
 

@@ -5,10 +5,12 @@ import {useModal} from "../../context/Modal"
 import * as postsAction from '../../store/post';
 import * as customizationActions from '../../store/customization'
 import './EditPost.css'
+import SingleCustEdit from "./SingleCustEdit";
 const EditPost = ({post}) => {
     const dispatch = useDispatch();
     const history = useHistory();
     const { closeModal } = useModal();
+    const postId = post.id
 
 
     const [caption, setCaption] = useState(post.caption);
@@ -21,11 +23,22 @@ const EditPost = ({post}) => {
     const custsObj = useSelector((state)=>state.customizations.allUserCustomizations)
     const user = useSelector((state) => state.session.user);
     const user_id = user.id;
+    const oldchosenCust = post.customizations; //array
+    useEffect(()=>{
+        for (let i of oldchosenCust){
+        dispatch(postsAction.actionAddChosenCust(i))
+    }
+    },[])
+    
 
      useEffect(()=>{
         dispatch(customizationActions.getUserCustomizationThunk(user_id))
 
-        return () => dispatch(customizationActions.actionClearSavedCustomizations())
+        return () => {
+            dispatch(customizationActions.actionClearSavedCustomizations())
+            dispatch(postsAction.actionClearChosenCusts())
+        }
+
     },[dispatch])
 
     let custs = []
@@ -35,6 +48,7 @@ const EditPost = ({post}) => {
     } else {
         custs = Object.values(custsObj)
     }
+    
 
     useEffect(()=>{
         const err = {};
@@ -45,26 +59,36 @@ const EditPost = ({post}) => {
         setErrors(err);
     },[caption, image])
 
+    const chosenCustObj = useSelector((state)=>state.posts.chosenCust)
     const handleSubmit = async (e) => {
-        console.log('i am here', Object.values(errors))
+        // console.log('i am here', Object.values(errors))
         e.preventDefault();
+
+        let chosenCust = []
+        if(!chosenCustObj) {
+            chosenCust = []
+        } else {
+            chosenCust = Object.values(chosenCustObj)
+        }
         setHasSubmitted(true);
         setResErrors({});
-        console.log("custChose", custChosen)
+        console.log("custChose========in onClick", chosenCust)
 
         if(!Boolean(Object.values(errors).length)) {
             console.log('i am here')
             const updatedRes = await dispatch(
                 postsAction.updatePost({
+                    postId,
                     caption,
                     image,
-                    custChosen,
+                    chosenCust,
                 })
             )
             if (!updatedRes.errors) {
-                console.log('this is update', updatedRes.id)
+                // console.log('this is update', updatedRes.id)
                 await dispatch(postsAction.getPostDetail(updatedRes.id));
-                history.push(`/posts/${updatedRes.id}`);
+                closeModal()
+                await setHasSubmitted(false);
                 
             } else {
                 await setResErrors(updatedRes.errors);
@@ -116,33 +140,18 @@ const EditPost = ({post}) => {
                                 <h1>My Favorites</h1>
                                 <h4>Choose any that you would like to share</h4>
                                 {
-                                    custs.map((c)=>(
-                                    <div key={c.id} className="eaCust">
-                                        <NavLink className="eaCust" key={c.id} to={`/customizations/${c.id}`}>
-                                            <p>{c.Drink.name}</p>
-                                            <img className="drinkImg" src = {c.Drink.imageUrl}/>
-                                            <div>
-                                                <p>Size: {c.size}</p>
-                                                <p>Milk Option:{c.milk}</p>
-                                                <p>Shot Options: {c.shotOptions}</p>
-                                                <p>Expresso Roast: {c.expressoRoastOptions}</p>
-                                                <p>${c.Drink.price}</p>
-                                            </div>
-                                        </NavLink>
-                                        <div className="allCustBottom">
-                                            <button
-                                            onClick ={ async (e) => {
-                                                e.preventDefault();
-                                                custChosen.push(c)
-                                                setCustChosen(custChosen)
-                                            }}
-                                            >Choose</button>
-                                        </div>
-                                    </div>))} 
+                                    custs.map((cust)=>(
+                                        <SingleCustEdit
+                                        key={cust.id}
+                                        cust={cust} 
+                                        user={user} 
+                                        oldchosenCust={oldchosenCust}
+                                        />
+                                    ))} 
                             </div> : null} 
                         </div>
                     <button type="submit">
-                        Post
+                       Update
                     </button>
                 </div>
 
