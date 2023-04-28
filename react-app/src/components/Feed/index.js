@@ -33,7 +33,9 @@ function AllPosts () {
                 <div className="feedNavLeft"></div>
                 <h1>Welcome to our community!</h1>
             <div>
-                <i className="fa-solid fa-plus fa-lg"
+                <i 
+                style={{ cursor: "pointer" }}
+                className="fa-solid fa-plus fa-lg"
                 onClick={plusClicked}
                 ></i>
             </div>

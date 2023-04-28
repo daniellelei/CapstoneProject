@@ -46,4 +46,10 @@
 }
 .fa-plus{
     color:black;
+    position: relative;
+    top:0;
+    transition: ease 0.5s;
+}
+.fa-plus:hover{
+    top:-5px
 }
