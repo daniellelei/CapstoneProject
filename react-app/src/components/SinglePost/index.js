@@ -55,7 +55,7 @@ const SinglePost = () => {
                 <p>1.2k likes</p>
                 <i className="fa-solid fa-thumbs-up"></i>
             </div>
-            {user.id === author_id 
+            {user?.id === author_id 
             ? (
                 <div>
                     <OpenModalButton

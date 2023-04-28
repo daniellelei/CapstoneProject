@@ -88,7 +88,7 @@ const CreatePost = () => {
     
 
     return (
-        <div>
+        <div className="create_post_page">
             <h1>Create a Post</h1>
             <form onSubmit={handleSubmit}>
                 <ul>
@@ -96,8 +96,8 @@ const CreatePost = () => {
                         <li>{Object.values(resErrors)}</li>
                     ) : null}
                 </ul>
-                <div>
-                    <div>
+                <div className="caption_image">
+                    <div className="caption">
                         <label>Caption: </label>
                         <input
                             type = 'text'
@@ -119,17 +119,20 @@ const CreatePost = () => {
                             value={image}
                             name = {image}
                             onChange = {(e)=>setImage(e.target.value)}
-                        >
+                            >
                         </input>
                         {hasSubmitted ? (
                             <p>{errors.image}</p>
-                        ) : null}
+                            ) : null}
                     </div>
+                </div>
                     <div>
                         {custs.length !== 0 ? 
                             <div>
-                                <h1>My Favorites</h1>
-                                <h4>Choose any that you would like to share</h4>
+                                <div className="title_my_favorite">
+                                    <h3>My Favorites</h3>
+                                    <h4>Choose any that you would like to share</h4>
+                                </div>
                                 {
                                     custs.map((c)=>(
                                     <div key={c.id} className="eaCust">
@@ -159,7 +162,6 @@ const CreatePost = () => {
                     <button type="submit">
                         Post
                     </button>
-                </div>
 
             </form>
         </div>
