@@ -62,7 +62,7 @@ function Navigation({ isLoaded }){
 					<i className="fas fa-cart-shopping" />
 					
 					<p className='count'>
-						{drinksCount(cart)}
+						{cart?drinksCount(cart):0}
 					</p> 
 				</button>
 			</div>
