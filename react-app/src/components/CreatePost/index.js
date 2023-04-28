@@ -63,9 +63,9 @@ const CreatePost = () => {
 
     useEffect(()=>{
         const err = {};
-        if(caption.length<5) err.caption = 'Caption needs to be at least 5 characters long.'
-        if(!image.length) err.image = 'Image is required'
-        // if(!image.includes('.jpg')||!image.includes('.png')) err.image = 'Image is not valid'
+        if(caption.length<5) err.caption = '* Caption needs to be at least 5 characters long.'
+        if(!image.length) err.image = '* Image is required'
+        // if(!image.includes('.jpg')||!image.includes('.png')) err.image = '* Image is not valid'
 
         setErrors(err);
     },[caption, image])
@@ -116,10 +116,16 @@ const CreatePost = () => {
                         <li>{Object.values(resErrors)}</li>
                     ) : null}
                 </ul>
+                <div className="submitbtn">
+                        <button type="submit">
+                            Post
+                        </button>
+                    </div>
                 <div className="caption_image">
                     <div className="caption">
                         <label>Caption: </label>
                         <input
+                            
                             type = 'text'
                             placeholder="Any thoughts???"
                             value={caption}
@@ -128,10 +134,10 @@ const CreatePost = () => {
                         >
                         </input>
                         {hasSubmitted ? (
-                            <p>{errors.caption}</p>
+                            <p className="errors">{errors.caption}</p>
                         ) : null}
                     </div>
-                    <div>
+                    <div className="caption">
                         <label>Upload an image: </label>
                         <input
                             type = 'text'
@@ -142,7 +148,7 @@ const CreatePost = () => {
                             >
                         </input>
                         {hasSubmitted ? (
-                            <p>{errors.image}</p>
+                            <p className="errors">{errors.image}</p>
                             ) : null}
                     </div>
                 </div>
@@ -153,21 +159,20 @@ const CreatePost = () => {
                                     <h3>My Favorites</h3>
                                     <h4>Choose any that you would like to share</h4>
                                 </div>
-                                {
-                                    custs.map((cust)=>(
-                                    <SingleCust 
-                                    key={cust.id}
-                                    cust={cust} 
-                                    user={user} 
-                                    setCustChosen={setCustChosen} 
-                                    custChosen={custChosen} 
-                                    />
-                                    ))} 
-                            </div> : null}
-                        </div>
-                    <button type="submit">
-                        Post
-                    </button>
+                                <div className="createPostCusts">
+                                    {
+                                        custs.map((cust)=>(
+                                        <SingleCust 
+                                        key={cust.id}
+                                        cust={cust} 
+                                        user={user} 
+                                        setCustChosen={setCustChosen} 
+                                        custChosen={custChosen} 
+                                        />
+                                        ))} </div>
+                            </div>   : null }
+                    </div>
+                    
             </form>
         </div>
     )
@@ -179,23 +184,3 @@ export default CreatePost;
 
 
 
-{/* { checkChosen(custChosen, c)===true ? 
-                                            (<button
-                                            key={c.id}
-                                            onClick = {(e) => {
-                                                e.preventDefault();
-                                                console.log(`Inside onClick, index from getIndex for id of ${c.id}`, getIndex(custChosen, c))
-                                                custChosen.splice(getIndex(custChosen, c), 1)
-                                                setCustChosen(custChosen)
-                                            }
-                                            }
-                                            >remove</button> )
-                                            : (<button
-                                            key={c.id}
-                                            onClick = { (e) => {
-                                                e.preventDefault();
-                                                custChosen.push(c)
-                                                setCustChosen(custChosen)
-                                            }}
-                                            >choose</button>)
-                                            } */}

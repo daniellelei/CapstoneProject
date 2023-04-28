@@ -20,6 +20,10 @@ function AllPosts () {
         e.preventDefault();
         history.push('/posts/new')
     }
+    const userNoIdplusClicked = e => {
+        e.preventDefault();
+        window.alert('You must be logged in to create a post.')
+    }
 
     if(!postsObj) return(<div>
         <img src="https://cdn.dribbble.com/users/2520294/screenshots/7209485/media/cf226d98a06282e9cabf5c2f8f6d547f.gif"/>
@@ -33,11 +37,17 @@ function AllPosts () {
                 <div className="feedNavLeft"></div>
                 <h1>Welcome to our community!</h1>
             <div>
+                {!user?.id ? 
                 <i 
                 style={{ cursor: "pointer" }}
                 className="fa-solid fa-plus fa-lg"
-                onClick={plusClicked}
+                onClick={userNoIdplusClicked}
                 ></i>
+                : <i 
+                style={{ cursor: "pointer" }}
+                className="fa-solid fa-plus fa-lg"
+                onClick={plusClicked}
+                ></i>}
             </div>
             </div>
             {posts.map((post) => (
