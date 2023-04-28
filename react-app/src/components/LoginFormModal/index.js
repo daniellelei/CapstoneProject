@@ -22,7 +22,8 @@ function LoginFormModal() {
     e.preventDefault();
     const data = await dispatch(login(email, password));
     if (data) {
-      setErrors(data);
+      setErrors(['* Credentials invalid. Please try again.'])
+      // setErrors(data);
     } else {
       await dispatch(createCartThunk(user))
       closeModal()
@@ -35,7 +36,9 @@ function LoginFormModal() {
     const data = await dispatch(login("demo@aa.io", "password"))
     
     if(data){
-      setErrors(data);
+
+      setErrors(['Credentials invalid'])
+      // setErrors(data);
     } else {
       await dispatch(createCartThunk(user))
       closeModal()
@@ -47,7 +50,8 @@ function LoginFormModal() {
     const data = await dispatch(login("boss@g.com", "123123"))
     
     if(data){
-      setErrors(data);
+      setErrors(['Credentials invalid'])
+      // setErrors(data);
     } else {
       await dispatch(createCartThunk(user))
       closeModal()
@@ -56,6 +60,7 @@ function LoginFormModal() {
 
   return (
     <div className="login">
+
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
         <ul className="errorUl">
@@ -63,39 +68,43 @@ function LoginFormModal() {
             <li key={idx} className="errors">{error}</li>
           ))}
         </ul>
-        <label className="loginLabel">
-          Email
-        </label>
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        <label>
-          Password
-        </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        <button type="submit" className="loginButton">Log In</button>
-        <button
-        className="loginButton"
-        onClick={demoUserSubmitHandler}
-        type="submit"
-        >
-          Demo User Log In
-        </button>
-        <button
-        className="loginButton"
-        onClick={demoBossSubmitHandler}
-        type="submit"
-        >
-          Demo Boss Log In
-        </button>
+        <div className="formBody">
+          <label className="loginLabel">
+            Email
+          </label>
+            <input
+              className="loginInput"
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          <label>
+            Password
+          </label>
+            <input
+              className="loginInput"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          <button type="submit" className="loginButton">Log In</button>
+          <button
+          className="loginButton"
+          onClick={demoUserSubmitHandler}
+          type="submit"
+          >
+            Demo User Log In
+          </button>
+          <button
+          className="loginButton"
+          onClick={demoBossSubmitHandler}
+          type="submit"
+          >
+            Demo Boss Log In
+          </button>
+        </div>
       </form>
     </div>
   );

@@ -5,8 +5,9 @@ import * as drinkActions from '../../store/drink';
 import * as cartActions from '../../store/cart';
 import OpenModalButton from '../OpenModalButton';
 import CreateCustomization from '../CreateCustomization';
-
+import ConfirmModal from './confirmModal';
 import "./SingleDrink.css"
+import AddToCartButton from '../AddToCartButton';
 const Drink = () => {
     
     const {drinkId} = useParams();
@@ -16,6 +17,7 @@ const Drink = () => {
     const dispatch = useDispatch();
     const drink = useSelector((state)=>state.drinks.singleDrink);
     const user = useSelector((state)=> state.session.user);
+    const currentCart = useSelector((state)=>state.carts.currentCart)
 
     useEffect(()=>{
         // console.log('inside useEffect')
@@ -54,7 +56,9 @@ const Drink = () => {
                             // history.push('/drinks')
                         }
                 }}
-                >Add to Cart</button>
+                >Add to Order</button> 
+                 
+
             </div>
             <div className='rightOneDrink'>
                 <h2>Customizations</h2>
