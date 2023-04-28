@@ -46,7 +46,7 @@ const CreatePost = () => {
     },[dispatch, custChosen])
 
     let custs = []
-    let custsArr = []
+
 
     if (!custsObj) {
         custs = [] 
@@ -106,7 +106,7 @@ const CreatePost = () => {
     };
     
     // const custOptionClassName = "custOps" + ( custs.includes(c) ? "" : " hidden");
-    console.log('custChosen', custChosen)
+    
     return (
         <div className="create_post_page">
             <h1>Create a Post</h1>

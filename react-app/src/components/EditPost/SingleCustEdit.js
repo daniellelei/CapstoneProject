@@ -4,7 +4,7 @@ import { useHistory, NavLink } from "react-router-dom";
 import * as postsAction from "../../store/post";
 import * as cartActions from "../../store/cart";
 import * as customizationActions from '../../store/customization'
-import "./CreatePost.css";
+// import "./CreatePost.css";
 import { useModal } from "../../context/Modal";
 
 export const checkChosen = (custChosen, cust) => {
@@ -37,18 +37,16 @@ export const getIndex = ( custChosen, c) => {
         return ind;
     }
 
-const SingleCust = ({
-    setCustChosen,
-    custChosen, 
+const SingleCustEdit = ({
+    oldchosenCust,
     user,
     cust,
 }) => {
 
     const dispatch = useDispatch();
-
     
 
-    const [chosen, setChosen] = useState(false);
+    const [chosen, setChosen] = useState(checkChosen(oldchosenCust,cust));
     
     // useEffect(()=> {
         
@@ -95,7 +93,7 @@ const SingleCust = ({
 
 }
 
-export default SingleCust
+export default SingleCustEdit;
 
 
 

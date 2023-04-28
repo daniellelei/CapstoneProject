@@ -95,7 +95,7 @@ export const createPost = (post) => async (dispatch) => {
 };
 
 export const updatePost = (post) => async (dispatch) => {
-  const response = await fetch(`/api/posts/${post.id}`, {
+  const response = await fetch(`/api/posts/${post.postId}`, {
     method: "PATCH",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(post),
