@@ -1,11 +1,15 @@
-from .db import db
+from .db import db, environment, SCHEMA, add_prefix_for_prod
 from .likes import likes
 from .post_custs import post_custs
 class Post(db.Model):
     __tablename__ = "posts"
+
+    if environment == "production":
+        __table_args__ = {'schema': SCHEMA}
     id = db.Column(db.Integer, primary_key=True)
     caption = db.Column(db.String(250), nullable=False)
-    author = db.Column(db.Integer, db.ForeignKey("users.id"))
+    author = db.Column(db.Integer, db.ForeignKey(
+        add_prefix_for_prod("users.id")))
     image = db.Column(db.String(250), nullable=False)
     post_date = db.Column(db.Date, nullable=False)
     

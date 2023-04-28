@@ -7,8 +7,9 @@ Create Date: 2023-04-27 16:32:01.497801
 """
 from alembic import op
 import sqlalchemy as sa
-
-
+import os
+environment = os.getenv("FLASK_ENV")
+SCHEMA = os.environ.get("SCHEMA")
 # revision identifiers, used by Alembic.
 revision = '89c7864e1174'
 down_revision = None
@@ -91,7 +92,7 @@ def upgrade():
     sa.ForeignKeyConstraint(['customization_id'], ['customizations.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('cart_drinks',
+    op.create_table('cart_customizations',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('cart_id', sa.Integer(), nullable=False),
     sa.Column('drink_id', sa.Integer(), nullable=False),
@@ -113,6 +114,20 @@ def upgrade():
     sa.ForeignKeyConstraint(['posts_id'], ['posts.id'], ),
     sa.PrimaryKeyConstraint('posts_id', 'customizations_id')
     )
+
+    if environment == "production":
+        op.execute(f"ALTER TABLE users SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE drinks SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE carts SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE customizations SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE posts SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE reviews SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE cart_customizations SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE cart_customizations SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE likes SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE post_custs SET SCHEMA {SCHEMA};")
+        
+        
     # ### end Alembic commands ###
 
 
