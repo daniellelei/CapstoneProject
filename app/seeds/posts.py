@@ -1,4 +1,4 @@
-from app.models import db, Post
+from app.models import db, Post, environment, SCHEMA
 from sqlalchemy.sql import text
 from faker import Faker
 from random import choice, sample, randint
@@ -53,6 +53,12 @@ def seed_posts(all_users):
 
 
 def undo_posts():
-    db.session.execute(text("DELETE FROM likes"))
-    db.session.execute(text("DELETE FROM posts"))
+    if environment == "production":
+        db.session.execute(
+            f"TRUNCATE table {SCHEMA}.likes RESTART IDENTITY CASCADE;")
+        db.session.execute(
+            f"TRUNCATE table {SCHEMA}.posts RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute(text("DELETE FROM likes"))
+        db.session.execute(text("DELETE FROM posts"))
     db.session.commit()
