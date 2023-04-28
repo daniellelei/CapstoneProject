@@ -10,4 +10,4 @@ post_custs = db.Table(
         add_prefix_for_prod('customizations.id')), primary_key=True)
 )
 if environment == "production":
-    board_pins.schema = SCHEMA
+    post_custs.schema = SCHEMA
