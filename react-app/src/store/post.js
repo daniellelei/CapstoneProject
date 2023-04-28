@@ -5,7 +5,10 @@ const LOAD_USER_POSTS = "posts/load_user_posts";
 const CREATE_POST = "posts/create";
 const UPDATE_POST = "posts/update";
 const REMOVE_POST = "posts/delete";
+const ADD_CHOSEN_CUST_TO_POST = "posts/add_chosen_cust_to_post"
+const REMOVE_CHOSEN_CUST_FROM_POST = 'posts/remove_cust_from_post'
 
+const CLEAR_CHOSEN_CUST = 'posts/clear_chosen_post'
 const CLEAR_POST_DETAIL = "posts/clear_post_state";
 const CLEAR_POSTS = "posts/clear_posts_state";
 
@@ -35,6 +38,17 @@ export const actionRemovePost = (id) => ({
   type: REMOVE_POST,
   id,
 });
+export const actionAddChosenCust = (cust) => ({
+  type: ADD_CHOSEN_CUST_TO_POST,
+  cust,
+})
+export const actionRemoveChosenCust = (cust) => ({
+  type: REMOVE_CHOSEN_CUST_FROM_POST,
+  cust
+})
+export const actionClearChosenCusts = () => ({
+  type: CLEAR_CHOSEN_CUST,
+})
 export const actionClearPosts = () => ({
   type: CLEAR_POSTS,
 });
@@ -110,6 +124,7 @@ export const deletePost = (post) => async (dispatch) => {
 const initialState = {
   allPosts: {},
   singlePost: {},
+  chosenCust: {},
 };
 
 const postReducer = (state = initialState, action) => {
@@ -144,6 +159,17 @@ const postReducer = (state = initialState, action) => {
       const newState = { ...state };
       delete newState.allPosts[action.id];
       return newState;
+    case ADD_CHOSEN_CUST_TO_POST:
+      return {
+        ...state,
+        chosenCust: {...state.chosenCust, [action.cust.id]: action.cust}
+      }
+    case REMOVE_CHOSEN_CUST_FROM_POST:
+      const newStateCust = {...state};
+      delete newStateCust.chosenCust[action.cust.id];
+      return newStateCust;
+    case CLEAR_CHOSEN_CUST:
+      return {...state, chosenCust:{}};
     case CLEAR_POSTS:
       return { ...state, allPosts: {} };
     case CLEAR_POST_DETAIL:

@@ -46,8 +46,14 @@ def add_new_post():
     # print("**************************")
     # print("**************************")
     # print(request_obj)
-    customizations = request_obj["custChosen"] #an array of customizations included drinks info
+    # an array of customizations included drinks info
+    customizations = request_obj["chosenCust"]
     # customization["id"]
+    print("==========================")
+    print("==========================")
+    print("==========================")
+    print("==========================")
+    print('After commit: ***', customizations)
 
     if form.validate_on_submit():
         new_post = Post(
@@ -58,11 +64,11 @@ def add_new_post():
         )
         db.session.add(new_post)
         db.session.commit()
-        print("==========================")
-        print("==========================")
-        print("==========================")
-        print("==========================")
-        print('After commit: ***', new_post.to_dict())
+        # print("==========================")
+        # print("==========================")
+        # print("==========================")
+        # print("==========================")
+        # print('After commit: ***', new_post.to_dict())
 
         if len(customizations) > 0:
             print("========================== before", new_post.post_customizations)

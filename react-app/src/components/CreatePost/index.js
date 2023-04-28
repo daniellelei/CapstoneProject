@@ -6,6 +6,7 @@ import * as cartActions from "../../store/cart";
 import * as customizationActions from '../../store/customization'
 import "./CreatePost.css";
 import { useModal } from "../../context/Modal";
+import SingleCust from "./SingleCust";
 
 export const chosen = (customization, custs) => {
     let chosenOrNot = false;
@@ -32,12 +33,16 @@ const CreatePost = () => {
     const user_id = user.id;
 
     const custsObj = useSelector((state)=>state.customizations.allUserCustomizations)
-    const [custChosen, setCustChosen] = useState([]); //an array of id's
-    const [chosen, setChosen] = useState(false);
+    const [custChosen, setCustChosen] = useState({}); //an array of id's
+    const chosenCustObj = useSelector((state)=>state.posts.chosenCust);
+
     useEffect(()=>{
         dispatch(customizationActions.getUserCustomizationThunk(user_id))
         
-        return () => dispatch(customizationActions.actionClearSavedCustomizations())
+        return () => {
+            dispatch(customizationActions.actionClearSavedCustomizations())
+            dispatch(postsAction.actionClearChosenCusts())
+        }
     },[dispatch, custChosen])
 
     let custs = []
@@ -48,8 +53,13 @@ const CreatePost = () => {
     } else {
         custs = Object.values(custsObj)
     }
-    console.log('custsArr', custsArr)
-    // console.log('custs', custs)
+    let chosenCust = []
+    if(!chosenCustObj) {
+        chosenCust = []
+    } else {
+        chosenCust = Object.values(chosenCustObj)
+    }
+
 
     useEffect(()=>{
         const err = {};
@@ -73,7 +83,7 @@ const CreatePost = () => {
                 postsAction.createPost({
                     caption,
                     image,
-                    custChosen,
+                    chosenCust,
                 })
             )
             if (!createdRes.errors) {
@@ -94,34 +104,7 @@ const CreatePost = () => {
         setResErrors({});
         setHasSubmitted(false);
     };
-
-    const checkChosen = (custChosen, c) => {
-        let res = false
-        custChosen?.forEach((f) => {
-            console.log('f.id', f.id)
-            console.log('c.id', c.id)
-            if (f.id === c.id) res = true
-        })
-        return res;
-    }
-
-    const getIndex = ( custChosen, c) => {
-        
-        let ind = -1;
-        if(custChosen !== undefined || custChosen?.length>0){
-            for (let i = 0; i < custChosen.length; i++) {
-                console.log(`custChosen ${i} id`, custChosen[i].id)
-                console.log ('c.id', c.id)
-                if (custChosen[i].id === c.id) {
-                    ind = i;
-                    break;
-                }
-            }
-        }
-        return ind;
-    }
     
-
     // const custOptionClassName = "custOps" + ( custs.includes(c) ? "" : " hidden");
     console.log('custChosen', custChosen)
     return (
@@ -171,78 +154,20 @@ const CreatePost = () => {
                                     <h4>Choose any that you would like to share</h4>
                                 </div>
                                 {
-                                    custs.map((c)=>(
-                                    <div key={c.id}>
-            
-                                        <div 
-                                        // className={checkChosen(custChosen,c) ? ' highlight' : ''}
-                                        >
-                                            
-                                            <p>{c.Drink.name}</p>
-                                            <img className="drinkImg" src = {c.Drink.imageUrl}/>
-                                            <div>
-                                                <p>Size: {c.size}</p>
-                                                <p>Milk Option:{c.milk}</p>
-                                                <p>Shot Options: {c.shotOptions}</p>
-                                                <p>Expresso Roast: {c.expressoRoastOptions}</p>
-                                                <p>${c.Drink.price}</p>
-                                            </div>
-                                        </div>
-                                        <div className="allCustBottom">
-                                            <p>{console.log(checkChosen(custChosen,c))}</p>
-                                            { checkChosen(custChosen, c) ? 
-                                            <button
-                                            onClick = {(e) => {
-                                                e.preventDefault();
-                                                
-                                                // let i = custChosen.indexOf(c)
-                                                console.log('i', getIndex(custChosen, c))
-                                                custChosen.splice(getIndex(custChosen, c), 1)
-                                                setCustChosen(custChosen)
-                                            }
-                                            }
-                                            >remove</button> 
-                                            : <button
-                                            onClick = { (e) => {
-                                                custChosen.push(c)
-                                                setCustChosen(custChosen)
-                                            }}
-                                            >choose</button>
-                                            }
-                                            {/* <button
-                                            // className={shown(chosen)}
-                                            onClick ={ async (e) => {
-                                                e.preventDefault();
-                                                const custsIdArr = []
-                                                if (custChosen?.length > 0) {
-                                                    for ( let a of custChosen) {
-                                                        custsIdArr.push(a.id)
-                                                }}
-                                                console.log('array of id', custsIdArr)
-                                                if (custsIdArr.includes(c.id)) {
-                                                    let i = custChosen.indexOf(c)
-                                                    custChosen.splice(i, 1)
-                                                    setCustChosen(custChosen)
-                                                    // setChosen(false)
-                                                } else {
-                                                    custChosen.push(c)
-                                                    setCustChosen(custChosen)
-                                                    // setChosen(true)
-                                                }
-                                                // setCustChosen(custChosen)
-                                                console.log('inside click ', custChosen)
-                                            }}
-                                            id = 'style'
-                                            >Choose</button> */}
-                                            
-                                        </div>
-                                    </div>))} 
+                                    custs.map((cust)=>(
+                                    <SingleCust 
+                                    key={cust.id}
+                                    cust={cust} 
+                                    user={user} 
+                                    setCustChosen={setCustChosen} 
+                                    custChosen={custChosen} 
+                                    />
+                                    ))} 
                             </div> : null}
                         </div>
                     <button type="submit">
                         Post
                     </button>
-
             </form>
         </div>
     )
@@ -250,3 +175,27 @@ const CreatePost = () => {
 }
 
 export default CreatePost;
+
+
+
+
+{/* { checkChosen(custChosen, c)===true ? 
+                                            (<button
+                                            key={c.id}
+                                            onClick = {(e) => {
+                                                e.preventDefault();
+                                                console.log(`Inside onClick, index from getIndex for id of ${c.id}`, getIndex(custChosen, c))
+                                                custChosen.splice(getIndex(custChosen, c), 1)
+                                                setCustChosen(custChosen)
+                                            }
+                                            }
+                                            >remove</button> )
+                                            : (<button
+                                            key={c.id}
+                                            onClick = { (e) => {
+                                                e.preventDefault();
+                                                custChosen.push(c)
+                                                setCustChosen(custChosen)
+                                            }}
+                                            >choose</button>)
+                                            } */}
