@@ -65,7 +65,7 @@ const CreatePost = () => {
         const err = {};
         if(caption.length<5) err.caption = '* Caption needs to be at least 5 characters long.'
         if(!image.length) err.image = '* Image is required'
-        // if(!image.includes('.jpg')||!image.includes('.png')) err.image = '* Image is not valid'
+        if(!image.includes('.jpg') && !image.includes('.png')) err.image = '* Image is not valid'
 
         setErrors(err);
     },[caption, image])

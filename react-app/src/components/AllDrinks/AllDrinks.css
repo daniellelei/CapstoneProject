@@ -66,13 +66,20 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 350px;
+    height: 320px;
     width:350px;
     text-decoration: none;
     color: black;
     position: relative;
     top: 0;
     transition: top ease 0.5s;
+}
+
+.detail{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .drinkname {
@@ -96,4 +103,9 @@
     font-size: 14px;
     color: gray;
     margin: 0;
+}
+
+.AddBtn {
+    margin-bottom: 1em;
+    top:-20px;
 }

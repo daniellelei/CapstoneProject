@@ -6,7 +6,7 @@ function OpenModalItem({
   itemType, // text of the button that opens the modal
   onItemClick, // optional: callback function that will be called once the button that opens the modal is clicked
   onModalClose, // optional: callback function that will be called once the modal is closed
-  item, 
+  
 }) {
   const { setModalContent, setOnModalClose } = useModal();
 
@@ -16,12 +16,13 @@ function OpenModalItem({
     if (onItemClick) onItemClick();
   };
 
-  if (itemType === "drink"){
-      return (
-        <li onClick={onClick}>
-            {item}
-        </li>
-      );
+  if (itemType === 'icon') {
+    return (
+      <i 
+      style={{ cursor: "pointer" }}
+      onClick={onClick} 
+      className="fa-solid fa-plus fa-lg"></i>
+    )
   }
 }
 

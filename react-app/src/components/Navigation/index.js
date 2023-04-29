@@ -61,6 +61,7 @@ function Navigation({ isLoaded }){
 				<button onClick={cartClick} className='navButton'>
 					<i className="fas fa-cart-shopping" />
 					
+					
 					<p className='count'>
 						{cart?drinksCount(cart):0}
 					</p> 

@@ -4,6 +4,8 @@ import { useHistory } from "react-router-dom";
 import * as PostActions from '../../store/post';
 import PostIndexItem from "./PostIndexItem";
 import './Feed.css'
+import OpenModalItem from "../OpenModalItem";
+import SignUpLoginModal from "../Signup_LoginModal";
 function AllPosts () {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -38,11 +40,10 @@ function AllPosts () {
                 <h1>Welcome to our community!</h1>
             <div>
                 {!user?.id ? 
-                <i 
-                style={{ cursor: "pointer" }}
-                className="fa-solid fa-plus fa-lg"
-                onClick={userNoIdplusClicked}
-                ></i>
+                <OpenModalItem 
+                modalComponent={<SignUpLoginModal/>}
+                itemType= 'icon'
+                />
                 : <i 
                 style={{ cursor: "pointer" }}
                 className="fa-solid fa-plus fa-lg"

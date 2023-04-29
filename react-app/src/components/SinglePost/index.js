@@ -5,6 +5,7 @@ import * as customizationActions from '../../store/customization';
 import * as cartActions from '../../store/cart';
 import * as postActions from '../../store/post';
 import OpenModalButton from '../OpenModalButton';
+import SignUpLoginModal from '../Signup_LoginModal';
 import DeletePostModal from '../DeletePost';
 import EditPost from '../EditPost';
 import './SinglePost.css'
@@ -84,12 +85,20 @@ const SinglePost = () => {
                             <p className="postDate">Shot Options: {customization.shotOptions}</p>
                             <p className="postDate">Expresso Roast: {customization.expressoRoastOptions}</p>
                         </div>
-                        <button
-                        onClick ={ async (e) => {
+                        {user ? <button
+                        onClick = {async (e) => {
                             e.preventDefault();
-                            await dispatch(cartActions.addToCartThunk(customization));
-                        }}
-                        >Add to Cart</button>
+                            if(user){
+                                await dispatch(cartActions.addToCartThunk(customization.drinks_customization))
+                            }
+                            }}
+                        
+                        >Add</button>
+                        : <OpenModalButton 
+                            buttonText= "Add to Cart"
+                            modalComponent={<SignUpLoginModal />}
+                        />
+                        }
                     </div>
                 ))}
             </div>
