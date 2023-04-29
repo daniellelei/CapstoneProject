@@ -4,6 +4,9 @@ import { useHistory } from "react-router-dom";
 import {useModal} from "../../context/Modal"
 import * as customizationActions from '../../store/customization';
 import './CreateCustomization.css'
+import SignUpLoginModal from "../Signup_LoginModal";
+import OpenModalButton from "../OpenModalButton";
+
 const CreateCustomization = (drink) => {
     
     const milks = ['Choose an Option','None', 'Whole Milk', '2%', 'HalfNHalf', 'Fat Free'];
@@ -39,11 +42,16 @@ const CreateCustomization = (drink) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setHasSubmitted(true);
+        console.log('clicked submit or create me')
+        console.log('hasSubmitted', hasSubmitted)
         setResErrors({});
 
-        if(!currentUser){
-            window.alert('You must be logged in to customize a drink.')
-        } 
+
+
+
+        // if(!currentUser){
+        //     window.alert('You must be logged in to customize a drink.')
+        // } 
         let user_id = currentUser?.id
         let drink_id = drink.drink.id
         let cart_id = 1
@@ -179,9 +187,14 @@ const CreateCustomization = (drink) => {
                             <p className="noErrorDisplay">{"  "}</p>
                         )}
                     </div>
-                    <button type="submit">
+                    {currentUser ? (<button type="submit">
                     Create Me
-                    </button>
+                    </button> ): (<OpenModalButton 
+                    buttonText= "Create Me"
+                    modalComponent={<SignUpLoginModal />}
+                />)}
+                    
+                    
                 </div>
             </form>
             {/* <button

@@ -4,6 +4,8 @@ import { Link, useHistory } from "react-router-dom";
 import * as drinkActions from "../../store/drink";
 import * as cartActions from '../../store/cart';
 import './AllDrinks.css'
+import OpenModalButton from "../OpenModalButton";
+import SignUpLoginModal from "../Signup_LoginModal";
 
 const DrinkIndexItem = ({
     drink,
@@ -14,9 +16,9 @@ const DrinkIndexItem = ({
     const history = useHistory();
 
     return (
-        <div  key={drink.id}>
+        <div  key={drink.id} className='eaDrink'>
             <Link to={`/drinks/${drink.id}`}>
-                <div className='eaDrink'>
+                <div className='detail'>
                     <img
                         src = {drink.imageUrl}
                         alt = {drink.name}
@@ -24,19 +26,24 @@ const DrinkIndexItem = ({
                     />
                     <p className="drinkname">{drink.name}</p>
                     <p className="price">${drink.price}</p>
-                    <button
-                    onClick = {async (e) => {
-                        e.preventDefault();
-                        if(!user){
-                            window.alert('You must be logged in to order a drink.')
-                        } else {
-                            await dispatch(cartActions.addToCartThunk(drink))
-                            // history.push('/drinks')
-                        }
-                    }}
-                    >Add</button>
                 </div>
             </Link>
+            <div className="AddBtn">
+                {user ? <button
+                onClick = {async (e) => {
+                    e.preventDefault();
+                    if(user){
+                        await dispatch(cartActions.addToCartThunk(drink))
+                    }
+                    }}
+                
+                >Add</button>
+                : <OpenModalButton 
+                    buttonText= "Add"
+                    modalComponent={<SignUpLoginModal />}
+                />
+                }
+            </div>
         </div>
     )
 }

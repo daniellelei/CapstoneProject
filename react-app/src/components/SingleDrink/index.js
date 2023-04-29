@@ -4,6 +4,7 @@ import { NavLink, Redirect, useLocation, useParams, useHistory } from "react-rou
 import * as drinkActions from '../../store/drink';
 import * as cartActions from '../../store/cart';
 import OpenModalButton from '../OpenModalButton';
+import SignUpLoginModal from '../Signup_LoginModal';
 import CreateCustomization from '../CreateCustomization';
 import ConfirmModal from './confirmModal';
 import "./SingleDrink.css"
@@ -46,17 +47,20 @@ const Drink = () => {
                 <h2>{drink.name}</h2>
                 <p>Size: Grande</p>
                 <p>${drink.price}</p>
-                <button
+                {user ? <button
                 onClick = {async (e) => {
                     e.preventDefault();
-                        if(!user){
-                            window.alert('You must be logged in to order a drink.')
-                        } else {
-                            await dispatch(cartActions.addToCartThunk(drink))
-                            // history.push('/drinks')
-                        }
-                }}
-                >Add to Order</button> 
+                    if(user){
+                        await dispatch(cartActions.addToCartThunk(drink))
+                    }
+                    }}
+                
+                >Add</button>
+                : <OpenModalButton 
+                    buttonText= "Add to Cart"
+                    modalComponent={<SignUpLoginModal />}
+                />
+                }
                  
 
             </div>
