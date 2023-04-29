@@ -47,6 +47,12 @@ function AllDrinks(){
       // setCategory('Hot Coffee')
     }
 
+    const allDrinksClick = async (e) => {
+      e.preventDefault();
+      await dispatch(drinkActions.actionLoadCategory([]))
+
+    }
+
     console.log('category drinks', categoriesDrinksObj)
     if(!categoriesDrinksObj) return <div>loading</div>
     const categoryDrinks = Object.values(categoriesDrinksObj);
@@ -59,6 +65,12 @@ function AllDrinks(){
         <div className="allDrinksBottom">
           <div className="leftDrinkNav">
             <ul>
+              <li
+              className="eaCategory"
+              onClick={allDrinksClick}
+              >
+                All Drinks
+              </li>
               <li 
               className="eaCategory"
               onClick={icedCoffeeClick}>

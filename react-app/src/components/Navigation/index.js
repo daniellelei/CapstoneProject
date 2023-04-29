@@ -11,32 +11,31 @@ function Navigation({ isLoaded }){
 	const sessionUser = useSelector(state => state.session.user);
 	const history = useHistory()
 	const dispatch = useDispatch();
-	const cart = useSelector((state) => state.carts.currentCart)
 	const user = useSelector((state)=> state.session.user);
-	const [itemCount, setItemCount] = useState(0);
+	const cart = useSelector((state) => state.carts.currentCart)
+	// let drinkCount = cart.drinks?.length+cart.customizations?.length
+	const drinksCount = (cart) => {
+		let drinks = 0
+		if(cart?.drinks?.length > 0) drinks = cart.drinks.length;
+		let custs = 0
+		if(cart?.customizations?.length > 0) custs = cart.customizations.length
+		return (drinks+custs)
+	}
 	
-
-	// useEffect(()=> {
-	// 	if(user) dispatch(cartActions.getCurrentCartThunk());
-	// 	console.log('inside useEffect', cart)
-	// 	if(!cart) setItemCount(0)
-	// 	else drinksCount(cart)
-	// }, [dispatch, user])
-
-	// const drinksCount = (cart) => {
-	// 	let drinks = 0
-	// 	if(cart?.drinks?.length!==0) drinks = cart.drinks.length;
-	// 	let custs = 0
-	// 	if(cart?.customizations?.length !== 0) custs = cart.customizations.length
-	// 	setItemCount(drinks+custs)
-	// }
-
-
+	useEffect(()=> {
+		if(user) dispatch(cartActions.getCurrentCartThunk());
+		console.log('inside useEffect', cart)
+		if(!cart) setItemCount(0)
+		else setItemCount(drinksCount(cart))
+	}, [dispatch, user])
+	
 	const cartClick = (e) =>{
-    e.preventDefault();
-	history.push('/cart')
-  }
-
+		e.preventDefault();
+		history.push('/cart')
+	}
+	const [itemCount, setItemCount] = useState(drinksCount(cart));
+	console.log('from top nav cart', itemCount)
+	if(!cart) return null;
 	return (
 		<div className='topNav'>
 			<div className='leftNav'>
@@ -61,10 +60,10 @@ function Navigation({ isLoaded }){
 				)}
 				<button onClick={cartClick} className='navButton'>
 					<i className="fas fa-cart-shopping" />
-					{/* <p className='count'>
-						{itemCount}
-					</p> */}
-					{/* <i class="fa-light fa-cart-shopping"></i> */}
+					
+					<p className='count'>
+						{cart?drinksCount(cart):0}
+					</p> 
 				</button>
 			</div>
 		</div>

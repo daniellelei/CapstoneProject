@@ -78,10 +78,12 @@ const SinglePost = () => {
                         className='drinkImg'
                         src = {customization.drinks_customization.imageUrl}
                         />
-                        <p>Size: {customization.size}</p>
-                        <p>Milk options: {customization.milk}</p>
-                        <p>Shot Options: {customization.shotOptions}</p>
-                        <p>Expresso Roast: {customization.expressoRoastOptions}</p>
+                        <div>
+                            <p className="postDate">Size: {customization.size}</p>
+                            <p className="postDate">Milk options: {customization.milk}</p>
+                            <p className="postDate">Shot Options: {customization.shotOptions}</p>
+                            <p className="postDate">Expresso Roast: {customization.expressoRoastOptions}</p>
+                        </div>
                         <button
                         onClick ={ async (e) => {
                             e.preventDefault();

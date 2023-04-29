@@ -50,6 +50,7 @@ function SignupFormModal() {
 					Email
 				</label>
 					<input
+						className="loginInput"
 						type="text"
 						value={email}
 						placeholder="Please provide an email"
@@ -60,6 +61,7 @@ function SignupFormModal() {
 					Username
 				</label>
 					<input
+						className="loginInput"
 						type="text"
 						value={username}
 						placeholder="Please provide a username"
@@ -70,6 +72,7 @@ function SignupFormModal() {
 					Funds
 				</label>
 					<input
+						className="loginInput"
 						type="text"
 						value={funds}
 						placeholder="Please add at least $1"
@@ -80,6 +83,7 @@ function SignupFormModal() {
 					Password
 				</label>
 					<input
+						className="loginInput"
 						type="password"
 						value={password}
 						placeholder="Please provide a password"
@@ -90,6 +94,7 @@ function SignupFormModal() {
 					Confirm Password
 				</label>
 					<input
+						className="loginInput"
 						type="password"
 						value={confirmPassword}
 						placeholder="Please confirm your password"
