@@ -48,6 +48,12 @@ const SingleCustomization = () =>{
                 <p>Milk options: {customization.milk}</p>
                 <p>Shot Options: {customization.shotOptions}</p>
                 <p>Expresso Roast: {customization.expressoRoastOptions}</p>
+                <p>Additionals:</p>
+                <p>{customization.toppings}</p>
+                <p>{customization.flavors}</p>
+                <p>{customization.addIns}</p>
+                <p>{customization.sweeteners}</p>
+
             </div>
             <div className='singleCustBottom'>
                 {user && !isAdded(currentCart,'customization', customization.id) ? <button

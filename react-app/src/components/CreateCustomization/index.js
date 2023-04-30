@@ -12,7 +12,17 @@ const CreateCustomization = (drink) => {
     const milks = ['Choose an Option','None', 'Whole Milk', '2%', 'HalfNHalf', 'Fat Free'];
     const sizes = ['Choose an Option','Tall', 'Grande', 'Venti'];
     const shots = ['Choose an Option', 1, 2, 3];
-    const expressos = ['Choose an Option', "Blonde", "Medium Roast", "Dark Roast"];
+    const expressos = ['Choose an Option', 'None', "Blonde", "Medium Roast", "Dark Roast"];
+    const toppingss = ['Choose an Option', 'None','Caramel Crunch Topping', 
+    'Cookie Crumble Topping', 'Salted Caramel Cream Cold Foam',
+    'Vanilla Sweet Cream Cold Foam']
+    const flavorss = ['Choose an Option', 'None', 'Brown Sugar Syrup', 'Caramel Syrup',
+    'Hazelnut Syrup', 'Raspberry Syrup', 'Toffeenut Syrup', 
+    'White Chocolate Mocha Sauce']
+    const addInss = ['Choose an Option', 'None','Chocolate Malt Powder', 'Vanilla Bean Powder', 'Creamer', 'More ice']
+    const sweetenerss = ['Choose an Option', 'None','Sugar', 'Honey', 'Splenda', 'Classic Syrup']
+    const teaBases = ['Choose an Option', 'None', 'Black Tea', 'Jasmine Green Tea', 'Oolong Green Tea']
+    
     const history = useHistory();
     const dispatch = useDispatch();
     const { closeModal } = useModal();
@@ -21,6 +31,11 @@ const CreateCustomization = (drink) => {
     const [milk, setMilk] = useState('');
     const [shotOptions, setshotOptions] = useState(0);
     const [expressoRoastOptions, setexpressoRoastOptions] = useState('');
+    const [toppings, setToppings] = useState('');
+    const [flavors, setFlavors] = useState('');
+    const [addIns, setAddIns] = useState('');
+    const [sweeteners, setSweeteners] = useState('');
+    const [teaBase, setTeaBase] = useState('');
     const [errors, setErrors] = useState({});
     const [resErrors, setResErrors] = useState({});
     const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -35,9 +50,9 @@ const CreateCustomization = (drink) => {
         if(!milk.length) err.milk = "* Please choose a milk option"
         if(shotOptions === 0) err.shotOptions = "* Please add a shot"
         if(!expressoRoastOptions.length) err.expressoRoastOptions = '* Please choose a kind of expresso'
-
+        if(!teaBase.length) err.teaBase = '* Plaeas choose a kind of tea'
         setErrors(err);
-    },[size, milk, shotOptions, expressoRoastOptions]);
+    },[size, milk, shotOptions, expressoRoastOptions, teaBase]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -63,6 +78,11 @@ const CreateCustomization = (drink) => {
             milk,
             shotOptions,
             expressoRoastOptions,
+            toppings,
+            flavors,
+            addIns,
+            sweeteners,
+            teaBase,
             user_id,
             drink_id,
             cart_id
@@ -82,6 +102,11 @@ const CreateCustomization = (drink) => {
     const reset = () => {
         setSize('');
         setMilk('');
+        setToppings('');
+        setAddIns('');
+        setFlavors('');
+        setTeaBase('');
+        setSweeteners('');
         setshotOptions(0);
         setexpressoRoastOptions('');
         setErrors({});
@@ -165,8 +190,9 @@ const CreateCustomization = (drink) => {
                             <p className="noErrorDisplay">{"  "}</p>
                         )}
                     </div>
+                    {drink.category==='tea' ? null :
                     <div>
-                        <label>Choose Expresso Roast Options: </label>
+                        <label>Choose Expresso Roast:</label>
                         <select
                         onChange={(e)=> {
                             setexpressoRoastOptions(e.target.value);
@@ -186,7 +212,98 @@ const CreateCustomization = (drink) => {
                         ) : (
                             <p className="noErrorDisplay">{"  "}</p>
                         )}
+                    </div>}
+                    {drink.category==='coffee' ? null : 
+                    <div>
+                        <label>Choose Tea Base: </label>
+                        <select
+                        onChange={(e)=> {
+                            setTeaBase(e.target.value);
+                        }}
+                        value = {teaBase}
+                        name="teaBase"
+                        >
+                            {teaBases.map((e)=>(
+                                <option value={e} key={e}>
+                                    {e}
+                                </option>
+                            ))}
+                        </select>
+                        {hasSubmitted ? (
+                            <p className="error"> {errors.teaBase}</p>
+                        ) : (
+                            <p className="noErrorDisplay">{"  "}</p>
+                        )}
+                    </div> }
+                    <div>
+                        <label>Choose Flavor (optional): </label>
+                        <select
+                        onChange={(e)=> {
+                            setFlavors(e.target.value);
+                        }}
+                        value = {flavors}
+                        name="flavors"
+                        placeholder="Choose flavors"
+                        >
+                            {flavorss.map((m)=>(
+                                <option value={m} key={m}>
+                                    {m}
+                                </option>
+                            ))}
+                        </select>
                     </div>
+                    <div>
+                        <label>Choose Topping (optional): </label>
+                        <select
+                        onChange={(e)=> {
+                            setToppings(e.target.value);
+                        }}
+                        value = {toppings}
+                        name="toppings"
+                        placeholder="Choose toppings"
+                        >
+                            {toppingss.map((m)=>(
+                                <option value={m} key={m}>
+                                    {m}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label>Choose AddIns (optional): </label>
+                        <select
+                        onChange={(e)=> {
+                            setAddIns(e.target.value);
+                        }}
+                        value = {addIns}
+                        name="addIns"
+                        placeholder="Choose addIns"
+                        >
+                            {addInss.map((m)=>(
+                                <option value={m} key={m}>
+                                    {m}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label>Choose Sweeteners (optional): </label>
+                        <select
+                        onChange={(e)=> {
+                            setSweeteners(e.target.value);
+                        }}
+                        value = {sweeteners}
+                        name="sweeteners"
+                        placeholder="Choose sweeteners"
+                        >
+                            {sweetenerss.map((m)=>(
+                                <option value={m} key={m}>
+                                    {m}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    
                     {currentUser ? (<button type="submit">
                     Create Me
                     </button> ): (<OpenModalButton 
