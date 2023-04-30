@@ -255,6 +255,7 @@ export const removeFromCartThunk = (custOrDrink) => async (dispatch) => {
   const cartResponse = await fetch(`/api/carts/lastcurrent`);
   const cart = await cartResponse.json();
   // console.log('add to cart**********', cart)
+  console.log('from remove from cart thunkkkkk', custOrDrink.id)
   if(custOrDrink.name){
     const response = await fetch(`/api/drinks/${custOrDrink.id}/removefromcart`, {
       method: "PATCH",

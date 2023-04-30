@@ -172,7 +172,7 @@ def remove_from_cart(id):
 
         if cartId:
             cart_customization = Cart_customization.query.filter(
-                Cart_customization.cart_id == cartId and 
+                Cart_customization.cart_id == cartId,
                 Cart_customization.customization_id == customization.id).first()
             if cart.user_id == user.id:
                 db.session.delete(cart_customization)

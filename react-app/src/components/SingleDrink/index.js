@@ -10,6 +10,25 @@ import CreateCustomization from '../CreateCustomization';
 import ConfirmModal from './confirmModal';
 import "./SingleDrink.css"
 import AddToCartButton from '../AddToCartButton';
+
+export const isAdded = (currentCart, drink) => {
+        if(!currentCart?.drinks?.length) return false;
+        for (let d of currentCart.drinks) {
+            if(d.id === drink.id) return true;
+        }
+        return false;
+    }
+
+export const numOfAdded = (currentCart, drink) => {
+        if (isAdded(currentCart, drink)===false) return 'Add'
+        let num = 0;
+        for (let d of currentCart.drinks) {
+            if(d.id === drink.id) {
+                num = num + 1
+            }
+        }
+        return `${num} in cart`
+    }
 const Drink = () => {
     
     const {drinkId} = useParams();
@@ -34,23 +53,8 @@ const Drink = () => {
         return () => dispatch(drinkActions.actionClearDrink());
     },[dispatch, drinkId, loading])
 
-    const isAdded = (currentCart, drink) => {
-        if(!currentCart?.drinks?.length) return false;
-        for (let d of currentCart.drinks) {
-            if(d.id === drink.id) return true;
-        }
-        return false;
-    }
-    const numOfAdded = (currentCart, drink) => {
-        if (isAdded(currentCart, drink)===false) return 'Add'
-        let num = 0;
-        for (let d of currentCart.drinks) {
-            if(d.id === drink.id) {
-                num = num + 1
-            }
-        }
-        return `${num} in cart`
-    }
+    
+    
 
     if(!drink?.id || loading) return (<div className='loadingPage'>
         <img className="loadingImg" src="https://cdn.dribbble.com/users/2520294/screenshots/7209485/media/cf226d98a06282e9cabf5c2f8f6d547f.gif"/>

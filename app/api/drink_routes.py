@@ -72,8 +72,9 @@ def remove_from_cart(id):
 
         if cartId:
             cart_drink = Cart_drink.query.filter(
-                Cart_drink.cart_id==cartId and
+                Cart_drink.cart_id==cartId,
                 Cart_drink.drink_id==drink.id).first()
+            cart_drink_copy = cart_drink.to_dict()
 
             # cart = Cart.query.get(cartId)
             if cart.user_id == user.id:
@@ -83,7 +84,8 @@ def remove_from_cart(id):
                 # if cart.drinksInCart:
                 #     cart.drinksInCart.remove(drink)
                 db.session.commit()
-                return {'message':'drink_cart deleted'}
+                return {'message':'drink_cart deleted',
+                        "cart_drink_copy": cart_drink_copy}
             else:
                 return {'message': "User does not own this cart"}
 
