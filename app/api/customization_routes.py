@@ -58,6 +58,12 @@ def create_customization():
             milk = form.data['milk'],
             shotOptions=form.data['shotOptions'],
             expressoRoastOptions=form.data['expressoRoastOptions'],
+            toppings = form.data['toppings'],
+            flavors = form.data['flavors'],
+            addIns = form.data['addIns'],
+            sweeteners = form.data['sweeteners'],
+            teaBase = form.data['teaBase'],
+
         )
         db.session.add(new_customization)
         db.session.commit()
@@ -86,6 +92,12 @@ def update_customization(id):
             customization.milk = form.data['milk']
             customization.shotOptions = form.data['shotOptions']
             customization.expressoRoastOptions = form.data['expressoRoastOptions']
+            customization.toppings = form.data['toppings']
+            customization.flavors = form.data['flavors']
+            customization.addIns = form.data['addIns']
+            customization.sweeteners = form.data['sweeteners']
+            customization.teaBase = form.data['teaBase']
+        
             
             db.session.commit()
             updated_customization = Customization.query.get(id)
