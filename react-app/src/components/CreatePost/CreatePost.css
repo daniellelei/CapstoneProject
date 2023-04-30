@@ -4,14 +4,25 @@
     justify-content: center;
     align-items: center;
 }
+.createPostForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: column;
+    align-items: center;
 
+}
+.createFromBottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
 .caption_image{
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    align-items: space-evenly;
-    width: 100%;
+    justify-content: center;
+    align-items: center;
+    
 }
 
 .caption {
@@ -32,12 +43,19 @@
 
 .createPostCusts {
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-around;
     align-items: center;
     flex-wrap: wrap;
+    padding: 0 15% 0 15%;
+    
 }
+.createPostCust{
+    width: 180px;
+}
+
 .caption input {
-    width: 100%;
+    width: 400px;
     margin-top: 1em;
 }
 
@@ -48,5 +66,5 @@
 .submitbtn {
     display: flex;
     justify-content: flex-end;
-    width: 100%
+    width: 50%;
 }
