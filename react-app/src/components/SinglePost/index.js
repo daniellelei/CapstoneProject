@@ -58,7 +58,7 @@ const SinglePost = () => {
                 <p className="postCaption">{post.caption}</p>
                 <p className="postDate">{post.postDate}</p>
                 <p className="postDate">Posted by {post.user.username}</p>
-                <p>1.2k likes</p>
+                {/* <p>1.2k likes</p> */}
                 <i className="fa-solid fa-thumbs-up"></i>
             </div>
             {user?.id === author_id 
