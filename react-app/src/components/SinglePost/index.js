@@ -45,7 +45,8 @@ const SinglePost = () => {
         <img className="loadingImg" src="https://cdn.dribbble.com/users/2520294/screenshots/7209485/media/cf226d98a06282e9cabf5c2f8f6d547f.gif"/>
     </div>)
 
-    console.log('this is single Post', post)
+    // console.log('this is single Post', post)
+    
 
     return (
         <div className='singlePostPage'>
@@ -129,6 +130,8 @@ const SinglePost = () => {
                 ></i>
                 : null}
             </div>
+
+                        
             
                     </div>
                 ))}
@@ -143,3 +146,4 @@ const SinglePost = () => {
 }
 
 export default SinglePost;
+

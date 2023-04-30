@@ -135,6 +135,7 @@ export const updateCustomizationThunk = (customization) => async (dispatch) => {
 
 //delete
 export const deleteCustomization = (customization) => async (dispatch) => {
+  console.log('from delete thunk', customization.id)
   const response = await fetch(`/api/customizations/${customization.id}`, {
     method: "DELETE",
   });

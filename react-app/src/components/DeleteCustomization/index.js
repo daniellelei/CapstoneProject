@@ -5,16 +5,30 @@ import { useModal } from "../../context/Modal";
 import { useHistory } from "react-router-dom";
 
 function DeleteModal({ customization }) {
+  console.log("from deleteModal", customization)
   const dispatch = useDispatch();
   const { closeModal } = useModal();
   const history = useHistory();
+  const currentCart = useSelector((state)=>state.carts.currentCart);
+
+  if (currentCart.customizations?.length>0){
+      for (let c of currentCart.customizations){
+        if (customization.id === c.id) {
+          return (
+            <div>
+              <h2>This customization is currently in your cart. Please remove it from cart before deleting it. Thank you! 😃</h2>
+            </div>
+          )
+        }
+      }
+    }
 
   const ClickYes = async (e) => {
     e.preventDefault();
     await dispatch(customizationActions.deleteCustomization(customization));
     await closeModal();
     await dispatch(customizationActions.getUserCustomizationThunk());
-    return history.push(`/drinks`);
+    return history.push(`/customizations`);
     // return history.push(`/user`);
   };
 
@@ -23,6 +37,7 @@ function DeleteModal({ customization }) {
     closeModal();
   };
 
+  
   return (
     <div className="container">
       <h1 className="title_text">Are you sure?</h1>
@@ -32,13 +47,13 @@ function DeleteModal({ customization }) {
       <div className="button-container">
         {/* <div className="submitDiv de"> */}
         <button onClick={ClickYes} className="confirmation-button">
-          Yes Delete customization!
+          Yes Delete it!
         </button>
         {/* </div> */}
       </div>
       <div className="submitDiv de">
         <button onClick={ClickNo} className="cancel-button">
-          No Keep customization!
+          No Keep it!
         </button>
       </div>
     </div>
