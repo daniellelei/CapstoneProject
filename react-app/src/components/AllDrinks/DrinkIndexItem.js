@@ -33,7 +33,7 @@ const DrinkIndexItem = ({
                     <p className="price">${drink.price}</p>
                 </div>
             </Link>
-            {user && !isAdded(currentCart,drink) ? <button
+            {user && !isAdded(currentCart,"drink", drink.id) ? <button
             onClick = {async (e) => {
                 e.preventDefault();
                 if(user){
@@ -48,7 +48,7 @@ const DrinkIndexItem = ({
                 modalComponent={<SignUpLoginModal page={`/drinks/${drink.id}`}/>}
             /> : null}
             <div className='plusMinus'>
-                {user && isAdded(currentCart, drink)? 
+                {user && isAdded(currentCart,"drink", drink.id)? 
                 <i 
                 className="fa-solid fa-square-minus"
                 onClick = { (e) => {
@@ -59,8 +59,8 @@ const DrinkIndexItem = ({
                 }}
                 ></i>
                 : null}
-                {isAdded(currentCart, drink)? <span className='numOfdrink'>{numOfAdded(currentCart, drink)}</span> : null}
-                { user && isAdded(currentCart, drink)? 
+                {isAdded(currentCart,"drink", drink.id)? <span className='numOfdrink'>{numOfAdded(currentCart,"drink", drink.id)}</span> : null}
+                { user && isAdded(currentCart,"drink", drink.id)? 
                 <i 
                 className="fa-solid fa-square-plus"
                 onClick = { async(e) => {

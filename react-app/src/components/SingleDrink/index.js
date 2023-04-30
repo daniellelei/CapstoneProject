@@ -11,20 +11,39 @@ import ConfirmModal from './confirmModal';
 import "./SingleDrink.css"
 import AddToCartButton from '../AddToCartButton';
 
-export const isAdded = (currentCart, drink) => {
-        if(!currentCart?.drinks?.length) return false;
-        for (let d of currentCart.drinks) {
-            if(d.id === drink.id) return true;
+export const isAdded = (currentCart, type, id) => {
+    if (type === 'drink')
+        {
+            if(!currentCart?.drinks?.length) return false;
+            for (let d of currentCart.drinks) {
+                if(d.id === id) return true;
+            }
         }
+    if (type ==='customization')
+        {
+            if(!currentCart?.customizations?.length) return false;
+            for (let d of currentCart.customizations) {
+                if(d.id === id) return true;
+            }
+        }   
         return false;
     }
 
-export const numOfAdded = (currentCart, drink) => {
-        if (isAdded(currentCart, drink)===false) return 'Add'
+export const numOfAdded = (currentCart, type, id) => {
+        if (isAdded(currentCart, type, id)===false) return 'Add'
         let num = 0;
-        for (let d of currentCart.drinks) {
-            if(d.id === drink.id) {
-                num = num + 1
+        if (type === 'drink'){
+            for (let d of currentCart.drinks) {
+                if(d.id === id) {
+                    num = num + 1
+                }
+            }
+        }
+        if (type === 'customization'){
+            for (let d of currentCart.customizations) {
+                if(d.id === id) {
+                    num = num + 1
+                }
             }
         }
         return `${num} in cart`
@@ -72,7 +91,7 @@ const Drink = () => {
                 <p>Size: Grande</p>
                 <p>${drink.price}</p>
                 
-                {user && !isAdded(currentCart,drink) ? <button
+                {user && !isAdded(currentCart,"drink", drink.id) ? <button
                 onClick = {async (e) => {
                     e.preventDefault();
                     if(user){
@@ -87,7 +106,7 @@ const Drink = () => {
                     modalComponent={<SignUpLoginModal page={`/drinks/${drink.id}`}/>}
                 /> : null}
                 <div className='plusMinus'>
-                    {user && isAdded(currentCart, drink)? 
+                    {user && isAdded(currentCart,"drink", drink.id)? 
                     <i 
                     className="fa-solid fa-square-minus"
                     onClick = { async(e) => {
@@ -98,8 +117,8 @@ const Drink = () => {
                     }}
                     ></i>
                     : null}
-                    {isAdded(currentCart, drink)? <span className='numOfdrink'>{numOfAdded(currentCart, drink)}</span> : null}
-                    { user && isAdded(currentCart, drink)? 
+                    {isAdded(currentCart,"drink", drink.id)? <span className='numOfdrink'>{numOfAdded(currentCart,"drink", drink.id)}</span> : null}
+                    { user && isAdded(currentCart,"drink", drink.id)? 
                     <i 
                     className="fa-solid fa-square-plus"
                     onClick = { async(e) => {
