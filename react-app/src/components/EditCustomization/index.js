@@ -3,12 +3,21 @@ import {useDispatch, useSelector} from 'react-redux';
 import { useHistory } from "react-router-dom";
 import {useModal} from "../../context/Modal"
 import * as customizationActions from '../../store/customization';
-
+import './EditCustomization.css'
 const EditCustomization = ({customization}) => {
     const milks = ['None', 'Whole Milk', '2%', 'HalfNHalf', 'Fat Free'];
     const sizes = ['Tall', 'Grande', 'Venti'];
     const shots = [1, 2, 3];
     const expressos = ["Blonde", "Medium Roast", "Dark Roast"];
+    const toppingss = [ 'None','Caramel Crunch Topping', 
+    'Cookie Crumble Topping', 'Salted Caramel Cream Cold Foam',
+    'Vanilla Sweet Cream Cold Foam']
+    const flavorss = [ 'None', 'Brown Sugar Syrup', 'Caramel Syrup',
+    'Hazelnut Syrup', 'Raspberry Syrup', 'Toffeenut Syrup', 
+    'White Chocolate Mocha Sauce']
+    const addInss = [ 'None','Chocolate Malt Powder', 'Vanilla Bean Powder', 'Creamer', 'More ice']
+    const sweetenerss = [ 'None','Sugar', 'Honey', 'Splenda', 'Classic Syrup']
+    const teaBases = [ 'None', 'Black Tea', 'Jasmine Green Tea', 'Oolong Green Tea']
     const dispatch = useDispatch();
     const history = useHistory();
     const { closeModal } = useModal();
@@ -17,31 +26,31 @@ const EditCustomization = ({customization}) => {
     const [milk, setMilk] = useState(customization.milk);
     const [shotOptions, setshotOptions] = useState(customization.shotOptions);
     const [expressoRoastOptions, setexpressoRoastOptions] = useState(customization.expressoRoastOptions);
+    const [toppings, setToppings] = useState(customization.toppings);
+    const [flavors, setFlavors] = useState(customization.flavors);
+    const [addIns, setAddIns] = useState(customization.addIns);
+    const [sweeteners, setSweeteners] = useState(customization.sweeteners);
+    const [teaBase, setTeaBase] = useState(customization.teaBase);
     const [errors, setErrors] = useState({});
     const [resErrors, setResErrors] = useState({});
     const [hasSubmitted, setHasSubmitted] = useState(false);
 
     const currentUser = useSelector((state) => state.session.user)
 
-    // useEffect(()=>{
-    //     if (customization) {
-    //         setSize(cu)
-    //     }
-    // })
-    // const updateSize = (e) => setSize(e.target.value);
-    // const updateMilk = (e) => setMilk(e.target.value);
-    // const updateshotOptions = (e) => setshotOptions(e.target.value);
-    // const updateexpressoRoastOptions = (e) => setexpressoRoastOptions(e.target.value);
-
     useEffect(()=>{
         const err = {};
         if(!size.length) err.size = "Please choose a size."
         if(!milk.length) err.milk = "Please choose a milk option"
         if(shotOptions === 0) err.shotOptions = "Please add a shot"
-        if(!expressoRoastOptions.length) err.expressoRoastOptions = 'Please choose a kind of expresso'
+        if(customization.Drink.category==='coffee') {
+            if(!expressoRoastOptions.length) err.expressoRoastOptions = '* Please choose a kind of expresso'
+        }
+        if(customization.Drink.category==='tea') {
+            if(!teaBase.length) err.teaBase = '* Plaeas choose a kind of tea'
+        }
 
         setErrors(err);
-    },[size, milk, shotOptions, expressoRoastOptions]);
+    },[size, milk, shotOptions, expressoRoastOptions, teaBase]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -60,6 +69,11 @@ const EditCustomization = ({customization}) => {
             milk,
             shotOptions,
             expressoRoastOptions,
+            toppings,
+            flavors,
+            addIns,
+            sweeteners,
+            teaBase,
             user_id,
             drink_id,
             cart_id,
@@ -78,8 +92,9 @@ const EditCustomization = ({customization}) => {
     }
     
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
+        <div className="editPage">
+            <h2>Edit customization</h2>
+            <form onSubmit={handleSubmit} className="editForm">
                 <ul>
                     {hasSubmitted && Boolean(Object.values(resErrors).length) ? (
                         <li>{Object.values(resErrors)}</li>
@@ -152,15 +167,16 @@ const EditCustomization = ({customization}) => {
                             <p className="noErrorDisplay">{"  "}</p>
                         )}
                     </div>
+                    {customization.Drink.category==='tea' ? null :
                     <div>
-                        <label>Choose expressoRoastOptions: </label>
+                        <label>Choose Expresso Roast:</label>
                         <select
                         onChange={(e)=> {
                             setexpressoRoastOptions(e.target.value);
                         }}
                         value = {expressoRoastOptions}
                         name="expressoRoastOptions"
-                        placeholder="Choose expressoRoastOptions"
+                        placeholder="Choose Expresso Roast Options"
                         >
                             {expressos.map((e)=>(
                                 <option value={e} key={e}>
@@ -173,18 +189,108 @@ const EditCustomization = ({customization}) => {
                         ) : (
                             <p className="noErrorDisplay">{"  "}</p>
                         )}
+                    </div>}
+                    {customization.Drink.category==='coffee' ? null : 
+                    <div>
+                        <label>Choose Tea Base: </label>
+                        <select
+                        onChange={(e)=> {
+                            setTeaBase(e.target.value);
+                        }}
+                        value = {teaBase}
+                        name="teaBase"
+                        >
+                            {teaBases.map((e)=>(
+                                <option value={e} key={e}>
+                                    {e}
+                                </option>
+                            ))}
+                        </select>
+                        {hasSubmitted ? (
+                            <p className="error"> {errors.teaBase}</p>
+                        ) : (
+                            <p className="noErrorDisplay">{"  "}</p>
+                        )}
+                    </div> }
+                    <div>
+                        <label>Choose Flavor (optional): </label>
+                        <select
+                        onChange={(e)=> {
+                            setFlavors(e.target.value);
+                        }}
+                        value = {flavors}
+                        name="flavors"
+                        placeholder="Choose flavors"
+                        >
+                            {flavorss.map((m)=>(
+                                <option value={m} key={m}>
+                                    {m}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label>Choose Topping (optional): </label>
+                        <select
+                        onChange={(e)=> {
+                            setToppings(e.target.value);
+                        }}
+                        value = {toppings}
+                        name="toppings"
+                        placeholder="Choose toppings"
+                        >
+                            {toppingss.map((m)=>(
+                                <option value={m} key={m}>
+                                    {m}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label>Choose AddIns (optional): </label>
+                        <select
+                        onChange={(e)=> {
+                            setAddIns(e.target.value);
+                        }}
+                        value = {addIns}
+                        name="addIns"
+                        placeholder="Choose addIns"
+                        >
+                            {addInss.map((m)=>(
+                                <option value={m} key={m}>
+                                    {m}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label>Choose Sweeteners (optional): </label>
+                        <select
+                        onChange={(e)=> {
+                            setSweeteners(e.target.value);
+                        }}
+                        value = {sweeteners}
+                        name="sweeteners"
+                        placeholder="Choose sweeteners"
+                        >
+                            {sweetenerss.map((m)=>(
+                                <option value={m} key={m}>
+                                    {m}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                     <button type="submit">
                     Update
                     </button>
                 </div>
+                <button
+                onClick = {async (e) => {
+                    e.preventDefault();
+                    await closeModal()
+                }}
+                >Cancel</button>
             </form>
-            <button
-            onClick = {async (e) => {
-                e.preventDefault();
-                await closeModal()
-            }}
-            >Cancel</button>
         </div>
 
 

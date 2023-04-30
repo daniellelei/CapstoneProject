@@ -1,0 +1,6 @@
+.editPage{
+    display: flex;
+    flex-direction: column;
+    height:430px;
+    overflow-y: scroll;
+}
