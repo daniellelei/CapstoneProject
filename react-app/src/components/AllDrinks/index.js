@@ -4,6 +4,7 @@ import DrinkIndexItem from './DrinkIndexItem'
 import Category from "./Categories";
 import Drink from "../SingleDrink";
 import * as drinkActions from '../../store/drink';
+import * as cartActions from '../../store/cart';
 import './AllDrinks.css'
 import OpenModalItem from "../OpenModalItem";
 function AllDrinks(){
@@ -11,12 +12,13 @@ function AllDrinks(){
     const drinksObj = useSelector((state) => state.drinks.allDrinks);
     const user = useSelector((state) => state.session.user);
     const categoriesDrinksObj = useSelector((state)=> state.drinks.categoryDrinks)
-    console.log('inside all drinks, categoriesDrinksObj', categoriesDrinksObj)
-
+   
+    const currentCart = useSelector((state)=>state.carts.currentCart)
 
     useEffect(() => {
       dispatch(drinkActions.getAllDrinksThunk());
       // if(categoryDrinks?.length>0) dispatch(drinkActions.actionLoadCategory(categoryDrinks))
+      if(user) dispatch(cartActions.getCurrentCartThunk());
       return () => {
         dispatch(drinkActions.actionClearDrinks());
         dispatch(drinkActions.actionClearCategory());
@@ -33,8 +35,7 @@ function AllDrinks(){
     
     const icedCoffee = drinks.filter(drink => drink.category === 'IcedCoffee')
     const hotCoffee = drinks.filter(drink => drink.category === 'HotCoffee')
-    // console.log('iced coffee', icedCoffee)
-    // console.log('hotcoffee', hotCoffee)
+    
 
     const icedCoffeeClick = async (e) => {
       e.preventDefault();
@@ -87,13 +88,13 @@ function AllDrinks(){
             {categoryDrinks.length === 0 ? (
               drinks.map((drink) => (
                 <div key={drink.id}>
-                  <DrinkIndexItem drink={drink} key={drink.id} user={user} page="AllDrinks" />
+                  <DrinkIndexItem drink={drink} key={drink.id} user={user} currentCart={currentCart} page="AllDrinks" />
                 </div>
               ))
             ) : null}
             {categoryDrinks.map((drink) => (
               <div  key={drink.id}>
-                <DrinkIndexItem drink={drink} key={drink.id} user={user} page="AllDrinks" />
+                <DrinkIndexItem drink={drink} key={drink.id} user={user} currentCart={currentCart} page="AllDrinks" />
               </div>
             ))}
           </div>

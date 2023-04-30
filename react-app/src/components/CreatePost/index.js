@@ -110,7 +110,7 @@ const CreatePost = () => {
     return (
         <div className="create_post_page">
             <h1>Create a Post</h1>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="createPostForm">
                 <ul>
                     {hasSubmitted && Boolean(Object.values(resErrors).length) ? (
                         <li>{Object.values(resErrors)}</li>
@@ -152,9 +152,9 @@ const CreatePost = () => {
                             ) : null}
                     </div>
                 </div>
-                    <div>
+                    
                         {custs?.length !== 0 ? 
-                            <div>
+                            <div className="createFormBottom">
                                 <div className="title_my_favorite">
                                     <h3>My Favorites</h3>
                                     <h4>Choose any that you would like to share</h4>
@@ -169,9 +169,9 @@ const CreatePost = () => {
                                         setCustChosen={setCustChosen} 
                                         custChosen={custChosen} 
                                         />
-                                        ))} </div>
+                            ))} </div>
                             </div>   : null }
-                    </div>
+                    
                     
             </form>
         </div>

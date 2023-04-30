@@ -9,10 +9,16 @@ import * as cartActions from "../../store/cart"
 import EditCustomization from "../EditCustomization";
 import OpenModalButton from '../OpenModalButton';
 import DeleteCustomization from "../DeleteCustomization";
-
+import { useModal } from '../../context/Modal';
+import ConfirmModal from '../SingleDrink/confirmModal';
+import SignUpLoginModal from "../Signup_LoginModal";
+import { isAdded, numOfAdded } from "../SingleDrink";
 function CurrentCustomizations() {
     const dispatch = useDispatch();
     const custObj = useSelector((state)=>state.customizations.allUserCustomizations);
+    const user = useSelector((state)=>state.session.user)
+    const currentCart = useSelector((state)=>state.carts.currentCart)
+    const { setModalContent, setOnModalClose } = useModal();
 
     useEffect(() => {
         dispatch(customizationActions.getUserCustomizationThunk());
@@ -49,12 +55,45 @@ function CurrentCustomizations() {
                                 </div>
                             </NavLink>
                             <div className="allCustBottom">
-                                <button
-                                onClick ={ async (e) => {
+                                {user && !isAdded(currentCart,'customization', c.id) ? <button
+                                onClick = {async (e) => {
                                     e.preventDefault();
-                                    await dispatch(cartActions.addToCartThunk(c));
-                                }}
-                                >Add to Cart</button>
+                                    if(user){
+                                        await dispatch(cartActions.addToCartThunk(c))
+                                    }
+                                    setModalContent(<ConfirmModal />);
+                                    }}
+                                >Add</button>
+                                : null} 
+                                {!user ? <OpenModalButton 
+                                    buttonText= "Add to Cart"
+                                    modalComponent={<SignUpLoginModal page={`/customizations`}/>}
+                                /> : null}
+                                <div className='plusMinus'>
+                                    {user && isAdded(currentCart,'customization', c.id)? 
+                                    <i 
+                                    className="fa-solid fa-square-minus"
+                                    onClick = { (e) => {
+                                        e.preventDefault();
+                                        
+                                        dispatch(cartActions.removeFromCartThunk(c))
+                                        
+                                    }}
+                                    ></i>
+                                    : null}
+                                    {isAdded(currentCart, 'customization', c.id)? <span className='numOfdrink'>{numOfAdded(currentCart, 'customization', c.id)}</span> : null}
+                                    { user && isAdded(currentCart, 'customization', c.id)? 
+                                    <i 
+                                    className="fa-solid fa-square-plus"
+                                    onClick = { async(e) => {
+                                        e.preventDefault();
+                                        if(user){
+                                            await dispatch(cartActions.addToCartThunk(c))
+                                        }
+                                    }}
+                                    ></i> 
+                                    : null}
+                                </div>
                                 <OpenModalButton
                                 buttonText='Edit'
                                 modalComponent={<EditCustomization customization={c}/>} />

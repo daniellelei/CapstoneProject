@@ -56,7 +56,7 @@ const SingleCust = ({
     // }, [dispatch])
 
     return (
-    <div key={cust.id} className='eaPostCust'>
+    <div key={cust.id} className='eaPostCust createPostCust'>
             <div>
                 <p>{cust.Drink.name}</p>
                 <img className="drinkImg" src = {cust.Drink.imageUrl}/>

@@ -8,18 +8,23 @@ import OpenModalButton from '../OpenModalButton';
 import SignUpLoginModal from '../Signup_LoginModal';
 import DeletePostModal from '../DeletePost';
 import EditPost from '../EditPost';
+import { useModal } from '../../context/Modal';
+import ConfirmModal from '../SingleDrink/confirmModal';
+
+import { isAdded, numOfAdded } from "../SingleDrink";
 import './SinglePost.css'
 const SinglePost = () => {
     const {postId} = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
     const [loading, setLoading] = useState(true);
-    const cart = useSelector((state) => state.carts.currentCart);
+    const currentCart = useSelector((state) => state.carts.currentCart);
     const user = useSelector((state)=> state.session.user);
     const post = useSelector((state)=> state.posts.singlePost)
     console.log('this is Post', post)
     const customizations = post.customizations; //array of customizations
     const author_id = post.author_id
+    const { setModalContent, setOnModalClose } = useModal();
 
     useEffect(()=>{
         if(loading) {
@@ -53,7 +58,7 @@ const SinglePost = () => {
                 <p className="postCaption">{post.caption}</p>
                 <p className="postDate">{post.postDate}</p>
                 <p className="postDate">Posted by {post.user.username}</p>
-                <p>1.2k likes</p>
+                {/* <p>1.2k likes</p> */}
                 <i className="fa-solid fa-thumbs-up"></i>
             </div>
             {user?.id === author_id 
@@ -85,20 +90,46 @@ const SinglePost = () => {
                             <p className="postDate">Shot Options: {customization.shotOptions}</p>
                             <p className="postDate">Expresso Roast: {customization.expressoRoastOptions}</p>
                         </div>
-                        {user ? <button
-                        onClick = {async (e) => {
-                            e.preventDefault();
-                            if(user){
-                                await dispatch(cartActions.addToCartThunk(customization.drinks_customization))
-                            }
-                            }}
-                        
-                        >Add</button>
-                        : <OpenModalButton 
-                            buttonText= "Add to Cart"
-                            modalComponent={<SignUpLoginModal />}
-                        />
-                        }
+                        {user && !isAdded(currentCart,'customization', customization.id) ? <button
+            onClick = {async (e) => {
+                e.preventDefault();
+                if(user){
+                    await dispatch(cartActions.addToCartThunk(customization))
+                }
+                setModalContent(<ConfirmModal />);
+                }}
+            >Add</button>
+            : null} 
+            {!user ? <OpenModalButton 
+                buttonText= "Add to Cart"
+                modalComponent={<SignUpLoginModal page={`/customizations/${customization.id}`}/>}
+            /> : null}
+            <div className='plusMinus'>
+                {user && isAdded(currentCart,'customization', customization.id)? 
+                <i 
+                className="fa-solid fa-square-minus"
+                onClick = { (e) => {
+                    e.preventDefault();
+                    console.log('hit me minus customization.id ',customization.id)
+                    dispatch(cartActions.removeFromCartThunk(customization))
+                    console.log('after hitting thunkkk', customization.id)
+                }}
+                ></i>
+                : null}
+                {isAdded(currentCart, 'customization', customization.id)? <span className='numOfdrink'>{numOfAdded(currentCart, 'customization', customization.id)}</span> : null}
+                { user && isAdded(currentCart, 'customization', customization.id)? 
+                <i 
+                className="fa-solid fa-square-plus"
+                onClick = { async(e) => {
+                    e.preventDefault();
+                    if(user){
+                        await dispatch(cartActions.addToCartThunk(customization))
+                    }
+                }}
+                ></i>
+                : null}
+            </div>
+            
                     </div>
                 ))}
             </div>
