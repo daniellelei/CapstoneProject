@@ -44,14 +44,26 @@
 .createPostCusts {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
     padding: 0 15% 0 15%;
+
     
 }
-.createPostCust{
-    width: 180px;
+.eaCreatePostCust{
+    width: 350px;
+    height:420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.eaCustDetailCreatePost{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .caption input {

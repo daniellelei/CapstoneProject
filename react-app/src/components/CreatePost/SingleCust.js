@@ -56,19 +56,31 @@ const SingleCust = ({
     // }, [dispatch])
 
     return (
-    <div key={cust.id} className='eaPostCust createPostCust'>
-            <div>
+    <div key={cust.id} className='eaCreatePostCust'>
+            <div className="eaCustDetailCreatePost">
                 <p>{cust.Drink.name}</p>
                 <img className="drinkImg" src = {cust.Drink.imageUrl}/>
                 <div>
                     <p className="postDate">Size: {cust.size}</p>
                     <p className="postDate">Milk Option:{cust.milk}</p>
                     <p className="postDate">Shot Options: {cust.shotOptions}</p>
-                    <p className="postDate">Expresso Roast: {cust.expressoRoastOptions}</p>
+                    {cust.Drink.category === 'coffee'
+                    ? <p className='postDate'>Expresso Roast: {cust.expressoRoastOptions}</p> 
+                    : null}
+                    {cust.Drink.category === 'tea'
+                    ? <p className='postDate'>Tea Base: {cust.teaBase}</p>
+                    : null}
+                    
+                    <p className='postDate'>Additionals:</p>
+                    <p className="cartP">{cust.toppings}</p>
+                    <p className="cartP">{cust.flavors}</p>
+                    <p className="cartP">{cust.addIns}</p>
+                    <p className="cartP">{cust.sweeteners}</p>
+                    
                     <p className="postDate">${cust.Drink.price}</p>
                 </div>
             </div>
-            <div className="allCustBottom">
+            <div>
                 {/* <p>{console.log(`checkChosen ${cust.id}`,checkChosen(custChosen,cust))}</p> */}
                 {chosen ? (<button
                 onClick = { async (e) => {

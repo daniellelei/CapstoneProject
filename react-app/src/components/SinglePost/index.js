@@ -85,11 +85,24 @@ const SinglePost = () => {
                         className='drinkImg'
                         src = {customization.drinks_customization.imageUrl}
                         />
-                        <div>
+                        <div className='eaPostCustDetail'>
                             <p className="postDate">Size: {customization.size}</p>
                             <p className="postDate">Milk options: {customization.milk}</p>
                             <p className="postDate">Shot Options: {customization.shotOptions}</p>
                             <p className="postDate">Expresso Roast: {customization.expressoRoastOptions}</p>
+                            {customization.drinks_customization.category === 'coffee'
+                            ? <p className='singleCustP'>Expresso Roast: {customization.expressoRoastOptions}</p> 
+                            : null}
+                            {customization.drinks_customization.category === 'tea'
+                            ? <p className='singleCustP'>Tea Base: {customization.teaBase}</p>
+                            : null}
+                            
+                            <p className='singleCustP'>Additionals:</p>
+                            <p className="cartP">{customization.toppings}</p>
+                            <p className="cartP">{customization.flavors}</p>
+                            <p className="cartP">{customization.addIns}</p>
+                            <p className="cartP">{customization.sweeteners}</p>
+                            
                         </div>
                         {user && !isAdded(currentCart,'customization', customization.id) ? <button
             onClick = {async (e) => {
