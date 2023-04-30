@@ -43,15 +43,32 @@ function CurrentCustomizations() {
                     {
                         custs.map((c)=>(
                         <div key={c.id} className="eaCust">
-                            <NavLink className="eaCust" key={c.id} to={`/customizations/${c.id}`}>
-                                <p>{c.Drink.name}</p>
-                                <img className="drinkImg" src = {c.Drink.imageUrl}/>
+                            <NavLink className = 'eaCustNav' key={c.id} to={`/customizations/${c.id}`}>
                                 <div>
-                                    <p>Size: {c.size}</p>
-                                    <p>Milk Option:{c.milk}</p>
-                                    <p>Shot Options: {c.shotOptions}</p>
-                                    <p>Expresso Roast: {c.expressoRoastOptions}</p>
-                                    <p>${c.Drink.price}</p>
+                                    <p>{c.Drink.name}</p>
+                                </div>
+                                <div className='singleCustBody'>
+                                    <img className="drinkImg" src = {c.Drink.imageUrl}/>
+                                    <div className='singleCustDetail'>
+                                        <p className='singleCustP'>Size: {c.size}</p>
+                                        <p className='singleCustP'>Milk options: {c.milk}</p>
+                                        <p className='singleCustP'>Shot Options: {c.shotOptions}</p>
+                                        {c.Drink.category === 'coffee'
+                                        ? <p className='singleCustP'>Expresso Roast: {c.expressoRoastOptions}</p> 
+                                        : null}
+                                        {c.Drink.category === 'tea'
+                                        ? <p className='singleCustP'>Tea Base: {c.teaBase}</p>
+                                        : null}
+                                        <p className='singleCustP'>Additionals:</p>
+                                        {!c.toppings && !c.flavors && !c.addIns && !c.sweeteners ? <p className="cartP">None</p>
+                                        : <div>
+                                            <p className="cartP">{c.toppings}</p>
+                                            <p className="cartP">{c.flavors}</p>
+                                            <p className="cartP">{c.addIns}</p>
+                                            <p className="cartP">{c.sweeteners}</p>
+                                        </div> }
+                                        <p className='singleCustP'>${c.Drink.price}</p>
+                                    </div>
                                 </div>
                             </NavLink>
                             <div className="allCustBottom">
@@ -94,12 +111,24 @@ function CurrentCustomizations() {
                                     ></i> 
                                     : null}
                                 </div>
-                                <OpenModalButton
-                                buttonText='Edit'
-                                modalComponent={<EditCustomization customization={c}/>} />
-                                <OpenModalButton
-                                buttonText='Delete'
-                                modalComponent={<DeleteCustomization customization={c}/>} />
+                                <div className='SingleCustBottomRight'>
+                                    <button className='navButton'
+                                    onClick = {async (e) => {
+                                                    e.preventDefault();
+                                                    setModalContent(<EditCustomization customization={c} />);
+                                                    }}
+                                    >
+                                    <i className="fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                    <button className='navButton'
+                                    onClick = {async (e) => {
+                                                    e.preventDefault();
+                                                    setModalContent(<DeleteCustomization customization={c} />);
+                                                    }}
+                                    >
+                                    <i className="fa-solid fa-trash"></i>
+                                    </button> 
+                                </div>
                             </div>
                         </div>))} 
                 </div> : null}

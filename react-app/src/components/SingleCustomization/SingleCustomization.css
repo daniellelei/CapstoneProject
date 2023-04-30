@@ -4,12 +4,31 @@
     justify-content: center;
     align-items: center;
 }
+.singleCustBody {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 600px;
+}
 
 .singleCustBottom {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     align-content: center;
-    justify-content: center;
+    justify-content: space-around;
+    align-items: center;
+    width: 600px;
+}
+
+.singleCustP {
+    font-size: 14px;
+    margin: 0.3em;
+}
+
+.SingleCustBottomRight{
+    display: flex;
+    justify-content: flex-end;
     align-items: center;
 }
