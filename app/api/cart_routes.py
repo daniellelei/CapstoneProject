@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.models import Cart, db, User, Cart_customization, Cart_drink
+from app.models import Cart, db, User, Cart_customization, Cart_drink, Customization
 from flask_login import current_user, login_required
 from sqlalchemy.orm import joinedload
 from datetime import datetime
@@ -121,6 +121,55 @@ def delete_cart(id):
     userId = user["id"]
     fund = user["funds"]
     request_obj = float(request.get_json())  #totalCharge
+    if cart.cart_customizations is not None:
+        # list of all the customizations
+        # custs = [{c.to_dict() for c in cart.cart_customizations}] 
+        print("*************")
+        print("*************")
+        print("*************")
+        print("*************")
+        print("*************")
+        print("*************")
+        print([{
+                **c.customization.to_dict()
+                } for c in cart.cart_customizations])
+        # return ([{
+        #         **c.customization.to_dict()
+        #         } for c in cart.cart_customizations])
+        custs = [{
+            **c.customization.to_dict()
+        } for c in cart.cart_customizations]
+        # make copy of these and change the userId 
+        for cust in custs:
+            new_c = Customization(
+                user_id = 2,
+                drink_id=cust["drink_id"],
+                size=cust["size"],
+                milk=cust['milk'],
+                shotOptions=cust['shotOptions'],
+                expressoRoastOptions=cust['expressoRoastOptions'],
+                toppings=cust['toppings'],
+                flavors=cust['flavors'],
+                addIns=cust['addIns'],
+                sweeteners=cust['sweeteners'],
+                teaBase=cust['teaBase'],
+            )
+            db.session.add(new_c)
+            db.session.commit()
+            new_cart_cust=Cart_customization(
+                cart_id = cart.id,
+                customization_id = new_c.id
+            )
+            db.session.add(new_cart_cust)
+
+            cart_cust = Cart_customization.query.filter(
+                Cart_customization.cart_id==cart.id,
+                Cart_customization.customization_id == cust["id"]).first()
+            
+            db.session.delete(cart_cust)
+            db.session.commit()
+
+
     if request_obj:
         if cart:
             user = User.query.get(userId)
@@ -131,14 +180,6 @@ def delete_cart(id):
             cart.paid_time = datetime.now()
             db.session.commit()
 
-            # cart_customizations = Cart_customization.query.filter(
-            #     Cart_customization.cart_id == cart.id).all()
-            # removed_cart_custs = [db.session.delete(c) for c in cart_customizations]
-            # cart_drinks = Cart_drink.query.filter(
-            #     Cart_drink.cart_id == cart.id).all()
-            # removed_cart_custs = [db.session.delete(
-                # c) for c in cart_drinks]
-            # db.session.delete(cart)
             return {"message": 'Cart Deleted!'}
         return {"message": 'Cart not found'}
     return {"message": 'Total charge is required'}

@@ -57,7 +57,7 @@ class Customization (db.Model):
             'shotOptions': self.shotOptions,
             'expressoRoastOptions': self.expressoRoastOptions,
             'teaBase':self.teaBase,
-            'topping':self.toppings,
+            'toppings':self.toppings,
             'flavors':self.flavors,
             'addIns': self.addIns,
             'sweeteners': self.sweeteners,
