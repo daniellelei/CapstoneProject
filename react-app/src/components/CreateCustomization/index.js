@@ -193,8 +193,8 @@ const CreateCustomization = (drink) => {
                             <p className="noErrorDisplay">{"  "}</p>
                         )}
                     </div>
-                    {drink.category==='tea' ? null :
-                    <div>
+                    
+                        <div>
                         <label>Choose Expresso Roast:</label>
                         <select
                         onChange={(e)=> {
@@ -215,9 +215,10 @@ const CreateCustomization = (drink) => {
                         ) : (
                             <p className="noErrorDisplay">{"  "}</p>
                         )}
-                    </div>}
-                    {drink.category==='coffee' ? null : 
-                    <div>
+                    </div>
+                    
+                    
+                        <div>
                         <label>Choose Tea Base: </label>
                         <select
                         onChange={(e)=> {
@@ -237,7 +238,8 @@ const CreateCustomization = (drink) => {
                         ) : (
                             <p className="noErrorDisplay">{"  "}</p>
                         )}
-                    </div> }
+                    </div>
+                    
                     <div>
                         <label>Choose Flavor (optional): </label>
                         <select

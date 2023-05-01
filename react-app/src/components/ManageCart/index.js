@@ -194,9 +194,20 @@ function CurrentCart() {
                         <h4>{c.drinks_customization.name}</h4>
                         <div className="custDetail">
                             <p className="cartP">Size: {c.size}</p>
-                            <p className="cartP">Shots: {c.shotOptions} {c.shotOptions < 2 ? "shot" : "shots"}</p>
-                            <p className="cartP">Expresso: {c.expressoRoastOptions}</p>
                             <p className="cartP">Milk: {c.milk}</p>
+                            <p className="cartP">Shots: {c.shotOptions} {c.shotOptions < 2 ? "shot" : "shots"}</p>
+                            {c.drinks_customization.category === 'coffee'
+                            ? <p className='singleCustP'>Expresso Roast: {c.expressoRoastOptions}</p> 
+                            : null}
+                            {c.drinks_customization.category === 'tea'
+                            ? <p className='singleCustP'>Tea Base: {c.teaBase}</p>
+                            : null}
+                            
+                            <p className='singleCustP'>Additionals:</p>
+                            <p className="cartP">{c.toppings}</p>
+                            <p className="cartP">{c.flavors}</p>
+                            <p className="cartP">{c.addIns}</p>
+                            <p className="cartP">{c.sweeteners}</p>
                             <p className="cartP">${c.drinks_customization.price}</p>
                         </div>
                             {!user ? <OpenModalButton 
