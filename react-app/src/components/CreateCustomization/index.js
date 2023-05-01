@@ -49,12 +49,9 @@ const CreateCustomization = (drink) => {
         if(!size.length) err.size = "* Please choose a size."
         if(!milk.length) err.milk = "* Please choose a milk option"
         if(shotOptions === 0) err.shotOptions = "* Please add a shot"
-        if(drink.category==='coffee') {
-            if(!expressoRoastOptions.length) err.expressoRoastOptions = '* Please choose a kind of expresso'
-        }
-        if(drink.category==='tea') {
-            if(!teaBase.length) err.teaBase = '* Plaeas choose a kind of tea'
-        }
+        if(!expressoRoastOptions.length) err.expressoRoastOptions = '* Please choose a kind of expresso'
+        if(!teaBase.length) err.teaBase = '* Plaeas choose a kind of tea'
+        
         setErrors(err);
     },[size, milk, shotOptions, expressoRoastOptions, teaBase]);
 
