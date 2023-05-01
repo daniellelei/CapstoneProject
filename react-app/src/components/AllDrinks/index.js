@@ -33,8 +33,10 @@ function AllDrinks(){
     if(!categoriesDrinksObj) dispatch(drinkActions.actionLoadCategory(drinks))
     // const categoriesDrinks = Object.values(categoriesDrinksObj)
     
-    const icedCoffee = drinks.filter(drink => drink.category === 'IcedCoffee')
-    const hotCoffee = drinks.filter(drink => drink.category === 'HotCoffee')
+    const icedCoffee = drinks.filter(drink => drink.subCategory === 'icedCoffee')
+    const hotCoffee = drinks.filter(drink => drink.subCategory === 'hotCoffee')
+    const icedTea = drinks.filter(drink => drink.subCategory === 'icedTea')
+    const hotTea = drinks.filter(drink => drink.subCategory === 'hotTea')
     
 
     const icedCoffeeClick = async (e) => {
@@ -48,6 +50,16 @@ function AllDrinks(){
       // setCategory('Hot Coffee')
     }
 
+    const icedTeaClick = async (e) => {
+      e.preventDefault();
+      await dispatch(drinkActions.actionLoadCategory(icedTea))
+
+    }
+    const hotTeaClick = async (e) => {
+      e.preventDefault();
+      await dispatch(drinkActions.actionLoadCategory(hotTea))
+
+    }
     const allDrinksClick = async (e) => {
       e.preventDefault();
       await dispatch(drinkActions.actionLoadCategory([]))
@@ -75,12 +87,22 @@ function AllDrinks(){
               <li 
               className="eaCategory"
               onClick={icedCoffeeClick}>
-                Ice Coffee
+                Iced Coffee
               </li>
               <li 
               className="eaCategory"
               onClick = {hotCoffeeClick}>
                 Hot Coffee
+              </li>
+              <li 
+              className="eaCategory"
+              onClick = {icedTeaClick}>
+                Iced Tea
+              </li>
+              <li 
+              className="eaCategory"
+              onClick = {hotTeaClick}>
+                Hot Tea
               </li>
             </ul>
           </div>
