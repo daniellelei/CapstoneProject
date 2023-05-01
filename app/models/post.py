@@ -28,7 +28,8 @@ class Post(db.Model):
     post_customizations = db.relationship(
         "Customization",
         secondary = post_custs,
-        back_populates="customization_posts"
+        back_populates="customization_posts",
+        
     )
 
     def to_dict(self):

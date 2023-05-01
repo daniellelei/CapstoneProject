@@ -22,6 +22,10 @@ class Customization (db.Model):
     shotOptions = db.Column(db.Integer)
     expressoRoastOptions = db.Column(db.String(255))
     teaBase = db.Column(db.String(255))
+    toppings = db.Column(db.String(255))
+    flavors = db.Column(db.String(255))
+    addIns = db.Column(db.String(255))
+    sweeteners = db.Column(db.String(255))
 
     # relationship attributes
     user = db.relationship('User', back_populates = "customizations")
@@ -52,5 +56,9 @@ class Customization (db.Model):
             'preparationMethod': self.preparationMethod,
             'shotOptions': self.shotOptions,
             'expressoRoastOptions': self.expressoRoastOptions,
-            'teaBase':self.teaBase
+            'teaBase':self.teaBase,
+            'toppings':self.toppings,
+            'flavors':self.flavors,
+            'addIns': self.addIns,
+            'sweeteners': self.sweeteners,
         }

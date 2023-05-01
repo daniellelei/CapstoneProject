@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 // import DrinkIndexItem from './DrinkIndexItem'
 // import Drink from "../SingleDrink";
 import * as cartActions from '../../store/cart';
+import { removeDuplicate, numOfDrink } from "../UnprocessedCarts/unprocessedItem";
 import './AllCarts.css'
 function AllCarts () {
     const dispatch = useDispatch();
@@ -29,15 +30,16 @@ function AllCarts () {
             {!carts?.length ? <h4>There is no orders yet!</h4> : null}
             {carts?.map((cart) => (
                 <div key = {carts.indexOf(cart)} className="eaSale">
-                    <h4>Order Id: {cart.id}</h4>
+                    <h2>Order Id: {cart.id}</h2>
                     <p className="paidTime">Purchased Time: {cart.paid_time}</p>
                     <p className="paidTime">Customer Info: {cart.User.email}</p>
                     {!cart.drinks?.length ? null :
                     <div>
-                        <h4>Regular Drinks: </h4>
-                        {cart.drinks.map((drink) => (
+                        <h4 className='typeOfdrink'>Regular Drinks: </h4>
+                        {removeDuplicate(cart.drinks).map((drink) => (
                             <ol key={cart.drinks.indexOf(drink)}>
                                 <li>{drink.name}</li>
+                                <li>Qty: {numOfDrink(cart, drink)}</li>
                             </ol>
 
                         ))}
@@ -45,8 +47,8 @@ function AllCarts () {
                     }
                     {!cart.customizations?.length ? null :
                     <div>
-                        <h4>Customized Drinks: </h4>
-                        {cart.customizations.map((customization) => (
+                        <h4 className='typeOfdrink'>Customized Drinks: </h4>
+                        {removeDuplicate(cart.customizations).map((customization) => (
                             <ol key={cart.customizations.indexOf(customization)}>
                                 <li>{customization.drinks_customization.name}</li>
                                 <li>Size: {customization.size}</li>

@@ -10,7 +10,10 @@ import RemoveFromCartModal from "../EditCart";
 import OpenModalButton from '../OpenModalButton';
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
-
+import { isAdded, numOfAdded } from "../SingleDrink";
+import { useModal } from '../../context/Modal';
+import ConfirmModal from '../SingleDrink/confirmModal';
+import SignUpLoginModal from "../Signup_LoginModal";
 // import DeleteCustomization from "../DeleteCustomization";
 const calculateTotalPrice = (allDrinks) => {
         let res = 0;
@@ -46,6 +49,7 @@ const calculateTotalPrice = (allDrinks) => {
 
 function CurrentCart() {
     const dispatch = useDispatch();
+     const { setModalContent, setOnModalClose } = useModal();
     const history = useHistory();
     const cart = useSelector((state)=>state.carts.currentCart);
     const user = useSelector((state) => state.session.user)
@@ -120,24 +124,71 @@ function CurrentCart() {
         </div>
     )
 
+    const removeDuplicate = (items, type) => {
+        let res = [];
+        let resId = []
+        for (let i of items){
+            if (!resId.includes(i.id)) {
+                resId.push(i.id)
+                res.push(i)
+            }
+        }
+        return res;
+    }
+
     return (
         <div className="myCart">
             
             <h1>Order Summary</h1>
-            {cart_drinks?.map((d)=> (
+            
+            {removeDuplicate(cart_drinks).map((d)=>(
                 <div key={cart_drinks.indexOf(d)} className="eaItem">
                     <div className="custcartDiv">
                         <h4>{d.name}</h4>
                         <p className="cartP">${d.price}</p>
                     </div>
-                    <div className="deletButton">
-                        <OpenModalButton
-                        buttonText='Delete'
-                        modalComponent={<RemoveFromCartModal customization={d}/>} />
+                    {user && !isAdded(cart,"drink", d.id) ? <button
+                    onClick = {async (e) => {
+                        e.preventDefault();
+                        if(user){
+                            await dispatch(cartActions.addToCartThunk(d))
+                        }
+                        setModalContent(<ConfirmModal />);
+                        }}
+                    >Add</button>
+                    : null} 
+                    {!user ? <OpenModalButton 
+                        buttonText= "Add to Cart"
+                        modalComponent={<SignUpLoginModal page={`/drinks/${d.id}`}/>}
+                    /> : null}
+                    <div className='plusMinus'>
+                        {user && isAdded(cart,"drink", d.id)? 
+                        <i 
+                        className="fa-solid fa-square-minus"
+                        onClick = { (e) => {
+                            e.preventDefault();
+                            console.log('hit me minus drink.id ',d.id)
+                            dispatch(cartActions.removeFromCartThunk(d))
+                            console.log('after hitting thunkkk', d.id)
+                        }}
+                        ></i>
+                        : null}
+                        {isAdded(cart,"drink", d.id)? <span className='numOfdrink'>{numOfAdded(cart,"drink", d.id)}</span> : null}
+                        { user && isAdded(cart,"drink", d.id)? 
+                        <i 
+                        className="fa-solid fa-square-plus"
+                        onClick = { async(e) => {
+                            e.preventDefault();
+                            if(user){
+                                await dispatch(cartActions.addToCartThunk(d))
+                            }
+                        }}
+                        ></i>
+                        : null}
                     </div>
-                </div>
-            ))}
-            {cart_custs?.map((c) => (
+                        </div>
+                    ))}
+            {removeDuplicate(cart_custs).map((c)=>(
                 <div className="eaCustInCart" key={cart_custs.indexOf(c)}>
                     <div className="custcartDiv">
                         <h4>{c.drinks_customization.name}</h4>
@@ -148,12 +199,39 @@ function CurrentCart() {
                             <p className="cartP">Milk: {c.milk}</p>
                             <p className="cartP">${c.drinks_customization.price}</p>
                         </div>
+                            {!user ? <OpenModalButton 
+                        buttonText= "Add to Cart"
+                        modalComponent={<SignUpLoginModal page={`/customizations/${c.id}`}/>}
+                    /> : null}</div>
+                    <div className='plusMinus'>
+                        {user && isAdded(cart,"customization", c.id)? 
+                        <i 
+                        className="fa-solid fa-square-minus"
+                        onClick = { (e) => {
+                            e.preventDefault();
+                            
+                            dispatch(cartActions.removeFromCartThunk(c))
+                            
+                        }}
+                        ></i>
+                        : null}
+                        {isAdded(cart,"customization", c.id)? <span className='numOfdrink'>{numOfAdded(cart,"customization", c.id)}</span> : null}
+                        { user && isAdded(cart,"customization", c.id)? 
+                        <i 
+                        className="fa-solid fa-square-plus"
+                        onClick = { async(e) => {
+                            e.preventDefault();
+                            if(user){
+                                await dispatch(cartActions.addToCartThunk(c))
+                            }
+                        }}
+                        ></i>
+                        : null}
                     </div>
-                    <OpenModalButton
-                    buttonText='Delete'
-                    modalComponent={<RemoveFromCartModal customization={c}/>} />
-                </div>
-            ))}
+                    </div>
+                    
+                    ))}
+            
             <div className="priceSumDiv">
                 <p className="priceSummary">Subtotal: ${total}</p>
                 <p className="priceSummary">Tax(10.5%): ${(total*0.105).toFixed(2)}</p>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/session";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
@@ -12,6 +12,7 @@ function ProfileButton({ user }) {
   const history = useHistory()
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
+  const currentCart = useSelector((state)=> state.carts.currentCart)
 
   const openMenu = () => {
     if (showMenu) return;
@@ -32,10 +33,24 @@ function ProfileButton({ user }) {
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
 
-  const handleLogout = (e) => {
+  useEffect(()=> {
+    if(user) dispatch(cartActions.getCurrentCartThunk());
+  },[dispatch])
+
+  const handleLogout = async (e) => {
     e.preventDefault();
-    dispatch(logout());
-    dispatch(cartActions.actionClearCart())
+    if(currentCart.customizations?.length > 0){
+      for (let c of currentCart.customizations) {
+        await dispatch(cartActions.removeFromCartThunk(c))
+      }
+    }
+    if(currentCart.drinks?.length > 0) {
+      for (let d of currentCart.drinks) {
+        await dispatch(cartActions.removeFromCartThunk(d))
+      }
+    }
+    await dispatch(logout());
+    await dispatch(cartActions.actionClearCart())
     history.push('/drinks')
   };
 

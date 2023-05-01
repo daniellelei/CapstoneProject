@@ -92,7 +92,7 @@ def upgrade():
     sa.ForeignKeyConstraint(['customization_id'], ['customizations.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('cart_customizations',
+    op.create_table('cart_drinks',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('cart_id', sa.Integer(), nullable=False),
     sa.Column('drink_id', sa.Integer(), nullable=False),
@@ -123,7 +123,7 @@ def upgrade():
         op.execute(f"ALTER TABLE posts SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE reviews SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE cart_customizations SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE cart_customizations SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE cart_drinks SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE likes SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE post_custs SET SCHEMA {SCHEMA};")
         

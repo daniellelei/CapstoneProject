@@ -15,8 +15,9 @@
     margin:2em;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    height:450px;
 }
 
 .postDetail{
@@ -24,4 +25,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+}
+
+.eaPostCustDetail {
+    height:200px;
 }
