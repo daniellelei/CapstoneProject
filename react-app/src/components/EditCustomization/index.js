@@ -167,7 +167,7 @@ const EditCustomization = ({customization}) => {
                             <p className="noErrorDisplay">{"  "}</p>
                         )}
                     </div>
-                    {customization.Drink.category==='tea' ? null :
+                    
                     <div>
                         <label>Choose Expresso Roast:</label>
                         <select
@@ -189,8 +189,8 @@ const EditCustomization = ({customization}) => {
                         ) : (
                             <p className="noErrorDisplay">{"  "}</p>
                         )}
-                    </div>}
-                    {customization.Drink.category==='coffee' ? null : 
+                    </div>
+                    
                     <div>
                         <label>Choose Tea Base: </label>
                         <select
@@ -211,7 +211,7 @@ const EditCustomization = ({customization}) => {
                         ) : (
                             <p className="noErrorDisplay">{"  "}</p>
                         )}
-                    </div> }
+                    </div> 
                     <div>
                         <label>Choose Flavor (optional): </label>
                         <select

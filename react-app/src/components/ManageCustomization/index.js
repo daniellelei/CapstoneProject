@@ -66,6 +66,7 @@ function CurrentCustomizations() {
                                             <p className="cartP">{c.flavors}</p>
                                             <p className="cartP">{c.addIns}</p>
                                             <p className="cartP">{c.sweeteners}</p>
+                                            
                                         </div> }
                                         <p className='singleCustP'>${c.Drink.price}</p>
                                     </div>
