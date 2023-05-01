@@ -51,13 +51,8 @@ const SingleCustomization = () =>{
                     <p className='singleCustP'>Size: {customization.size}</p>
                     <p className='singleCustP'>Milk options: {customization.milk}</p>
                     <p className='singleCustP'>Shot Options: {customization.shotOptions}</p>
-                    {customization.Drink.category === 'coffee'
-                    ? <p className='singleCustP'>Expresso Roast: {customization.expressoRoastOptions}</p> 
-                    : null}
-                    {customization.Drink.category === 'tea'
-                    ? <p className='singleCustP'>Tea Base: {customization.teaBase}</p>
-                    : null}
-                    
+                    <p className='singleCustP'>Expresso Roast: {customization.expressoRoastOptions}</p> 
+                    <p className='singleCustP'>Tea Base: {customization.teaBase}</p>
                     <p className='singleCustP'>Additionals:</p>
                     <p className="cartP">{customization.toppings}</p>
                     <p className="cartP">{customization.flavors}</p>

@@ -63,6 +63,12 @@ const SingleCustEdit = ({
                     <p>Milk Option:{cust.milk}</p>
                     <p>Shot Options: {cust.shotOptions}</p>
                     <p>Expresso Roast: {cust.expressoRoastOptions}</p>
+                    <p className='postDate'>Tea Base: {cust.teaBase}</p>
+                    <p className='postDate'>Additionals:</p>
+                    <p className="cartP">{cust.toppings}</p>
+                    <p className="cartP">{cust.flavors}</p>
+                    <p className="cartP">{cust.addIns}</p>
+                    <p className="cartP">{cust.sweeteners}</p>
                     <p>${cust.Drink.price}</p>
                 </div>
             </div>

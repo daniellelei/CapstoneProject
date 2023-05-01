@@ -52,13 +52,10 @@ function CurrentCustomizations() {
                                     <div className='singleCustDetail'>
                                         <p className='singleCustP'>Size: {c.size}</p>
                                         <p className='singleCustP'>Milk options: {c.milk}</p>
-                                        <p className='singleCustP'>Shot Options: {c.shotOptions}</p>
-                                        {c.Drink.category === 'coffee'
-                                        ? <p className='singleCustP'>Expresso Roast: {c.expressoRoastOptions}</p> 
-                                        : null}
-                                        {c.Drink.category === 'tea'
-                                        ? <p className='singleCustP'>Tea Base: {c.teaBase}</p>
-                                        : null}
+                                        <p className='singleCustP'>Shot Options: {c.shotOptions} {c.shotOptions < 2 ? "shot" : "shots"}</p>
+                                        <p className='singleCustP'>Expresso Roast: {c.expressoRoastOptions}</p> 
+                                        <p className='singleCustP'>Tea Base: {c.teaBase}</p>
+                                       
                                         <p className='singleCustP'>Additionals:</p>
                                         {!c.toppings && !c.flavors && !c.addIns && !c.sweeteners ? <p className="cartP">None</p>
                                         : <div>
