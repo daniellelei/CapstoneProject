@@ -59,10 +59,10 @@ const SingleCustEdit = ({
                 <p>{cust.Drink.name}</p>
                 <img className="drinkImg" src = {cust.Drink.imageUrl}/>
                 <div>
-                    <p>Size: {cust.size}</p>
-                    <p>Milk Option:{cust.milk}</p>
-                    <p>Shot Options: {cust.shotOptions}</p>
-                    <p>Expresso Roast: {cust.expressoRoastOptions}</p>
+                    <p className='postDate'>Size: {cust.size}</p>
+                    <p className='postDate'>Milk Option:{cust.milk}</p>
+                    <p className='postDate'>Shot Options: {cust.shotOptions}</p>
+                    <p className='postDate'>Expresso Roast: {cust.expressoRoastOptions}</p>
                     <p className='postDate'>Tea Base: {cust.teaBase}</p>
                     <p className='postDate'>Additionals:</p>
                     <p className="cartP">{cust.toppings}</p>

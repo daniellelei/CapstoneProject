@@ -72,10 +72,10 @@ const EditPost = ({post}) => {
         }
         setHasSubmitted(true);
         setResErrors({});
-        console.log("custChose========in onClick", chosenCust)
+        
 
         if(!Boolean(Object.values(errors).length)) {
-            console.log('i am here')
+            
             const updatedRes = await dispatch(
                 postsAction.updatePost({
                     postId,
@@ -106,7 +106,7 @@ const EditPost = ({post}) => {
                     ) : null}
                 </ul>
                 <div>
-                    <div>
+                    <div className="editPostInput">
                         <label>Caption: </label>
                         <input
                             type = 'text'
@@ -120,7 +120,7 @@ const EditPost = ({post}) => {
                             <p>{errors.caption}</p>
                         ) : null}
                     </div>
-                    <div>
+                    <div className="editPostInput">
                         <label>Upload an image: </label>
                         <input
                             type = 'text'
@@ -136,7 +136,7 @@ const EditPost = ({post}) => {
                     </div>
                     <div>
                         {custs.length !== 0 ? 
-                            <div>
+                            <div className="editPostBottom">
                                 <h1>My Favorites</h1>
                                 <h4>Choose any that you would like to share</h4>
                                 {

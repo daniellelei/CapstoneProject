@@ -1,3 +1,14 @@
 .editModal {
-    overflow-y: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width:350px;
+}
+.editPostBottom {
+    width: 350px;
+}
+.editPostInput {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
 }

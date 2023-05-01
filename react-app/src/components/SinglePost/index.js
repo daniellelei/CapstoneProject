@@ -90,10 +90,10 @@ const SinglePost = () => {
                             <p className="postDate">Milk options: {customization.milk}</p>
                             <p className="postDate">Shot Options: {customization.shotOptions}</p>
                             <p className="postDate">Expresso Roast: {customization.expressoRoastOptions}</p>
-                            <p className='singleCustP'>Expresso Roast: {customization.expressoRoastOptions}</p> 
-                            <p className='singleCustP'>Tea Base: {customization.teaBase}</p>
+                            <p className='postDate'>Expresso Roast: {customization.expressoRoastOptions}</p> 
+                            <p className='postDate'>Tea Base: {customization.teaBase}</p>
                             
-                            <p className='singleCustP'>Additionals:</p>
+                            <p className='postDate'>Additionals:</p>
                             <p className="cartP">{customization.toppings}</p>
                             <p className="cartP">{customization.flavors}</p>
                             <p className="cartP">{customization.addIns}</p>
