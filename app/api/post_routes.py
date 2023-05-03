@@ -88,27 +88,46 @@ def update_post(id):
     # request_obj = request.get_json()
     # customizations = request_obj["chosenCust"]
     post = Post.query.get(id)
-    print("=======================")
-    print("=======================")
-    print("=======================")
-    print("=======================")
-    print("=======================")
-    print("=======================")
-    print("=======================")
-    
     form = PostForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
+    custs = form.data["chosenCust"]
     customizations = list(form.data["chosenCust"].split(" "))
+    print("=======================")
+    print("=======================")
+    print("=======================")
+    print("=======================")
+    print("=======================")
+    print("=======================")
+    print("=======================")
+    print("custs", custs)
+    print("customizations", customizations)
     if form.validate_on_submit():
-        post.caption = form.data["caption"]
-        post.image = form.data['image']
-        post.image.filename = get_unique_filename(post.image.filename)
-        upload = upload_file_to_s3(post.image)
+        image_to_remove = post.image
+        image_delete = remove_file_from_s3(image_to_remove)
+        image = form.data['image']
+        image.filename = get_unique_filename(image.filename)
+        upload = upload_file_to_s3(image)
         if "url" not in upload:
             return {"message": "upload error"}
-        # post.image = form.data["image"]
+
+        post.caption = form.data["caption"]
+        post.image = upload["url"]
         post.post_date = date.today()
         db.session.commit()
+        if (custs == ''):
+            post = Post.query.options(joinedload(
+                Post.post_customizations)).get(id)
+            old_post_custs = [
+                customization for customization in post.post_customizations]
+            for o in old_post_custs:
+                post.post_customizations.remove(o)
+            db.session.commit()
+            updated_post = Post.query.get(id)
+            return {**updated_post.to_dict()
+                    , 'user': updated_post.user.to_dict()
+                    , "customizations": []
+                    }
+
         if len(customizations) > 0:
             post = Post.query.options(joinedload(Post.post_customizations)).get(id)
             new_post_custs = [Customization.query.get(int(c)) for c in customizations]

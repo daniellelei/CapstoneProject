@@ -42,6 +42,8 @@ const EditPost = ({post}) => {
     },[dispatch])
 
     let custs = []
+    let chosenCust = []
+    let chosenCustVal = []
     if (!custsObj) {
         custs = [] 
     } else {
@@ -61,17 +63,20 @@ const EditPost = ({post}) => {
         // console.log('i am here', Object.values(errors))
         e.preventDefault();
 
-        let chosenCust = []
-        let chosenCustVal = []
+        
         if(!chosenCustObj) {
             chosenCustVal = []
         } else {
-            chosenCust = Object.values(chosenCustObj)
+            chosenCustVal = Object.values(chosenCustObj)
+            console.log('chosenCust1', chosenCustVal)
             for (let c of chosenCustVal) {
             chosenCust.push(c.id)
+            console.log('chosenCust  2', chosenCust)
         }
         chosenCust = chosenCust.join(' ')
         }
+
+        console.log('chosenCust  3', chosenCust)
         setHasSubmitted(true);
         setResErrors({});
         
@@ -87,6 +92,7 @@ const EditPost = ({post}) => {
             //         image,
             //         chosenCust,
             //     }
+            console.log('formData', formData)
             const updatedRes = await dispatch(
                 postsAction.updatePost(formData, post.id)
             )

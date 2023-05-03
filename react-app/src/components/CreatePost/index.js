@@ -47,13 +47,13 @@ const CreatePost = () => {
 
     let custs = []
     let chosenCust = []
+    let chosenCustVal = []
 
     if (!custsObj) {
         custs = [] 
     } else {
         custs = Object.values(custsObj)
     }
-    let chosenCustVal = []
     if(!chosenCustObj) {
         chosenCustVal = []
     } else {
