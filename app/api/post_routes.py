@@ -13,10 +13,7 @@ post_routes = Blueprint('posts', __name__)
 @post_routes.route('/')
 def get_all_posts():
     """get all posts and display them"""
-    print("**************************")
-    print("**************************")
-    print("**************************")
-    print("**************************")
+   
     posts = Post.query.order_by(Post.post_date.desc()).all()
     return [{**post.to_dict(),
              'user':post.user.to_dict()

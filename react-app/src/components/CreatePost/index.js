@@ -64,8 +64,8 @@ const CreatePost = () => {
     useEffect(()=>{
         const err = {};
         if(caption.length<5) err.caption = '* Caption needs to be at least 5 characters long.'
-        if(!image.length) err.image = '* Image is required'
-        if(!image.includes('.jpg') && !image.includes('.png')) err.image = '* Image is not valid'
+        if(!image) err.image = '* Image is required'
+        
 
         setErrors(err);
     },[caption, image])
@@ -78,14 +78,17 @@ const CreatePost = () => {
         // console.log("custChose", custChosen)
 
         if(!Boolean(Object.values(errors).length)) {
-            console.log('i am here')
-            const createdRes = await dispatch(
-                postsAction.createPost({
-                    caption,
-                    image,
-                    chosenCust,
-                })
-            )
+            const formData = new FormData();
+            formData.append('caption', caption);
+            formData.append('image', image);
+            formData.append('chosenCust', chosenCust);
+            // postsAction.createPost({
+            //     caption,
+            //     image,
+            //     chosenCust,
+            // })
+            console.log('formData', formData)
+            const createdRes = await dispatch(postsAction.createPost(formData))
             if (!createdRes.errors) {
                 console.log('this is create', createdRes.id)
                 await dispatch(postsAction.getPostDetail(createdRes.id));
@@ -110,7 +113,9 @@ const CreatePost = () => {
     return (
         <div className="create_post_page">
             <h1>Create a Post</h1>
-            <form onSubmit={handleSubmit} className="createPostForm">
+            <form onSubmit={handleSubmit} 
+            encType="multipart/form-data"
+            className="createPostForm">
                 <ul>
                     {hasSubmitted && Boolean(Object.values(resErrors).length) ? (
                         <li>{Object.values(resErrors)}</li>
@@ -140,11 +145,12 @@ const CreatePost = () => {
                     <div className="caption">
                         <label>Upload an image: </label>
                         <input
-                            type = 'text'
+                            type = 'file'
+                            accept="image/*"
                             placeholder="image url is required"
                             value={image}
                             name = {image}
-                            onChange = {(e)=>setImage(e.target.value)}
+                            onChange = {(e)=>setImage(e.target.files[0])}
                             >
                         </input>
                         {hasSubmitted ? (

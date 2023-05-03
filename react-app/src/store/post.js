@@ -80,7 +80,6 @@ export const createPost = (post) => async (dispatch) => {
   console.log('post in thunk', post)
   const response = await fetch("/api/posts/new", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(post),
   });
 
