@@ -157,9 +157,12 @@ def update_post(id):
 @login_required
 def delete_post(id):
     post = Post.query.get(id)
+    
     if (post):
-        db.session.delete(post)
-        db.session.commit()
-        return {"message": "Post deleted!"}
+        file_delete = remove_file_from_s3(post.image)
+        if file_delete:
+            db.session.delete(post)
+            db.session.commit()
+            return {"message": "Post deleted!"}
     else:
         return{"message": "Post not found."}
