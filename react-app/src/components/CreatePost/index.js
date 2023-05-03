@@ -31,6 +31,7 @@ const CreatePost = () => {
     const history = useHistory();
     const user = useSelector((state) => state.session.user);
     const user_id = user.id;
+    const [imageLoading, setImageLoading] = useState(false);
 
     const custsObj = useSelector((state)=>state.customizations.allUserCustomizations)
     const [custChosen, setCustChosen] = useState({}); //an array of id's
@@ -75,6 +76,8 @@ const CreatePost = () => {
         setErrors(err);
     },[caption, image])
 
+    console.log('image loading', imageLoading)
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('i am here', Object.values(errors))
@@ -92,14 +95,16 @@ const CreatePost = () => {
             //     image,
             //     chosenCust,
             // })
-            console.log('formData', formData)
+            setImageLoading(true);
             const createdRes = await dispatch(postsAction.createPost(formData))
             if (!createdRes.errors) {
                 console.log('this is create', createdRes.id)
                 await dispatch(postsAction.getPostDetail(createdRes.id));
                 history.push(`/posts/${createdRes.id}`);
+                setImageLoading(false)
                 await reset();
             } else {
+                setImageLoading(false)
                 await setResErrors(createdRes.errors);
             }
         }
@@ -182,7 +187,11 @@ const CreatePost = () => {
                             ))} </div>
                             </div>   : null }
                     
-                    
+                    {imageLoading && <div className='loadingPage'>
+                    <img className="loadingImg" 
+                    src="https://cdn.dribbble.com/users/2520294/screenshots/7209485/media/cf226d98a06282e9cabf5c2f8f6d547f.gif"/>
+                    </div>
+                    }
             </form>
         </div>
     )
