@@ -46,18 +46,23 @@ const CreatePost = () => {
     },[dispatch, custChosen])
 
     let custs = []
-
+    let chosenCust = []
 
     if (!custsObj) {
         custs = [] 
     } else {
         custs = Object.values(custsObj)
     }
-    let chosenCust = []
+    let chosenCustVal = []
     if(!chosenCustObj) {
-        chosenCust = []
+        chosenCustVal = []
     } else {
-        chosenCust = Object.values(chosenCustObj)
+        chosenCustVal = Object.values(chosenCustObj)
+        
+        for (let c of chosenCustVal) {
+            chosenCust.push(c.id)
+        }
+        chosenCust = chosenCust.join(' ')
     }
 
 
@@ -130,7 +135,7 @@ const CreatePost = () => {
                     <div className="caption">
                         <label>Caption: </label>
                         <input
-                            
+                            className="cap1"
                             type = 'text'
                             placeholder="Any thoughts???"
                             value={caption}
@@ -146,9 +151,7 @@ const CreatePost = () => {
                         <label>Upload an image: </label>
                         <input
                             type = 'file'
-                            accept="image/*"
-                            placeholder="image url is required"
-                            value={image}
+                            accept="image/*" 
                             name = {image}
                             onChange = {(e)=>setImage(e.target.files[0])}
                             >
@@ -168,13 +171,14 @@ const CreatePost = () => {
                                 <div className="createPostCusts">
                                     {
                                         custs.map((cust)=>(
-                                        <SingleCust 
-                                        key={cust.id}
-                                        cust={cust} 
-                                        user={user} 
-                                        setCustChosen={setCustChosen} 
-                                        custChosen={custChosen} 
-                                        />
+                                            <div key={cust.id}>
+                                                <SingleCust 
+                                                cust={cust} 
+                                                user={user} 
+                                                setCustChosen={setCustChosen} 
+                                                custChosen={custChosen}/> 
+                                            </div>
+                                        
                             ))} </div>
                             </div>   : null }
                     

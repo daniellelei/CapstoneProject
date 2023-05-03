@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms import SelectField, StringField, SubmitField, IntegerField
 from wtforms.validators import DataRequired, Length, URL
-from app.routes.aws_helpers import ALLOWED_EXTENSIONS
+from ..api.aws_helpers import ALLOWED_EXTENSIONS
 
 
 class PostForm(FlaskForm):
@@ -11,4 +11,5 @@ class PostForm(FlaskForm):
     # image = StringField("Post Image URL", validators=[DataRequired(), URL()])
     image = FileField("Image File", validators=[
                       FileRequired(), FileAllowed(list(ALLOWED_EXTENSIONS))])
+    chosenCust = StringField("chosenCust")
     submit = SubmitField("Save Post")

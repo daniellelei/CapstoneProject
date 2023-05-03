@@ -37,10 +37,9 @@ def add_new_post():
     user = current_user.to_dict()
     form = PostForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
-    request_obj = request.get_json()
-   
-    customizations = request_obj["chosenCust"]
-   
+    # request_obj = request.get_json()
+    customizations= list(form.data["chosenCust"].split(" "))
+
     if form.validate_on_submit():
         image = form.data['image']
         image.filename = get_unique_filename(image.filename)
@@ -62,7 +61,7 @@ def add_new_post():
             new_post.post_customizations = []
             for c in customizations:
                 print("==========================", c)
-                cust = Customization.query.get(c["id"])
+                cust = Customization.query.get(int(c))
                 new_post.post_customizations.append(cust) 
             db.session.commit()
 
@@ -86,20 +85,33 @@ def add_new_post():
 @login_required
 def update_post(id):
     user = current_user.to_dict()
-    request_obj = request.get_json()
-    customizations = request_obj["chosenCust"]
+    # request_obj = request.get_json()
+    # customizations = request_obj["chosenCust"]
     post = Post.query.get(id)
-
+    print("=======================")
+    print("=======================")
+    print("=======================")
+    print("=======================")
+    print("=======================")
+    print("=======================")
+    print("=======================")
+    
     form = PostForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
+    customizations = list(form.data["chosenCust"].split(" "))
     if form.validate_on_submit():
         post.caption = form.data["caption"]
-        post.image = form.data["image"]
+        post.image = form.data['image']
+        post.image.filename = get_unique_filename(post.image.filename)
+        upload = upload_file_to_s3(post.image)
+        if "url" not in upload:
+            return {"message": "upload error"}
+        # post.image = form.data["image"]
         post.post_date = date.today()
         db.session.commit()
         if len(customizations) > 0:
             post = Post.query.options(joinedload(Post.post_customizations)).get(id)
-            new_post_custs = [Customization.query.get(c['id']) for c in customizations]
+            new_post_custs = [Customization.query.get(int(c)) for c in customizations]
             old_post_custs = [customization for customization in post.post_customizations]
 
             for o in old_post_custs:
