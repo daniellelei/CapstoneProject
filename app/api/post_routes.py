@@ -6,7 +6,7 @@ from ..models import db, User, Post, Customization
 from flask_login import current_user, login_required
 from datetime import datetime
 from sqlalchemy.orm import joinedload
-
+from .aws_helpers import upload_file_to_s3, remove_file_from_s3, get_unique_filename
 post_routes = Blueprint('posts', __name__)
 
 
@@ -41,34 +41,24 @@ def add_new_post():
     form = PostForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
     request_obj = request.get_json()
-    # print("**************************")
-    # print("**************************")
-    # print("**************************")
-    # print("**************************")
-    # print(request_obj)
-    # an array of customizations included drinks info
+   
     customizations = request_obj["chosenCust"]
-    # customization["id"]
-    print("==========================")
-    print("==========================")
-    print("==========================")
-    print("==========================")
-    print('After commit: ***', customizations)
-
+   
     if form.validate_on_submit():
+        image = form.data['image']
+        image.filename = get_unique_filename(image.filename)
+        upload = upload_file_to_s3(image)
+        if "url" not in upload:
+            return {"message": "upload error"}
+        
         new_post = Post(
             author=user['id'],
             caption=form.data["caption"],
-            image=form.data["image"],
+            image=upload["url"],
             post_date=date.today(),
         )
         db.session.add(new_post)
         db.session.commit()
-        # print("==========================")
-        # print("==========================")
-        # print("==========================")
-        # print("==========================")
-        # print('After commit: ***', new_post.to_dict())
 
         if len(customizations) > 0:
             print("========================== before", new_post.post_customizations)
