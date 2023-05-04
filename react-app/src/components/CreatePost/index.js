@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState , useRef} from "react";
 import { useDispatch, useSelector } from "react-redux";
+// import {StyledDropZone} from 'react-drop-zone';
+import {useDropzone} from 'react-dropzone';
 import { useHistory, NavLink } from "react-router-dom";
 import * as postsAction from "../../store/post";
 import * as cartActions from "../../store/cart";
@@ -7,7 +9,9 @@ import * as customizationActions from '../../store/customization'
 import "./CreatePost.css";
 import { useModal } from "../../context/Modal";
 import SingleCust from "./SingleCust";
-
+import Dropzone from "react-dropzone";
+// import 'react-drop-zone/dist/styles.css'
+// import Dropzone from "./Dropzone";
 export const chosen = (customization, custs) => {
     let chosenOrNot = false;
     const custsIdArr = []
@@ -83,7 +87,7 @@ const CreatePost = () => {
         console.log('i am here', Object.values(errors))
         setHasSubmitted(true);
         setResErrors({});
-        // console.log("custChose", custChosen)
+        
 
         if(!Boolean(Object.values(errors).length)) {
             const formData = new FormData();
@@ -117,13 +121,18 @@ const CreatePost = () => {
         setResErrors({});
         setHasSubmitted(false);
     };
+    const handleOnDrop =(files) => {
+        setImage(files[0])
+    }
+
     
     // const custOptionClassName = "custOps" + ( custs.includes(c) ? "" : " hidden");
-    
+    console.log('image', image)
     return (
         <div className="create_post_page">
             <h1>Create a Post</h1>
             <form onSubmit={handleSubmit} 
+            // onDragEnter = {handleDrag}
             encType="multipart/form-data"
             className="createPostForm">
                 <ul>
@@ -152,7 +161,22 @@ const CreatePost = () => {
                             <p className="errors">{errors.caption}</p>
                         ) : null}
                     </div>
-                    <div className="caption">
+                    <div>
+                        <Dropzone onDrop={handleOnDrop}>
+                            {({getRootProps, getInputProps}) => (
+                            <section className="container">
+                                <div {...getRootProps({className: 'dropzone'})}>
+                                <input {...getInputProps()} />
+                                <p>Drag 'n' drop some files here, or click to select files</p>
+                                </div>
+                            </section>
+                            )}
+                        </Dropzone>
+                    </div>
+                    
+                    
+                    
+                    {/* <div className="caption">
                         <label>Upload an image: </label>
                         <input
                             type = 'file'
@@ -164,7 +188,10 @@ const CreatePost = () => {
                         {hasSubmitted ? (
                             <p className="errors">{errors.image}</p>
                             ) : null}
-                    </div>
+                    </div> */}
+                    
+                        
+                    
                 </div>
                     
                         {custs?.length !== 0 ? 
