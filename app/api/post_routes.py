@@ -38,6 +38,7 @@ def add_new_post():
     form = PostForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
     # request_obj = request.get_json()
+    custs = form.data["chosenCust"]
     customizations= list(form.data["chosenCust"].split(" "))
 
     if form.validate_on_submit():
@@ -55,6 +56,11 @@ def add_new_post():
         )
         db.session.add(new_post)
         db.session.commit()
+        if(custs == ''):
+            return {**new_post.to_dict()
+                    , 'user': new_post.user.to_dict()
+                    , "customizations": []
+                    }
 
         if len(customizations) > 0:
             print("========================== before", new_post.post_customizations)

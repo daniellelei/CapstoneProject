@@ -124,6 +124,11 @@ const CreatePost = () => {
     const handleOnDrop =(files) => {
         setImage(files[0])
     }
+//     const files = acceptedFiles.map((file) => (
+//     <li key={file.path}>
+//       {file.path} - {file.size} bytes
+//     </li>
+//   ));
 
     
     // const custOptionClassName = "custOps" + ( custs.includes(c) ? "" : " hidden");
@@ -163,12 +168,30 @@ const CreatePost = () => {
                     </div>
                     <div>
                         <Dropzone className ='dropzone' onDrop={handleOnDrop} multiple={false} accept={'image/*'} >
-                            {({getRootProps, getInputProps}) => (
+                            {({getRootProps, getInputProps, isDragActive, acceptedFiles}) => (
                             <section className="container">
                                 <div {...getRootProps({className: 'dropzone'})}>
                                 <input {...getInputProps()} />
-                                <p className = "postDate">Drag 'n' drop some files here, or click to select files</p>
+                                {isDragActive ? (
+                                <p className="dropzone-content">
+                                    Release to drop the files here
+                                </p>
+                                ) : (
+                                <p className="dropzone-content">
+                                    Drag’n’drop some files here, or click to select files
+                                </p>
+                                )}
                                 </div>
+                                <aside>
+                                    <ul>
+                                        {acceptedFiles.map((file) => (
+                                            <li key={file.path}>
+                                                * {file.path} - {file.size} bytes
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </aside>
+                                
                             </section>
                             )}
                         </Dropzone>
