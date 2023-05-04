@@ -1,4 +1,4 @@
-import { useEffect, useState , useRef} from "react";
+import { useEffect, useState , useRef, useMemo} from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import {StyledDropZone} from 'react-drop-zone';
 import {useDropzone} from 'react-dropzone';
@@ -10,7 +10,7 @@ import "./CreatePost.css";
 import { useModal } from "../../context/Modal";
 import SingleCust from "./SingleCust";
 import Dropzone from "react-dropzone";
-// import 'react-drop-zone/dist/styles.css'
+import 'react-drop-zone/dist/styles.css'
 // import Dropzone from "./Dropzone";
 export const chosen = (customization, custs) => {
     let chosenOrNot = false;
@@ -162,38 +162,19 @@ const CreatePost = () => {
                         ) : null}
                     </div>
                     <div>
-                        <Dropzone onDrop={handleOnDrop}>
+                        <Dropzone className ='dropzone' onDrop={handleOnDrop} multiple={false} accept={'image/*'} >
                             {({getRootProps, getInputProps}) => (
                             <section className="container">
                                 <div {...getRootProps({className: 'dropzone'})}>
                                 <input {...getInputProps()} />
-                                <p>Drag 'n' drop some files here, or click to select files</p>
+                                <p className = "postDate">Drag 'n' drop some files here, or click to select files</p>
                                 </div>
                             </section>
                             )}
                         </Dropzone>
-                    </div>
-                    
-                    
-                    
-                    {/* <div className="caption">
-                        <label>Upload an image: </label>
-                        <input
-                            type = 'file'
-                            accept="image/*" 
-                            name = {image}
-                            onChange = {(e)=>setImage(e.target.files[0])}
-                            >
-                        </input>
-                        {hasSubmitted ? (
-                            <p className="errors">{errors.image}</p>
-                            ) : null}
-                    </div> */}
-                    
                         
-                    
+                    </div>
                 </div>
-                    
                         {custs?.length !== 0 ? 
                             <div className="createFormBottom">
                                 <div className="title_my_favorite">
@@ -230,3 +211,16 @@ export default CreatePost;
 
 
 
+{/* <div className="caption">
+                        <label>Upload an image: </label>
+                        <input
+                            type = 'file'
+                            accept="image/*" 
+                            name = {image}
+                            onChange = {(e)=>setImage(e.target.files[0])}
+                            >
+                        </input>
+                        {hasSubmitted ? (
+                            <p className="errors">{errors.image}</p>
+                            ) : null}
+                    </div> */}

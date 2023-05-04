@@ -47,7 +47,7 @@
     justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
-    padding: 0 15% 0 15%;
+    /* padding: 0 15% 0 15%; */
 
     
 }
@@ -81,18 +81,21 @@
     width: 50%;
 }
 
-.btn {
-    border: none;
-    text-align: center;
-    background-color: rgb(218, 216, 216);
-    height: 50px;
-    border-radius: 12px;
-    color: black;
-    font-weight: bold;
-    transition-duration: 0.6s;
+
+.dropzone {
+    width:400px;
+    height:100px;
+    border: 2px dashed rgb(142, 140, 140);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(245, 245, 243, 0.755);
+
+}
+.dropzone:hover {
+    border: 2px dashed rgb(188, 187, 187);
 }
 
-.btn:hover {
-    background-color: blue;
-    color: aliceblue;
+.dropzone:focus {
+    border: 2px dashed lightskyblue;
 }
