@@ -173,11 +173,11 @@ const CreatePost = () => {
                                 <div {...getRootProps({className: 'dropzone'})}>
                                 <input {...getInputProps()} />
                                 {isDragActive ? (
-                                <p className="dropzone-content">
+                                <p className="postDate">
                                     Release to drop the files here
                                 </p>
                                 ) : (
-                                <p className="dropzone-content">
+                                <p className="postDate">
                                     Drag’n’drop some files here, or click to select files
                                 </p>
                                 )}
@@ -185,7 +185,7 @@ const CreatePost = () => {
                                 <aside>
                                     <ul>
                                         {acceptedFiles.map((file) => (
-                                            <li key={file.path}>
+                                            <li key={file.path} className="postDate">
                                                 * {file.path} - {file.size} bytes
                                             </li>
                                         ))}
