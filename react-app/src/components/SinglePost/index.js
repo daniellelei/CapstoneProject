@@ -90,9 +90,7 @@ const SinglePost = () => {
                             <p className="postDate">Milk options: {customization.milk}</p>
                             <p className="postDate">Shot Options: {customization.shotOptions}</p>
                             <p className="postDate">Expresso Roast: {customization.expressoRoastOptions}</p>
-                            <p className='postDate'>Expresso Roast: {customization.expressoRoastOptions}</p> 
                             <p className='postDate'>Tea Base: {customization.teaBase}</p>
-                            
                             <p className='postDate'>Additionals:</p>
                             <p className="cartP">{customization.toppings}</p>
                             <p className="cartP">{customization.flavors}</p>
@@ -101,44 +99,44 @@ const SinglePost = () => {
                             
                         </div>
                         {user && !isAdded(currentCart,'customization', customization.id) ? <button
-            onClick = {async (e) => {
-                e.preventDefault();
-                if(user){
-                    await dispatch(cartActions.addToCartThunk(customization))
-                }
-                setModalContent(<ConfirmModal />);
-                }}
-            >Add</button>
-            : null} 
-            {!user ? <OpenModalButton 
-                buttonText= "Add to Cart"
-                modalComponent={<SignUpLoginModal page={`/customizations/${customization.id}`}/>}
-            /> : null}
-            <div className='plusMinus'>
-                {user && isAdded(currentCart,'customization', customization.id)? 
-                <i 
-                className="fa-solid fa-square-minus"
-                onClick = { (e) => {
-                    e.preventDefault();
-                    console.log('hit me minus customization.id ',customization.id)
-                    dispatch(cartActions.removeFromCartThunk(customization))
-                    console.log('after hitting thunkkk', customization.id)
-                }}
-                ></i>
-                : null}
-                {isAdded(currentCart, 'customization', customization.id)? <span className='numOfdrink'>{numOfAdded(currentCart, 'customization', customization.id)}</span> : null}
-                { user && isAdded(currentCart, 'customization', customization.id)? 
-                <i 
-                className="fa-solid fa-square-plus"
-                onClick = { async(e) => {
-                    e.preventDefault();
-                    if(user){
-                        await dispatch(cartActions.addToCartThunk(customization))
-                    }
-                }}
-                ></i>
-                : null}
-            </div>
+                        onClick = {async (e) => {
+                            e.preventDefault();
+                            if(user){
+                                await dispatch(cartActions.addToCartThunk(customization))
+                            }
+                            setModalContent(<ConfirmModal />);
+                            }}
+                        >Add</button>
+                        : null} 
+                        {!user ? <OpenModalButton 
+                            buttonText= "Add to Cart"
+                            modalComponent={<SignUpLoginModal page={`/customizations/${customization.id}`}/>}
+                        /> : null}
+                        <div className='plusMinus'>
+                            {user && isAdded(currentCart,'customization', customization.id)? 
+                            <i 
+                            className="fa-solid fa-square-minus"
+                            onClick = { (e) => {
+                                e.preventDefault();
+                                console.log('hit me minus customization.id ',customization.id)
+                                dispatch(cartActions.removeFromCartThunk(customization))
+                                console.log('after hitting thunkkk', customization.id)
+                            }}
+                            ></i>
+                            : null}
+                            {isAdded(currentCart, 'customization', customization.id)? <span className='numOfdrink'>{numOfAdded(currentCart, 'customization', customization.id)}</span> : null}
+                            { user && isAdded(currentCart, 'customization', customization.id)? 
+                            <i 
+                            className="fa-solid fa-square-plus"
+                            onClick = { async(e) => {
+                                e.preventDefault();
+                                if(user){
+                                    await dispatch(cartActions.addToCartThunk(customization))
+                                }
+                            }}
+                            ></i>
+                            : null}
+                        </div>
 
                         
             

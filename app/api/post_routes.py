@@ -6,17 +6,14 @@ from ..models import db, User, Post, Customization
 from flask_login import current_user, login_required
 from datetime import datetime
 from sqlalchemy.orm import joinedload
-
+from .aws_helpers import upload_file_to_s3, remove_file_from_s3, get_unique_filename
 post_routes = Blueprint('posts', __name__)
 
 
 @post_routes.route('/')
 def get_all_posts():
     """get all posts and display them"""
-    print("**************************")
-    print("**************************")
-    print("**************************")
-    print("**************************")
+   
     posts = Post.query.order_by(Post.post_date.desc()).all()
     return [{**post.to_dict(),
              'user':post.user.to_dict()
@@ -40,42 +37,37 @@ def add_new_post():
     user = current_user.to_dict()
     form = PostForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
-    request_obj = request.get_json()
-    # print("**************************")
-    # print("**************************")
-    # print("**************************")
-    # print("**************************")
-    # print(request_obj)
-    # an array of customizations included drinks info
-    customizations = request_obj["chosenCust"]
-    # customization["id"]
-    print("==========================")
-    print("==========================")
-    print("==========================")
-    print("==========================")
-    print('After commit: ***', customizations)
+    # request_obj = request.get_json()
+    custs = form.data["chosenCust"]
+    customizations= list(form.data["chosenCust"].split(" "))
 
     if form.validate_on_submit():
+        image = form.data['image']
+        image.filename = get_unique_filename(image.filename)
+        upload = upload_file_to_s3(image)
+        if "url" not in upload:
+            return {"message": "upload error"}
+        
         new_post = Post(
             author=user['id'],
             caption=form.data["caption"],
-            image=form.data["image"],
+            image=upload["url"],
             post_date=date.today(),
         )
         db.session.add(new_post)
         db.session.commit()
-        # print("==========================")
-        # print("==========================")
-        # print("==========================")
-        # print("==========================")
-        # print('After commit: ***', new_post.to_dict())
+        if(custs == ''):
+            return {**new_post.to_dict()
+                    , 'user': new_post.user.to_dict()
+                    , "customizations": []
+                    }
 
         if len(customizations) > 0:
             print("========================== before", new_post.post_customizations)
             new_post.post_customizations = []
             for c in customizations:
                 print("==========================", c)
-                cust = Customization.query.get(c["id"])
+                cust = Customization.query.get(int(c))
                 new_post.post_customizations.append(cust) 
             db.session.commit()
 
@@ -99,20 +91,52 @@ def add_new_post():
 @login_required
 def update_post(id):
     user = current_user.to_dict()
-    request_obj = request.get_json()
-    customizations = request_obj["chosenCust"]
+    # request_obj = request.get_json()
+    # customizations = request_obj["chosenCust"]
     post = Post.query.get(id)
-
     form = PostForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
+    custs = form.data["chosenCust"]
+    customizations = list(form.data["chosenCust"].split(" "))
+    print("=======================")
+    print("=======================")
+    print("=======================")
+    print("=======================")
+    print("=======================")
+    print("=======================")
+    print("=======================")
+    print("custs", custs)
+    print("customizations", customizations)
     if form.validate_on_submit():
+        image_to_remove = post.image
+        image_delete = remove_file_from_s3(image_to_remove)
+        image = form.data['image']
+        image.filename = get_unique_filename(image.filename)
+        upload = upload_file_to_s3(image)
+        if "url" not in upload:
+            return {"message": "upload error"}
+
         post.caption = form.data["caption"]
-        post.image = form.data["image"]
+        post.image = upload["url"]
         post.post_date = date.today()
         db.session.commit()
+        if (custs == ''):
+            post = Post.query.options(joinedload(
+                Post.post_customizations)).get(id)
+            old_post_custs = [
+                customization for customization in post.post_customizations]
+            for o in old_post_custs:
+                post.post_customizations.remove(o)
+            db.session.commit()
+            updated_post = Post.query.get(id)
+            return {**updated_post.to_dict()
+                    , 'user': updated_post.user.to_dict()
+                    , "customizations": []
+                    }
+
         if len(customizations) > 0:
             post = Post.query.options(joinedload(Post.post_customizations)).get(id)
-            new_post_custs = [Customization.query.get(c['id']) for c in customizations]
+            new_post_custs = [Customization.query.get(int(c)) for c in customizations]
             old_post_custs = [customization for customization in post.post_customizations]
 
             for o in old_post_custs:
@@ -139,9 +163,12 @@ def update_post(id):
 @login_required
 def delete_post(id):
     post = Post.query.get(id)
+    
     if (post):
-        db.session.delete(post)
-        db.session.commit()
-        return {"message": "Post deleted!"}
+        file_delete = remove_file_from_s3(post.image)
+        if file_delete:
+            db.session.delete(post)
+            db.session.commit()
+            return {"message": "Post deleted!"}
     else:
         return{"message": "Post not found."}

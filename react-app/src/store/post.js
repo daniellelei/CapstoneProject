@@ -77,11 +77,10 @@ export const getPostDetail = (id) => async (dispatch) => {
 };
 
 export const createPost = (post) => async (dispatch) => {
-  console.log('post in thunk', post)
+  
   const response = await fetch("/api/posts/new", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(post),
+    body: post
   });
 
   if (response.ok) {
@@ -94,11 +93,11 @@ export const createPost = (post) => async (dispatch) => {
   return response.json();
 };
 
-export const updatePost = (post) => async (dispatch) => {
-  const response = await fetch(`/api/posts/${post.postId}`, {
+export const updatePost = (post, postId) => async (dispatch) => {
+  const response = await fetch(`/api/posts/${postId}`, {
     method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(post),
+    // headers: { "Content-Type": "application/json" },
+    body: post,
   });
 
   if (response.ok) {
