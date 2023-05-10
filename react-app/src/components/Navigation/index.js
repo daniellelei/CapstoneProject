@@ -3,7 +3,7 @@ import { NavLink, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
-import logo from "./assets/logo.jpg";
+import logo from "./assets/marioCoffee.jpg";
 import * as cartActions from "../../store/cart"
 import * as sessionActions from "../../store/session"
 
@@ -24,7 +24,7 @@ function Navigation({ isLoaded }){
 	
 	useEffect(()=> {
 		if(user) dispatch(cartActions.getCurrentCartThunk());
-		console.log('inside useEffect', cart)
+		
 		if(!cart) setItemCount(0)
 		else setItemCount(drinksCount(cart))
 	}, [dispatch, user])
@@ -42,13 +42,13 @@ function Navigation({ isLoaded }){
 			
 				<NavLink exact to="/">
 					{/* <img className ='logo' src={logo} alt='logo'/> */}
-					<img className='logo' src="https://i.giphy.com/media/ZDNQdzCUjIK9VNUE2c/giphy.webp" alt='logo' />
+					<img className='logo' src={logo} alt='logo' />
 				</NavLink>
-				<NavLink exact to="/drinks">
-					<h2>Menu</h2>
+				<NavLink className='leftNavItem' exact to="/drinks">
+					<h2 className='leftNavItem'>Menu</h2>
 				</NavLink>
-				<NavLink exact to="/posts">
-					<h2>Feed</h2>
+				<NavLink className='leftNavItem' exact to="/posts">
+					<h2 className='leftNavItem'>Feed</h2>
 				</NavLink>
 				
 			</div>

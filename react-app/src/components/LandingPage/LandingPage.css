@@ -9,3 +9,60 @@
     height: 600px;
     object-fit: cover;
 }
+
+.eachBlock {
+    height:625px;
+    width: 1440px;
+    display: flex;
+    margin-top: 1em;
+}
+
+.ads{
+    /* border: 1px solid red; */
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.ad_titles {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+.ad_title{
+    margin: 0;
+    font-size: 40px;
+    letter-spacing: 3px;
+}
+.ad_contents {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.ad_content {
+    margin:0;
+    letter-spacing: 2px;
+}
+.mothersday {
+    background-color: rgb(231 127 165);
+}
+
+.mint {
+    background-color: #d4e9e2;
+}
+.macadamia {
+    background-color: #cae678;
+}
+.sweetest{
+    background-color: #f1ff68;
+}
+.adImg {
+    width: 50%;
+    /* border:1px solid black; */
+}

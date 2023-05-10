@@ -1,3 +1,14 @@
+.topNav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5em;
+  padding: 0 100px 0 60px;
+  border-bottom: 2px solid rgba(193, 191, 191, 0.398);
+  
+  /* padding-right:10em; */
+}
 .profile-dropdown {
   position: absolute;
   background-color: white;
@@ -17,8 +28,8 @@
 }
 
 .logo {
-  height:60px;
-  width:60px;
+  height:40px;
+  width:40px;
   position: relative;
   top:0;
   transition: top ease 0.5s;
@@ -27,21 +38,17 @@
   top: -5px;
 }
 
-.topNav {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: first baseline;
-  margin-bottom: 1.5em;
-  /* padding-right:10em; */
-}
 
 .leftNav {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  align-items: first baseline;
+  align-items: center;
   width: 20%;
+}
+
+.leftNavItem :hover {
+  color: rgb(209, 5, 5);
 }
 
 .rightNav {
