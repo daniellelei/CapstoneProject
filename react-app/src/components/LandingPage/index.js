@@ -21,12 +21,14 @@ function LandingPage () {
                         <h4 className='ad_content'>Let her know how much she’s loved. Surprise</h4>
                         <h4 className='ad_content'>her with a Starbucks eGift this Mother’s Day.</h4>
                     </div>
-                    <button className='ad_button'>Send an eGift</button>
+                    <button className='ad_button mothersday' >Send an eGift</button>
                 </div>
                 <img className='adImg'
                 src={mothersday} />
             </div>
             <div className='eachBlock'>
+                <img className='adImg'
+                src={mint} />
                 <div className='ads mint'>
                     <div className='ad_titles'>
                         <h1 className='ad_title'>For your enjoy-</h1>
@@ -37,10 +39,8 @@ function LandingPage () {
                         <h4 className='ad_content'>Chocolate Java Mint Frappuccino® blended</h4>
                         <h4 className='ad_content'>beverage.</h4>
                     </div>
-                    <button className='ad_button'>Order now</button>
+                    <button className='ad_button mint'>Order now</button>
                 </div>
-                <img className='adImg'
-                src={mint} />
             </div>
             <div className='eachBlock'>
                 <div className='ads macadamia'>
@@ -53,12 +53,14 @@ function LandingPage () {
                         <h4 className='ad_content'>Cream Cold Brew with toasted cookie</h4>
                         <h4 className='ad_content'>crumbles.</h4>
                     </div>
-                    <button className='ad_button'>Order now</button>
+                    <button className='ad_button macadamia'>Order now</button>
                 </div>
                 <img className='adImg'
                 src={macadamia} />
             </div>
             <div className='eachBlock'>
+                <img className='adImg'
+                src={sweetest} />
                 <div className='ads sweetest'>
                    <div className='ad_titles'>
                         <h1 className='ad_title'>Sweetest of the</h1>
@@ -69,10 +71,8 @@ function LandingPage () {
                         <h4 className='ad_content'>Bumblebee Cake Pop dipped in chocolaty</h4>
                         <h4 className='ad_content'>icing.</h4>
                     </div>
-                    <button className='ad_button'>Order now</button>
+                    <button className='ad_button sweetest'>Order now</button>
                 </div>
-                <img className='adImg'
-                src={sweetest} />
             </div>
             
         </div>

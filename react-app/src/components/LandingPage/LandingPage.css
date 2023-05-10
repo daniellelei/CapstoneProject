@@ -66,3 +66,14 @@
     width: 50%;
     /* border:1px solid black; */
 }
+
+.ad_button {
+    padding: 0;
+    border: 1px solid rgba(108, 106, 106, 0.653);
+    box-shadow: none;
+    color:black;
+}
+.ad_button:hover{
+    cursor: pointer;
+    filter: brightness(85%);
+}
