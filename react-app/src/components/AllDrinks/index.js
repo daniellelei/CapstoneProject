@@ -82,7 +82,7 @@ function AllDrinks(){
               className="eaCategory"
               onClick={allDrinksClick}
               >
-                All Drinks
+                Drinks
               </li>
               <li 
               className="eaCategory"
