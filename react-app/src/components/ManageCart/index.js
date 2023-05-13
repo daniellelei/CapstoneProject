@@ -84,14 +84,10 @@ function CurrentCart() {
 
         if(!Boolean(Object.values(errors).length)){
             const checkedOutRes = await dispatch(cartActions.checkOutThunk(total));
+            history.push('/aftercheckout')
             await dispatch(cartActions.createCartThunk());
             await dispatch(sessionActions.authenticate());
-            history.push('/aftercheckout')
-            // if(!checkedOutRes.errors) {
-            //     history.pushState(`/drinks`);
-            //     setHasSubmitted(false);
-            //     setErrors({});
-            // }
+            
         } 
     }
     if(!cart?.id || !user?.id) return (
@@ -108,8 +104,7 @@ function CurrentCart() {
 
         </div>
     )
-    console.log("cart_custssssss", cart_custs)
-    console.log("cart_drinkssssss", cart_drinks)
+   
     if (cart_custs === undefined && cart_drinks === undefined ) return (
         <div className="myCart">
             <h1>Wanna add a drink to your cart?</h1>
