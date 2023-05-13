@@ -54,9 +54,9 @@
 .rightNav {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-around;
   align-items: center;
-  width: 40%;
+  width: 20%;
 }
 .navButton{
   color:white;
@@ -86,12 +86,18 @@
 .signInbutton {
   background-color: white;
   color: black;
-  width: fit-content;
-  padding:0.5em;
+  padding:0.4em;
   border: 1px solid black;
   border-radius: 20px;
+  font-size: 10px;
+  font-weight: bold;
 }
 
 .joinButton {
-  
+  background-color: black;
+  color:white;
+  border-radius: 20px;
+  font-size: 10px;
+  padding: 0.4em;
+  font-weight: bold;
 }
