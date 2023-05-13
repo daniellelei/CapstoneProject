@@ -53,6 +53,21 @@ function Navigation({ isLoaded }){
 				
 			</div>
 			<div className='rightNav'>
+				<div>
+					Find a Store
+				</div>
+				<div>
+					<button
+					className='signInbutton'
+					>Sign in</button>
+				</div>
+				<div>
+					<button
+					className='joinButton'
+					>Join now</button>
+				</div>
+			</div>
+			{/* <div className='rightNav'>
 				{isLoaded && (
 					<div>
 						<ProfileButton user={sessionUser} />
@@ -66,7 +81,7 @@ function Navigation({ isLoaded }){
 						{cart?drinksCount(cart):0}
 					</p> 
 				</button>
-			</div>
+			</div> */}
 		</div>
 	);
 }

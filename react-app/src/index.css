@@ -5,7 +5,7 @@
     color:black;
 }
 
-button {
+/* button {
     border: none;
     background-color: rgb(1, 69, 1);
     color:white;
@@ -18,7 +18,7 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
-}
+} */
 button:hover {
     filter:brightness(130%)
 }

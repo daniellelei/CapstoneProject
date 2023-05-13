@@ -56,7 +56,7 @@
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-  width: 20%;
+  width: 40%;
 }
 .navButton{
   color:white;
@@ -81,4 +81,17 @@
   width:20px;
   border-radius: 50%;
   text-align: center;
+}
+
+.signInbutton {
+  background-color: white;
+  color: black;
+  width: fit-content;
+  padding:0.5em;
+  border: 1px solid black;
+  border-radius: 20px;
+}
+
+.joinButton {
+  
 }
