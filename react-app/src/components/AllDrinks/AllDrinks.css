@@ -42,9 +42,11 @@
 
 .eaCategory:hover {
     color: black;
+    cursor: pointer;
 }
 .eaCategory:focus {
     color:black;
+    cursor: pointer;
 }
 
 /* .eaCategory:after {
