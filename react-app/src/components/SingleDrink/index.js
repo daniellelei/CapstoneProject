@@ -79,7 +79,7 @@ const Drink = () => {
                 return 'Hot Coffee'
             case "hotTea":
                 return 'Hot Tea'
-            case "coldCoffee":
+            case "icedCoffee":
                 return 'Cold Coffee'
             case "coldTea":
                 return "Cold Tea"
