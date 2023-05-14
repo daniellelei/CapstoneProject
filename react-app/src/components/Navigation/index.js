@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import OpenModalButton from "../OpenModalButton";
+import LoginFormModal from "../LoginFormModal";
+import SignupFormModal from "../SignupFormModal";
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
 import logo from "./assets/marioCoffee.jpg";
@@ -33,6 +36,10 @@ function Navigation({ isLoaded }){
 		e.preventDefault();
 		history.push('/cart')
 	}
+	const signInClick = (e) => {
+		e.preventDefault();
+
+	}
 	const [itemCount, setItemCount] = useState(drinksCount(cart));
 	console.log('from top nav cart', itemCount)
 	if(!cart) return null;
@@ -57,14 +64,18 @@ function Navigation({ isLoaded }){
 					Find a Store
 				</div>
 				<div>
-					<button
+					<OpenModalButton
 					className='signInbutton'
-					>Sign in</button>
+					buttonText="Sign in"
+					modalComponent={<LoginFormModal />}
+					/>
+					
 				</div>
 				<div>
-					<button
-					className='joinButton'
-					>Join now</button>
+					<OpenModalButton
+					buttonText="Join now"
+					modalComponent={<SignupFormModal />}
+            		/>
 				</div>
 			</div>
 			{/* <div className='rightNav'>
