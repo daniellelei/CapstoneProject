@@ -83,21 +83,30 @@
   text-align: center;
 }
 
-.signInbutton {
+.SignInbutton {
   background-color: white;
   color: black;
   padding:0.4em;
+  width: 60px;
   border: 1px solid black;
-  border-radius: 20px;
-  font-size: 10px;
-  font-weight: bold;
+  border-radius: 25px;
+  font-size: 12px;
+}
+.SignInbutton:hover{
+  cursor: pointer;
+  background-color: rgb(219, 216, 216);
 }
 
-.joinButton {
+.JoinNowButton {
   background-color: black;
   color:white;
   border-radius: 20px;
-  font-size: 10px;
+  font-size: 12px;
   padding: 0.4em;
-  font-weight: bold;
+  width: 80px;
+  
+}
+.JoinNowButton:hover{
+  cursor: pointer;
+  background-color: rgb(62, 60, 60);
 }

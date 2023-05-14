@@ -19,9 +19,9 @@
     align-items: center;
     justify-content: center;
 } */
-button:hover {
+/* button:hover {
     filter:brightness(130%)
-}
+} */
 
 button:active {
     transform: translateY(4px);

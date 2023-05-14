@@ -65,7 +65,7 @@ function Navigation({ isLoaded }){
 				</div>
 				<div>
 					<OpenModalButton
-					className='signInbutton'
+					type = 'signIn'
 					buttonText="Sign in"
 					modalComponent={<LoginFormModal />}
 					/>
@@ -73,6 +73,7 @@ function Navigation({ isLoaded }){
 				</div>
 				<div>
 					<OpenModalButton
+					type = 'joinNow'
 					buttonText="Join now"
 					modalComponent={<SignupFormModal />}
             		/>
