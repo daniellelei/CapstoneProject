@@ -80,6 +80,7 @@ def upgrade():
     sa.Column('post_id', sa.Integer(), nullable=False),
     sa.Column('reviewBody', sa.String(length=255), nullable=False),
     sa.Column('rating', sa.Integer(),nullable=False),
+    sa.Column('date', sa.Date(), nullable=False),
     sa.ForeignKeyConstraint(['post_id'], ['posts.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')

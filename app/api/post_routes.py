@@ -100,15 +100,6 @@ def update_post(id):
     form["csrf_token"].data = request.cookies["csrf_token"]
     custs = form.data["chosenCust"]
     customizations = list(form.data["chosenCust"].split(" "))
-    print("=======================")
-    print("=======================")
-    print("=======================")
-    print("=======================")
-    print("=======================")
-    print("=======================")
-    print("=======================")
-    print("custs", custs)
-    print("customizations", customizations)
     if form.validate_on_submit():
         image_to_remove = post.image
         image_delete = remove_file_from_s3(image_to_remove)
@@ -177,7 +168,7 @@ def delete_post(id):
         return{"message": "Post not found."}
     
 
-@post_routes.route('/<int:id>', methods=['GET', 'POST'])
+@post_routes.route('/<int:id>/reviews', methods=['GET', 'POST'])
 @login_required
 def add_new_review(id):
     user = current_user.to_dict()
@@ -189,13 +180,20 @@ def add_new_review(id):
             user_id = user['id'],
             post_id = id,
             reviewBody = form.data('reviewBody'),
-            rating = form.data['rating']
+            rating = form.data['rating'],
+            date=date.today()
         )
         db.session.add(new_review)
         db.session.commit()
         post.reviews.append(new_review)
         db.session.commit()
-    return {**new_review.to_dict()
-            , 'user': new_review.user.to_dict()
-            , 'post': new_review.post.to_dict()
-            }
+        return {**new_review.to_dict()
+                , 'user': new_review.user.to_dict()
+                , 'post': new_review.post.to_dict()
+                }
+    
+    if form.errors:
+        return {"message": "form errors", "errors": f"{form.errors}"}
+    return {"message": 'Bad Data'}
+
+

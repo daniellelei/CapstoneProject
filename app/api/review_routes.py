@@ -16,5 +16,16 @@ def get_all_reviews():
              } for review in reviews]
 
 
+@review_routes.route('/<int:id>', methods=['PUT', 'PATCH'])
+@login_required
+def edit_review(id):
+    user = current_user.to_dict()
+    review = Review.query.get(id)
+    form = ReviewForm()
+    form["csrf_token"].data = request.cookies["csrf_token"]
+    if form.validate_on_submit():
+        review.reviewBody = form.data['reviewBody']
+        review.rating = form.data['rating']
+
 
 
