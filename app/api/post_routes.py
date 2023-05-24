@@ -188,7 +188,8 @@ def add_new_review(id):
         new_review = Review(
             user_id = user['id'],
             post_id = id,
-            reviewBody = form.data('reviewBody')
+            reviewBody = form.data('reviewBody'),
+            rating = form.data['rating']
         )
         db.session.add(new_review)
         db.session.commit()
