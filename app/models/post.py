@@ -32,6 +32,8 @@ class Post(db.Model):
         
     )
 
+    reviews = db.relationship('Review', back_populates='post')
+
     def to_dict(self):
         return {
             "id": self.id,

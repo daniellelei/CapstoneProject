@@ -10,22 +10,21 @@ class Review (db.Model):
     user_id = db.Column(
         db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")), nullable=False
     )
-    drink_id = db.Column(
-        db.Integer, db.ForeignKey(add_prefix_for_prod("drinks.id")), nullable=False
+    post_id = db.Column(
+        db.Integer, db.ForeignKey(add_prefix_for_prod("posts.id")), nullable=False
     )
     reviewBody = db.Column(db.String(255), nullable=False)
-    rating = db.Column(db.Integer, nullable=False)
+    
 
     #relationship attributes
     user = db.relationship('User', back_populates= "reviews")
-    drink = db.relationship('Drink', back_populates="reviews")
+    post = db.relationship('Post', back_populates="reviews")
     
 
     def to_dict(self):
         return {
             'id': self.id,
             'user_id':self.user_id,
-            'drink_id':self.drink_id,
+            'post_id':self.post_id,
             'reviewBody': self.reviewBody,
-            'rating': self.rating
         }
