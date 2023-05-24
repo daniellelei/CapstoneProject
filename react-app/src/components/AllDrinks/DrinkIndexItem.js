@@ -15,6 +15,7 @@ const DrinkIndexItem = ({
     user,
     page,
     currentCart,
+    
 }) => {
     const dispatch = useDispatch();
     const history = useHistory();
