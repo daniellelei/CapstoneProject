@@ -4,9 +4,10 @@
 }
 .custForm{
     
-    padding:1em;
+    padding:2em;
     border-radius: 15px;
     box-shadow: 4px 4px 4px 4px gray;
+    margin: 0 0 10% 0;
 }
 select {
     padding:0.5em;
