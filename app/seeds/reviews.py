@@ -7,61 +7,71 @@ def seed_reviews(all_posts, all_users):
     review1 = Review(
         user=choice(all_users),
         post=choice(all_posts),
-        reviewBody='I really love this image'
+        reviewBody='I really love this image',
+        rating=3
     )
 
     review2 = Review(
         user=choice(all_users),
         post=choice(all_posts),
-        reviewBody='cute'
+        reviewBody='cute',
+        rating=4,
     )
 
     review3 = Review(
         user=choice(all_users),
         post=choice(all_posts),
-        reviewBody='enjoy it'
+        reviewBody='enjoy it',
+        rating=5
     )
 
     review4 = Review(
         user=choice(all_users),
         post=choice(all_posts),
-        reviewBody='cool'
+        reviewBody='cool',
+        rating=3
     )
 
     review5 = Review(
         user=choice(all_users),
         post=choice(all_posts),
-        reviewBody='lovly'
+        reviewBody='lovly',
+        rating=4
     )
 
     review6 = Review(
         user=choice(all_users),
         post=choice(all_posts),
-        reviewBody='yummy'
+        reviewBody='yummy',
+        rating=3
     )
 
     review7 = Review(
         user=choice(all_users),
         post=choice(all_posts),
-        reviewBody='cuteeeee'
+        reviewBody='cuteeeee',
+        rating=5
     )
 
     review8 = Review(
         user=choice(all_users),
         post=choice(all_posts),
-        reviewBody='wow nice'
+        reviewBody='wow nice',
+        rating=4
     )
 
     review9 = Review(
         user=choice(all_users),
         post=choice(all_posts),
-        reviewBody='I really love this drink'
+        reviewBody='I really love this drink',
+        rating=4
     )
 
     review10 = Review(
         user=choice(all_users),
         post=choice(all_posts),
-        reviewBody='so yummy'
+        reviewBody='so yummy',
+        rating=5
     )
 
     all_reviews = [review1, review2, review3, review4, 

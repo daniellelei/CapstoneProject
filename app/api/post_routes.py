@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, redirect,request
 from ..forms.post_form import PostForm
+from ..forms.review_form import ReviewForm
 from datetime import date
 from random import randint
-from ..models import db, User, Post, Customization
+from ..models import db, User, Post, Customization, Review
 from flask_login import current_user, login_required
 from datetime import datetime
 from sqlalchemy.orm import joinedload
@@ -29,6 +30,7 @@ def get_post_detail(id):
             , "customizations": [{**c.to_dict(),
                                  'drinks_customization': c.drink.to_dict()}
                                  for c in post.post_customizations]
+            , 'reviews': [r.to_dict() for r in post.reviews]
             }
 
 @post_routes.route('/new', methods=["GET", "POST"])
@@ -153,6 +155,7 @@ def update_post(id):
                 , "customizations": [{**c.to_dict(),
                                         'drinks_customization': c.drink.to_dict()}
                                         for c in updated_post.post_customizations]
+                
                 }
     if form.errors:
         return {"message": "form errors", "errors": f"{form.errors}"}
@@ -172,3 +175,26 @@ def delete_post(id):
             return {"message": "Post deleted!"}
     else:
         return{"message": "Post not found."}
+    
+
+@post_routes.route('/<int:id>', methods=['GET', 'POST'])
+@login_required
+def add_new_review(id):
+    user = current_user.to_dict()
+    post = Post.query.get(id)
+    form = ReviewForm()
+    form["csrf_token"].data = request.cookies["csrf_token"]
+    if form.validate_on_submit():
+        new_review = Review(
+            user_id = user['id'],
+            post_id = id,
+            reviewBody = form.data('reviewBody')
+        )
+        db.session.add(new_review)
+        db.session.commit()
+        post.reviews.append(new_review)
+        db.session.commit()
+    return {**new_review.to_dict()
+            , 'user': new_review.user.to_dict()
+            , 'post': new_review.post.to_dict()
+            }
