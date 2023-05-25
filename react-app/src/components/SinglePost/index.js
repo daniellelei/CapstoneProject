@@ -146,25 +146,43 @@ const SinglePost = () => {
                     </div>
                 ))}
             </div>
-            {!reviews.length?null:(
-                            <h2>Comments</h2>
-                        )}
-                        <div className='allReviews'>
-                            {reviews.map((review)=>(
-                                <div className='eaReview'>
-                                    <img 
-                                        style={{height:"40px",width:"40px",borderRadius:"50%"}}
-                                        src={review.user.profilePic} alt="user_profile_pic"/>
-                                    <div className='userInfo'>
-                                        <div className='review_name_date'>
-                                            <p style={{fontWeight:"bolder"}}>{review.user.username}</p>
-                                            <p style={{fontSize:"12px",marginLeft:'10px',color:"grey"}}>{new Date(review.date).toDateString()}</p>
-                                        </div>
-                                        <p className='userInfoP'>{review.reviewBody}</p>
-                                    </div>
-                                </div>
-                            ))}
+            
+            <div className='allReviews'>
+                {!reviews.length?(
+                    <div style={{marginBottom:"10px"}}>
+                        <h2>Comments</h2>
+                        <input
+                        style={{width:"100%"}}
+                        type="text"
+                        placeholder='Be the first to leave a comment'
+                        ></input>
+                    </div>
+                ):(
+                    <div style={{marginBottom:"10px"}}>
+                        <h2>Comments</h2>
+                        <input
+                        style={{width:"100%"}}
+                        type='text'
+                        placeholder='Leave a comment'
+                        >
+                        </input>
+                    </div>
+                            )}
+                {reviews.map((review)=>(
+                    <div className='eaReview'>
+                        <img 
+                            style={{height:"40px",width:"40px",borderRadius:"50%"}}
+                            src={review.user.profilePic} alt="user_profile_pic"/>
+                        <div className='userInfo'>
+                            <div className='review_name_date'>
+                                <p style={{fontWeight:"bolder"}}>{review.user.username}</p>
+                                <p style={{fontSize:"12px",marginLeft:'10px',color:"grey"}}>{new Date(review.date).toDateString()}</p>
+                            </div>
+                            <p className='userInfoP'>{review.reviewBody}</p>
                         </div>
+                    </div>
+                ))}
+            </div>
 
             
             

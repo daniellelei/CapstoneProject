@@ -34,6 +34,8 @@
     margin: 0 0 5% 0;
     background-color: beige;
     width:330px;
+    height: 450px;
+    overflow: auto;
     padding: 1%;
 }
 .eaReview{
@@ -41,7 +43,7 @@
     justify-content: flex-start;
     align-items: center;
     margin-bottom: 10px;
-    background-color: rgba(245, 245, 245, 0.92);
+    background-color: rgba(249, 248, 248, 0.869);
     padding: 2%;
 }
 
