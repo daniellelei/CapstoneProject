@@ -2,7 +2,7 @@ from flask import Blueprint,request
 from ..forms.review_form import ReviewForm
 from flask_login import current_user, login_required
 from ..models import db, User, Post, Review
-from datetime import date
+from datetime import datetime
 
 review_routes = Blueprint('reviews', __name__)
 
@@ -26,7 +26,7 @@ def edit_review(id):
     if form.validate_on_submit():
         review.reviewBody = form.data['reviewBody']
         
-        review.date = date.today()
+        review.dateTime = datetime.now()
         db.session.commit()
         updated_review = Review.query.get(id)
         return {**updated_review.to_dict()

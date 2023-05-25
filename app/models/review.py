@@ -15,7 +15,7 @@ class Review (db.Model):
     )
     reviewBody = db.Column(db.String(255), nullable=False)
     
-    date = db.Column(db.Date, nullable = False)
+    dateTime = db.Column(db.DateTime, nullable = False)
     
 
     #relationship attributes
@@ -30,5 +30,5 @@ class Review (db.Model):
             'post_id':self.post_id,
             'reviewBody': self.reviewBody,
             
-            'date':self.date
+            'dateTime':self.dateTime
         }

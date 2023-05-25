@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect,request
 from ..forms.post_form import PostForm
 from ..forms.review_form import ReviewForm
-from datetime import date
+from datetime import date, datetime
 from random import randint
 from ..models import db, User, Post, Customization, Review
 from flask_login import current_user, login_required
@@ -167,13 +167,16 @@ def delete_post(id):
             return {"message": "Post deleted!"}
     else:
         return{"message": "Post not found."}
+    
+###############     Reviews     ###############
 
 @post_routes.route('/<int:id>/reviews')
 def get_post_reviews(id):
     post = Post.query.get(id)
+    reviews = Review.query.filter(Review.post_id == id).order_by(Review.dateTime.desc())
     return{'reviews':[{**r.to_dict(),
                        'user': r.user.to_dict()
-                       } for r in post.reviews]}
+                       } for r in reviews]}
     
 
 @post_routes.route('/<int:id>/reviews/new', methods=['GET', 'POST'])
@@ -188,7 +191,7 @@ def add_new_review(id):
             user_id = user['id'],
             post_id = id,
             reviewBody = form.data['reviewBody'],
-            date=date.today()
+            dateTime=datetime.now()
         )
         db.session.add(new_review)
         db.session.commit()

@@ -11,6 +11,7 @@ const Comment = ({post}) => {
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const [errors, setErrors] = useState({});
     const reviewsObj = useSelector(state=>state.reviews.postReviews)
+    console.log('reviewsObj', reviewsObj)
 
     useEffect(()=>{
         dispatch(reviewActions.loadReviewThunk(post.id))
@@ -53,6 +54,7 @@ const Comment = ({post}) => {
     if(reviewsObj) {
         reviews = Object.values(reviewsObj);
     }
+    
 
     return (
         <div>
@@ -97,7 +99,7 @@ const Comment = ({post}) => {
                         <div className='userInfo'>
                             <div className='review_name_date'>
                                 <p style={{fontWeight:"bolder"}}>{review.user.username}</p>
-                                <p style={{fontSize:"12px",marginLeft:'10px',color:"grey"}}>{new Date(review.date).toDateString()}</p>
+                                <p style={{fontSize:"12px",marginLeft:'10px',color:"grey"}}>{new Date(review.dateTime).toDateString()}</p>
                             </div>
                             <p className='userInfoP'>{review.reviewBody}</p>
                         </div>
