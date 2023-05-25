@@ -14,7 +14,7 @@ class Review (db.Model):
         db.Integer, db.ForeignKey(add_prefix_for_prod("posts.id")), nullable=False
     )
     reviewBody = db.Column(db.String(255), nullable=False)
-    rating = db.Column(db.Integer, nullable = False)
+    
     date = db.Column(db.Date, nullable = False)
     
 
@@ -29,6 +29,6 @@ class Review (db.Model):
             'user_id':self.user_id,
             'post_id':self.post_id,
             'reviewBody': self.reviewBody,
-            'rating': self.rating,
+            
             'date':self.date
         }

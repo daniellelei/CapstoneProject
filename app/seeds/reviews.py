@@ -9,7 +9,7 @@ def seed_reviews(all_posts, all_users):
         user=choice(all_users),
         post=choice(all_posts),
         reviewBody='I really love this image',
-        rating=3,
+        
         date=fake.date_between(start_date='-1y', end_date='today'),
     )
 
@@ -17,7 +17,7 @@ def seed_reviews(all_posts, all_users):
         user=choice(all_users),
         post=choice(all_posts),
         reviewBody='cute',
-        rating=4,
+        
         date=fake.date_between(start_date='-1y', end_date='today'),
     )
 
@@ -25,7 +25,7 @@ def seed_reviews(all_posts, all_users):
         user=choice(all_users),
         post=choice(all_posts),
         reviewBody='enjoy it',
-        rating=5,
+        
         date=fake.date_between(start_date='-1y', end_date='today'),
     )
 
@@ -33,7 +33,7 @@ def seed_reviews(all_posts, all_users):
         user=choice(all_users),
         post=choice(all_posts),
         reviewBody='cool',
-        rating=3,
+        
         date=fake.date_between(start_date='-1y', end_date='today'),
     )
 
@@ -41,7 +41,7 @@ def seed_reviews(all_posts, all_users):
         user=choice(all_users),
         post=choice(all_posts),
         reviewBody='lovly',
-        rating=4,
+        
         date=fake.date_between(start_date='-1y', end_date='today'),
     )
 
@@ -49,7 +49,7 @@ def seed_reviews(all_posts, all_users):
         user=choice(all_users),
         post=choice(all_posts),
         reviewBody='yummy',
-        rating=3,
+        
         date=fake.date_between(start_date='-1y', end_date='today'),
     )
 
@@ -57,7 +57,7 @@ def seed_reviews(all_posts, all_users):
         user=choice(all_users),
         post=choice(all_posts),
         reviewBody='cuteeeee',
-        rating=5,
+        
         date=fake.date_between(start_date='-1y', end_date='today'),
     )
 
@@ -65,7 +65,7 @@ def seed_reviews(all_posts, all_users):
         user=choice(all_users),
         post=choice(all_posts),
         reviewBody='wow nice',
-        rating=4,
+        
         date=fake.date_between(start_date='-1y', end_date='today'),
     )
 
@@ -73,7 +73,7 @@ def seed_reviews(all_posts, all_users):
         user=choice(all_users),
         post=choice(all_posts),
         reviewBody='I really love this drink',
-        rating=4,
+        
         date=fake.date_between(start_date='-1y', end_date='today'),
     )
 
@@ -81,7 +81,7 @@ def seed_reviews(all_posts, all_users):
         user=choice(all_users),
         post=choice(all_posts),
         reviewBody='so yummy',
-        rating=5,
+        
         date=fake.date_between(start_date='-1y', end_date='today'),
     )
 

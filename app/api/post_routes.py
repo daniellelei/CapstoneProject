@@ -180,7 +180,7 @@ def add_new_review(id):
             user_id = user['id'],
             post_id = id,
             reviewBody = form.data('reviewBody'),
-            rating = form.data['rating'],
+            
             date=date.today()
         )
         db.session.add(new_review)
