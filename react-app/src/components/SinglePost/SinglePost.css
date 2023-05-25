@@ -30,3 +30,36 @@
 .eaPostCustDetail {
     height:200px;
 }
+.allReviews {
+    margin: 0 0 5% 0;
+    background-color: beige;
+    width:330px;
+    padding: 1%;
+}
+.eaReview{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: rgba(245, 245, 245, 0.92);
+    padding: 2%;
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    
+}
+.review_name_date {
+    display: flex;
+    align-items:baseline;
+    justify-content: flex-start;
+    margin-left: 10px;
+
+}
+.userInfoP{
+    margin: 0 0 0 10px;
+    font-size: 13px;
+}

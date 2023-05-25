@@ -30,7 +30,8 @@ def get_post_detail(id):
             , "customizations": [{**c.to_dict(),
                                  'drinks_customization': c.drink.to_dict()}
                                  for c in post.post_customizations]
-            , 'reviews': [r.to_dict() for r in post.reviews]
+            , 'reviews': [{**r.to_dict(),
+                           'user':r.user.to_dict() }for r in post.reviews]
             }
 
 @post_routes.route('/new', methods=["GET", "POST"])

@@ -23,6 +23,8 @@ const SinglePost = () => {
     const post = useSelector((state)=> state.posts.singlePost)
     console.log('this is Post', post)
     const customizations = post.customizations; //array of customizations
+    const reviews = post.reviews; //array of review
+    console.log('reviews', reviews)
     const author_id = post.author_id
     const { setModalContent, setOnModalClose } = useModal();
 
@@ -137,12 +139,32 @@ const SinglePost = () => {
                             ></i>
                             : null}
                         </div>
+                        
 
                         
             
                     </div>
                 ))}
             </div>
+            {!reviews.length?null:(
+                            <h2>Comments</h2>
+                        )}
+                        <div className='allReviews'>
+                            {reviews.map((review)=>(
+                                <div className='eaReview'>
+                                    <img 
+                                        style={{height:"40px",width:"40px",borderRadius:"50%"}}
+                                        src={review.user.profilePic} alt="user_profile_pic"/>
+                                    <div className='userInfo'>
+                                        <div className='review_name_date'>
+                                            <p style={{fontWeight:"bolder"}}>{review.user.username}</p>
+                                            <p style={{fontSize:"12px",marginLeft:'10px',color:"grey"}}>{new Date(review.date).toDateString()}</p>
+                                        </div>
+                                        <p className='userInfoP'>{review.reviewBody}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
 
             
             
