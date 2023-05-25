@@ -7,6 +7,7 @@ import * as drinkActions from '../../store/drink';
 import * as cartActions from '../../store/cart';
 import './AllDrinks.css'
 import OpenModalItem from "../OpenModalItem";
+import logo from '../Navigation/assets/logo.png'
 function AllDrinks(){
     const dispatch = useDispatch();
     const drinksObj = useSelector((state) => state.drinks.allDrinks);
@@ -75,8 +76,12 @@ function AllDrinks(){
     // console.log('cate', categoryDrinks)
     return (
       <div className="DrinksPage">
-        <div className="allDrinksTop">
-          <h1>Welcome to Coffee or Tea</h1>
+        <div style={{display:'flex', width:'100%', justifyContent:"center", alignItems:"center"}}
+        className="allDrinksTop" >
+          <h1>Welcome to Mushroom Coffee</h1>
+          <img 
+          style={{width:'60px', marginLeft:'1%'}}
+          src={logo} alt='logo'/>
         </div>
         <div style={{textAlign:"left", width:"50%"}}>
           <h2>{category}</h2>

@@ -6,7 +6,7 @@ import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
-import logo from "./assets/marioCoffee.jpg";
+import logo from "./assets/logo.png";
 import * as cartActions from "../../store/cart"
 import * as sessionActions from "../../store/session"
 
