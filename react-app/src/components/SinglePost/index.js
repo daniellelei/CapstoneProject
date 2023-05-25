@@ -58,6 +58,9 @@ const SinglePost = () => {
                 alt = {`post image url`}
             />
             <div className="postDetail">
+                <img 
+                style={{height:"40px",width:"40px",borderRadius:"50%"}}
+                src={post.user.profilePic} alt="user_image"/>
                 <p className="postCaption">{post.caption}</p>
                 <p className="postDate">{post.postDate}</p>
                 <p className="postDate">Posted by {post.user.username}</p>
