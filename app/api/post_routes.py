@@ -167,9 +167,16 @@ def delete_post(id):
             return {"message": "Post deleted!"}
     else:
         return{"message": "Post not found."}
+
+@post_routes.route('/<int:id>/reviews')
+def get_post_reviews(id):
+    post = Post.query.get(id)
+    return{'reviews':[{**r.to_dict(),
+                       'user': r.user.to_dict()
+                       } for r in post.reviews]}
     
 
-@post_routes.route('/<int:id>/reviews', methods=['GET', 'POST'])
+@post_routes.route('/<int:id>/reviews/new', methods=['GET', 'POST'])
 @login_required
 def add_new_review(id):
     user = current_user.to_dict()
@@ -180,8 +187,7 @@ def add_new_review(id):
         new_review = Review(
             user_id = user['id'],
             post_id = id,
-            reviewBody = form.data('reviewBody'),
-            
+            reviewBody = form.data['reviewBody'],
             date=date.today()
         )
         db.session.add(new_review)

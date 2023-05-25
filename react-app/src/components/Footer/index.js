@@ -39,7 +39,7 @@ function Footer({isLoaded}) {
             <p>Choose a store</p>
         </div> */}
         <button onClick={cartClick} className='shoppingbag'>
-            <i class="fa-solid fa-bag-shopping fa-lg"></i>
+            <i className="fa-solid fa-bag-shopping fa-lg"></i>
             <p className='count'>
                 {cart?drinksCount(cart):0}
             </p> 

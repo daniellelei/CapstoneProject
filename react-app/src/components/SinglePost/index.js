@@ -10,6 +10,7 @@ import DeletePostModal from '../DeletePost';
 import EditPost from '../EditPost';
 import { useModal } from '../../context/Modal';
 import ConfirmModal from '../SingleDrink/confirmModal';
+import Comment from './Comment'
 
 import { isAdded, numOfAdded } from "../SingleDrink";
 import './SinglePost.css'
@@ -55,7 +56,7 @@ const SinglePost = () => {
             <img 
                 className="postImg"
                 src = {post.image}
-                alt = {`post image url`}
+                alt = {`post_image_url`}
             />
             <div className="postDetail">
                 <img 
@@ -89,6 +90,7 @@ const SinglePost = () => {
                         <img 
                         className='drinkImg'
                         src = {customization.drinks_customization.imageUrl}
+                        alt="profile_img"
                         />
                         <div className='eaPostCustDetail'>
                             <p className="postDate">Size: {customization.size}</p>
@@ -149,47 +151,7 @@ const SinglePost = () => {
                     </div>
                 ))}
             </div>
-            
-            <div className='allReviews'>
-                {!reviews.length?(
-                    <div style={{marginBottom:"10px"}}>
-                        <h2>Comments</h2>
-                        <input
-                        style={{width:"100%"}}
-                        type="text"
-                        placeholder='Be the first to leave a comment'
-                        ></input>
-                    </div>
-                ):(
-                    <div style={{marginBottom:"10px"}}>
-                        <h2>Comments</h2>
-                        <input
-                        style={{width:"100%"}}
-                        type='text'
-                        placeholder='Leave a comment'
-                        >
-                        </input>
-                    </div>
-                            )}
-                {reviews.map((review)=>(
-                    <div className='eaReview'>
-                        <img 
-                            style={{height:"40px",width:"40px",borderRadius:"50%"}}
-                            src={review.user.profilePic} alt="user_profile_pic"/>
-                        <div className='userInfo'>
-                            <div className='review_name_date'>
-                                <p style={{fontWeight:"bolder"}}>{review.user.username}</p>
-                                <p style={{fontSize:"12px",marginLeft:'10px',color:"grey"}}>{new Date(review.date).toDateString()}</p>
-                            </div>
-                            <p className='userInfoP'>{review.reviewBody}</p>
-                        </div>
-                    </div>
-                ))}
-            </div>
-
-            
-            
-
+            <Comment post={post}/>
         </div>
     )
 

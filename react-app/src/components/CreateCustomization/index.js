@@ -61,12 +61,6 @@ const CreateCustomization = (drink) => {
         
         setResErrors({});
 
-
-
-
-        // if(!currentUser){
-        //     window.alert('You must be logged in to customize a drink.')
-        // } 
         let user_id = currentUser?.id
         let drink_id = drink.drink.id
         let cart_id = 1

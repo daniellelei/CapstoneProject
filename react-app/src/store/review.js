@@ -35,14 +35,14 @@ export const loadReviewThunk = (id) => async (dispatch) => {
     const response = await fetch (`/api/posts/${id}/reviews`)
     if(response.ok) {
         const reviewRes = await response.json();
-        dispatch(actionLoadReview(reviewRes))
-        return reviewRes;
+        dispatch(actionLoadReview(reviewRes.reviews))
+        return reviewRes.reviews;
     }
 }
 
 export const createReviewThunk = (review, id) => async (dispatch) => {
-    const response = await fetch (`/api/posts/${id}/reviews`, {
-        methods:'POST',
+    const response = await fetch (`/api/posts/${id}/reviews/new`, {
+        method:'POST',
         body:review
     });
     if(response.ok) {
@@ -55,7 +55,7 @@ export const createReviewThunk = (review, id) => async (dispatch) => {
 
 export const updateReviewThunk = (review, reviewId) => async (dispatch)=>{
     const response = await fetch(`/api/reviews/${reviewId}`, {
-        methods: 'PATCH',
+        method: 'PATCH',
         body: review
     });
     if(response.ok) {
@@ -68,7 +68,7 @@ export const updateReviewThunk = (review, reviewId) => async (dispatch)=>{
 
 export const deleteReviewThunk = (reviewId) => async (dispatch) => {
     const response = await fetch(`/api/reviews/${reviewId}`, {
-        methods:'DELETE'
+        method:'DELETE'
     });
     if(response.ok) {
         await dispatch(actionRemoveReview(reviewId))
