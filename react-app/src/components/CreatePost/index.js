@@ -37,7 +37,7 @@ const CreatePost = () => {
     const user_id = user.id;
     const [imageLoading, setImageLoading] = useState(false);
     const [preview, setPreview] = useState({});
-    const [url, setUrl] = useState("");
+    
 
     const custsObj = useSelector((state)=>state.customizations.allUserCustomizations)
     const [custChosen, setCustChosen] = useState({}); //an array of id's
@@ -82,8 +82,6 @@ const CreatePost = () => {
         setErrors(err);
     },[caption, image])
 
-    // console.log('image loading', imageLoading)
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('i am here', Object.values(errors))
@@ -96,11 +94,6 @@ const CreatePost = () => {
             formData.append('caption', caption);
             formData.append('image', image);
             formData.append('chosenCust', chosenCust);
-            // postsAction.createPost({
-            //     caption,
-            //     image,
-            //     chosenCust,
-            // })
             setImageLoading(true);
             const createdRes = await dispatch(postsAction.createPost(formData))
             if (!createdRes.errors) {
@@ -154,7 +147,9 @@ const CreatePost = () => {
                 className="trashbutton left"
                 data-text="Delete image"
                 >
-                <i className="fa-solid fa-trash-can fa-xl"></i>
+                <i className="fa-solid fa-trash-can fa-xl"
+                style={{color:"black"}}
+                ></i>
                 </button>
             </div>
             ) : null}
@@ -163,14 +158,10 @@ const CreatePost = () => {
     };
 
 
-
-
-    console.log('image', image)
     return (
         <div className="create_post_page">
             <h1>Create a Post</h1>
             <form onSubmit={handleSubmit} 
-            // onDragEnter = {handleDrag}
             encType="multipart/form-data"
             className="createPostForm">
                 <ul>
@@ -199,60 +190,64 @@ const CreatePost = () => {
                             <p className="errors">{errors.caption}</p>
                         ) : null}
                     </div>
-                    <div>
-                        <Dropzone
-                        onDrop={handleOnDrop}
-                        multiple={false}
-                        className="dropzone"
-                        accept={"image/*"} >
-                        {({
-                            getRootProps,
-                            getInputProps,
-                            isDragActive,
-                            acceptedFiles,
-                        }) => (
-                                <section>
-                                    <div
-                                    {...getRootProps({ className: "dropzone" })}
-                                    className="image_drop_zone"
-                                    >
-                                    <input {...getInputProps()} />
-                                    {isDragActive ? (
-                                        <div className="dragActive">
-                                        <p className="postDate">
-                                            Release to drop the files here
-                                        </p>
-                                        <p className="recommend">
-                                            Recommendation: Use high-quality .jpg/.png files less than
-                                            20MB
-                                        </p>
-                                        </div>
-                                    ) : (
-                                        <div className="dragNotActive">
-                                        <i
-                                            className="fa-solid fa-arrow-up-from-bracket fa-xl"
-                                            style={{ color: "#818488;" }}
-                                        ></i>
-                                        <p className="postDate">
-                                            Drag and drop or click to upload
-                                        </p>
-                                        <p className="recommend">
-                                            Recommendation: Use high-quality .jpg/.png <br />
-                                            files less than 20MB
-                                        </p>
-                                        </div>
-                                    )}
+                    
+                    <Dropzone
+                    onDrop={handleOnDrop}
+                    multiple={false}
+                    className="dropzone"
+                    accept={"image/*"} >
+                    {({
+                        getRootProps,
+                        getInputProps,
+                        isDragActive,
+                        acceptedFiles,
+                    }) => (
+                            <section>
+                                <div
+                                {...getRootProps({ className: "dropzone" })}
+                                className="image_drop_zone"
+                                >
+                                <input {...getInputProps()} />
+                                {isDragActive ? (
+                                    <div className="dragActive">
+                                    <i
+                                        className="fa-solid fa-arrow-up-from-bracket fa-xl"
+                                        style={{ color: "#818488;", marginBottom:"20px" }}
+                                    ></i>
+                                    <p className="postDate">
+                                        Release to drop the files here
+                                    </p>
+                                    <p className="recommend">
+                                        Recommendation: Use high-quality .jpg/.png <br />
+                                        files less than 20MB
+                                    </p>
                                     </div>
-                                    <aside className="preview"> {thumb(acceptedFiles)} </aside>
-                                </section>
+                                ) : (
+                                    <div className="dragNotActive">
+                                    <i
+                                        className="fa-solid fa-arrow-up-from-bracket fa-xl"
+                                        style={{ color: "#818488;", marginBottom:"20px" }}
+                                    ></i>
+                                    <p className="postDate">
+                                        Drag and drop or click to upload
+                                    </p>
+                                    <p className="recommend">
+                                        Recommendation: Use high-quality .jpg/.png <br />
+                                        files less than 20MB
+                                    </p>
+                                    </div>
                                 )}
+                                </div>
+                                <aside className="preview"> {thumb(acceptedFiles)} </aside>
+                            </section>
+                            )}
                         </Dropzone>
                         {hasSubmitted ? (
                             <p className="error">{errors.image}</p>
                         ): (
                             <p className="noErrorDisplay">{'   '}</p>
                         )}
-                    </div>
+                    
                 </div>
                         {custs?.length !== 0 ? 
                             <div className="createFormBottom">
