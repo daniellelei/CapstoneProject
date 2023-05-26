@@ -12,6 +12,7 @@ const Comments = ({post}) => {
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const [errors, setErrors] = useState({});
     const commentsObj = useSelector(state=>state.comments.postComments)
+    const [snackClassName, setSnackClassName] = useState("")
     
     useEffect(()=>{
         dispatch(commentActions.loadCommentThunk(post.id))
@@ -87,9 +88,10 @@ const Comments = ({post}) => {
                 </div>
                 <div className='comments'>
                     {!comments.length?null:comments.map((comment)=>(
-                        <SingleComment comment={comment} key={comment.id}/>
+                        <SingleComment comment={comment} setSnackClassName={setSnackClassName} key={comment.id}/>
                     ))}
-                </div>        
+                </div> 
+                <div id="snackbar" className={snackClassName}>Comment successfully deleted</div>       
             </div>
         </div>
     )

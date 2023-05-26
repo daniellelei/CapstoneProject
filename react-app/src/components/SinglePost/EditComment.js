@@ -7,7 +7,7 @@ const EditComment = ({comment, setShowEdit, showEdit}) => {
     const dispatch = useDispatch();
     const user = useSelector((state)=>state.session.user)
     const [commentBody, setCommentBody] = useState(comment.commentBody)
-    const [commentBodyLength, setCommentBodyLength] = useState(0);
+    const [commentBodyLength, setCommentBodyLength] = useState(comment.commentBody.length);
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const [errors, setErrors] = useState({});
      useEffect(()=>{

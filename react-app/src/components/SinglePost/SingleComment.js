@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as commentActions from '../../store/comment';
 import EditComment from './EditComment';
 
-const SingleComment = ({comment})=>{
+const SingleComment = ({comment, setSnackClassName})=>{
     const dispatch = useDispatch();
     const user = useSelector((state)=>state.session.user)
     const [showEdit, setShowEdit] = useState(false)
@@ -14,12 +14,14 @@ const SingleComment = ({comment})=>{
         e.preventDefault();
         setShowEdit(true);
     }
+    // let snackClassName = 'show'
+    // const [snackClassName, setSnackClassName] = useState("")
     const clickDelete = async (e)=> {
         e.preventDefault();
         await dispatch(commentActions.deleteCommentThunk(comment.id))
-        await dispatch(commentActions.loadCommentThunk(post.id))
-
-        
+        // await dispatch(commentActions.loadCommentThunk(post.id))
+        setSnackClassName("show")
+        setTimeout(()=>{setSnackClassName("")}, 3000)
     }
 
     return (
@@ -55,7 +57,7 @@ const SingleComment = ({comment})=>{
                     </div>
                 ) : null}
             </div>
-            
+            {/* <div id="snackbar" className={snackClassName}>Some text some message..</div> */}
         </div>
     )
 }

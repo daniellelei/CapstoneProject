@@ -152,6 +152,7 @@ const SinglePost = () => {
                 ))}
             </div>
             <Comments post={post}/>
+            
         </div>
     )
 
