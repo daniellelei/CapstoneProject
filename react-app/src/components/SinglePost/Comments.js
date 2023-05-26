@@ -12,9 +12,7 @@ const Comments = ({post}) => {
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const [errors, setErrors] = useState({});
     const commentsObj = useSelector(state=>state.comments.postComments)
-    console.log('commentsObj', commentsObj)
     
-
     useEffect(()=>{
         dispatch(commentActions.loadCommentThunk(post.id))
 
@@ -53,52 +51,41 @@ const Comments = ({post}) => {
             return "showCharacterLength";
     }
 
-
     let comments;
 
     if(commentsObj) {
         comments = Object.values(commentsObj);
     }
     
-
     return (
         <div>
             <div className='allComments'>
-                {!comments.length?(
-                    <div style={{marginBottom:"10px"}}>
-                        <h2>Comments</h2>
+                <div style={{marginBottom:"10px"}}>
+                    <h2>Comments</h2>
+                    <form onSubmit={handleSubmit}>
                         <input
+                        maxLength={255}
+                        onChange={(e)=>{
+                            setCommentBody(e.target.value);
+                            setCommentBodyLength(e.target.value.length)
+                        }}
+                        value = {commentBody}
+                        name='commentBody'
                         style={{width:"100%"}}
-                        type="text"
-                        placeholder='Be the first to leave a comment'
-                        ></input>
-                    </div>
-                ):(
-                    <div style={{marginBottom:"10px"}}>
-                        <h2>Comments</h2>
-                        <form onSubmit={handleSubmit}>
-                            <input
-                            maxLength={255}
-                            onChange={(e)=>{
-                                setCommentBody(e.target.value);
-                                setCommentBodyLength(e.target.value.length)
-                            }}
-                            value = {commentBody}
-                            name='commentBody'
-                            style={{width:"100%"}}
-                            type='text'
-                            placeholder='Leave a comment'
-                            >
-                            </input>
-                            <p className={maxLengthClassHandler(commentBodyLength)}
-                            >{commentBodyLength} /255 characters</p>
-                            <button type="submit">Submit</button>
-                        </form>
-                    </div>
-                            )}
-                {!comments.length?null:comments.map((comment)=>(
-                    <SingleComment comment={comment} />
-                ))}
+                        type='text'
+                        placeholder={!comments.length?"Be the first to comment":"Leave a comment"}
+                        >
+                        </input>
+                        <p className={maxLengthClassHandler(commentBodyLength)}
+                        >{commentBodyLength} /255 characters</p>
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+                <div className='comments'>
+                    {!comments.length?null:comments.map((comment)=>(
+                        <SingleComment comment={comment} />
+                    ))}
+                </div>        
             </div>
         </div>
     )

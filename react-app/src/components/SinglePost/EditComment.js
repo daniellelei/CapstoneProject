@@ -13,6 +13,7 @@ const EditComment = ({comment, setShowEdit}) => {
      useEffect(()=>{
         const err = {}
         if(!commentBody.length) err.commentBody = '* Content is required.'
+        if(commentBody.length <=3) err.commentBody = '* The min length is 3.'
         if(commentBody.length > 255) err.commentBody = '* The max length is 255.'
         setErrors(err)
     }, [commentBody])
