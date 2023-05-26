@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as commentActions from '../../store/comment';
 import EditComment from './EditComment';
 
-const Comment = ({post}) => {
+const Comments = ({post}) => {
     const dispatch = useDispatch();
     const user = useSelector((state)=>state.session.user)
     const [commentBody, setCommentBody] = useState('');
@@ -137,4 +137,4 @@ const Comment = ({post}) => {
 
 }
 
-export default Comment;
+export default Comments;

@@ -15,6 +15,12 @@ def get_all_comments():
              'post':comment.post.to_dict()
              } for comment in comments]
 
+@comment_routes.route('/<int:id>')
+def get_comment_by_id(id):
+    comment = Comment.query.get(id)
+    return[{**comment.to_dict(),
+            'user':comment.user.to_dict()}]
+
 
 @comment_routes.route('/<int:id>', methods=['PUT', 'PATCH'])
 @login_required

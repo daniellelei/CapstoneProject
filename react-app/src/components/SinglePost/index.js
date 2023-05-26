@@ -10,7 +10,7 @@ import DeletePostModal from '../DeletePost';
 import EditPost from '../EditPost';
 import { useModal } from '../../context/Modal';
 import ConfirmModal from '../SingleDrink/confirmModal';
-import Comment from './Comment'
+import Comments from './Comments'
 
 import { isAdded, numOfAdded } from "../SingleDrink";
 import './SinglePost.css'
@@ -151,7 +151,7 @@ const SinglePost = () => {
                     </div>
                 ))}
             </div>
-            <Comment post={post}/>
+            <Comments post={post}/>
         </div>
     )
 
