@@ -56,7 +56,14 @@ const EditComment = ({comment, setShowEdit}) => {
                 </input>
                 <p className={maxLengthClassHandler(commentBodyLength)}
                 >{commentBodyLength} /255 characters</p>
-                <button type="submit">Update</button>
+                <div>
+                    <button type="submit" style={{marginRight:'5px'}}
+                    >Update</button>
+                    <button onClick={(e)=>{
+                        e.preventDefault();
+                        setShowEdit(false);
+                    }}>Cancel</button>
+                </div>
             </form>
         </div>
     )

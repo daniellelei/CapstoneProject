@@ -20,31 +20,42 @@ const SingleComment = ({comment})=>{
 
     return (
         <div className='eaComment' key={comment.id}>
-            <img 
-                style={{height:"40px",width:"40px",borderRadius:"50%"}}
-                src={comment.user.profilePic} alt="user_profile_pic"/>
-            <div className='userInfo'>
-                <div className='comment_name_date'>
-                    <p style={{fontWeight:"bolder"}}>{comment.user.username}</p>
-                    <p 
-                    style={{fontSize:"12px",marginLeft:'10px',color:"grey"}}>
-                        {new Date(comment.dateTime).toDateString()}</p>
+            <div style={{display:"flex", justifyContent:'center', alignItems:"center"}}>
+                <img 
+                    style={{height:"40px",width:"40px",borderRadius:"50%"}}
+                    src={comment.user.profilePic} alt="user_profile_pic"/>
+                <div className='userInfo'>
+                    <div className='comment_name_date'>
+                        <p style={{fontWeight:"bolder"}}>{comment.user.username}</p>
+                        <p 
+                        style={{fontSize:"12px",marginLeft:'10px',color:"grey"}}>
+                            {new Date(comment.dateTime).toDateString()}</p>
+                    </div>
                 </div>
-                <p className='userInfoP'>{comment.commentBody}</p>
             </div>
-            <div>
+            <div
+            style={{display:'flex', justifyContent:'space-between', alignItems:'center', width:'90%', margin:'5%'}}
+            >
+                {showEdit && comment.user.id === user.id? (
+                    <div>
+                        <EditComment comment={comment} setShowEdit={setShowEdit}/>
+                    </div>
+                    ) : (<div><p className='userInfoP'>{comment.commentBody}</p></div>)}
                 {comment.user.id === user.id ? (
                     <div>
-                        <button onClick={clickEdit}>Edit</button>
-                        <button onClick={clickDelete}>Delete</button>
+                        <i onClick={clickEdit} className="fa-solid fa-pen-to-square" 
+                        style={{color:"black", cursor:'pointer', marginRight:"5px"}}></i>
+                        <i onClick={clickDelete} className="fa-solid fa-trash"
+                        style={{color:"black", cursor:'pointer'}}
+                        ></i>
                     </div>
                 ) : null}
             </div>
-            {showEdit && comment.user.id === user.id? (
+            {/* {showEdit && comment.user.id === user.id? (
                 <div>
                     <EditComment comment={comment} setShowEdit={setShowEdit}/>
                 </div>
-            ) : (null)}
+            ) : (<div>{'   '}</div>)} */}
         </div>
     )
 }

@@ -63,7 +63,7 @@ const Comments = ({post}) => {
                 <div style={{marginBottom:"10px"}}>
                     <h2>Comments</h2>
                     <form onSubmit={handleSubmit}>
-                        <input
+                        <textarea
                         maxLength={255}
                         onChange={(e)=>{
                             setCommentBody(e.target.value);
@@ -75,10 +75,14 @@ const Comments = ({post}) => {
                         type='text'
                         placeholder={!comments.length?"Be the first to comment":"Leave a comment"}
                         >
-                        </input>
-                        <p className={maxLengthClassHandler(commentBodyLength)}
-                        >{commentBodyLength} /255 characters</p>
-                        <button type="submit">Submit</button>
+                        </textarea>
+                        <div
+                        style={{display:"flex", justifyContent:"space-between", width:'100%', marginTop:"10px"}}
+                        >
+                            <p className={maxLengthClassHandler(commentBodyLength)}
+                            >{commentBodyLength} /255 characters</p>
+                            <button type="submit">Submit</button>
+                        </div>
                     </form>
                 </div>
                 <div className='comments'>

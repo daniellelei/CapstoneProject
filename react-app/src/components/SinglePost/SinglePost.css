@@ -36,17 +36,19 @@
     width:360px;
     height: 450px;
     padding: 5%;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 .comments {
     overflow: auto;
-    border:1px solid blue;
-    height:260px;
+    /* border:1px solid blue; */
+    height:266px;
+    width:100%;
 }
 .eaComment{
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
     margin-bottom: 10px;
     background-color: white;
     padding: 2%;
@@ -69,4 +71,11 @@
 .userInfoP{
     margin: 0 0 0 10px;
     font-size: 13px;
+}
+
+.showCharacterLength{
+    font-size: 11px;
+}
+.reachedMax {
+    color:red;
 }
