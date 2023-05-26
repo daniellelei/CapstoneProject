@@ -1,40 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import * as reviewActions from '../../store/review';
+import * as commentActions from '../../store/comment';
 import EditComment from './EditComment';
 
 const Comment = ({post}) => {
     const dispatch = useDispatch();
     const user = useSelector((state)=>state.session.user)
-    const [reviewBody, setReviewBody] = useState('');
-    const [reviewBodyLength, setReviewBodyLength] = useState(0);
+    const [commentBody, setCommentBody] = useState('');
+    const [commentBodyLength, setCommentBodyLength] = useState(0);
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const [errors, setErrors] = useState({});
-    const reviewsObj = useSelector(state=>state.reviews.postReviews)
-    console.log('reviewsObj', reviewsObj)
+    const commentsObj = useSelector(state=>state.comments.postComments)
+    console.log('commentsObj', commentsObj)
     const [showEdit, setShowEdit] = useState(false)
 
     useEffect(()=>{
-        dispatch(reviewActions.loadReviewThunk(post.id))
+        dispatch(commentActions.loadCommentThunk(post.id))
 
     },[dispatch])
 
     useEffect(()=>{
         const err = {}
-        if(!reviewBody.length) err.reviewBody = '* Content is required.'
-        if(reviewBody.length > 255) err.reviewBody = '* The max length is 255.'
+        if(!commentBody.length) err.commentBody = '* Content is required.'
+        if(commentBody.length > 255) err.commentBody = '* The max length is 255.'
         setErrors(err)
-    }, [reviewBody])
+    }, [commentBody])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setHasSubmitted(true);
         const formData = new FormData();
-        formData.append('reviewBody', reviewBody)
+        formData.append('commentBody', commentBody)
         formData.append('post_id', post.id)
         formData.append('user_id', user.id)
         if (!Boolean(Object.values(errors).length)) {
-            const createdRes = await dispatch(reviewActions.createReviewThunk(formData, post.id))
+            const createdRes = await dispatch(commentActions.createCommentThunk(formData, post.id))
             if(!createdRes.errors) {
                 await reset();
             } 
@@ -42,8 +42,8 @@ const Comment = ({post}) => {
 
     }
     const reset = () => {
-        setReviewBody('');
-        setReviewBodyLength(0);
+        setCommentBody('');
+        setCommentBodyLength(0);
         setErrors({});
         setHasSubmitted(false)
     }
@@ -60,17 +60,17 @@ const Comment = ({post}) => {
         e.preventDefault();
         
     }
-    let reviews;
+    let comments;
 
-    if(reviewsObj) {
-        reviews = Object.values(reviewsObj);
+    if(commentsObj) {
+        comments = Object.values(commentsObj);
     }
     
 
     return (
         <div>
-            <div className='allReviews'>
-                {!reviews.length?(
+            <div className='allComments'>
+                {!comments.length?(
                     <div style={{marginBottom:"10px"}}>
                         <h2>Comments</h2>
                         <input
@@ -86,45 +86,45 @@ const Comment = ({post}) => {
                             <input
                             maxLength={255}
                             onChange={(e)=>{
-                                setReviewBody(e.target.value);
-                                setReviewBodyLength(e.target.value.length)
+                                setCommentBody(e.target.value);
+                                setCommentBodyLength(e.target.value.length)
                             }}
-                            value = {reviewBody}
-                            name='reviewBody'
+                            value = {commentBody}
+                            name='commentBody'
                             style={{width:"100%"}}
                             type='text'
                             placeholder='Leave a comment'
                             >
                             </input>
-                            <p className={maxLengthClassHandler(reviewBodyLength)}
-                            >{reviewBodyLength} /255 characters</p>
+                            <p className={maxLengthClassHandler(commentBodyLength)}
+                            >{commentBodyLength} /255 characters</p>
                             <button type="submit">Submit</button>
                         </form>
                     </div>
                             )}
-                {!reviews.length?null:reviews.map((review)=>(
-                    <div className='eaReview' key={review.id}>
+                {!comments.length?null:comments.map((comment)=>(
+                    <div className='eaComment' key={comment.id}>
                         <img 
                             style={{height:"40px",width:"40px",borderRadius:"50%"}}
-                            src={review.user.profilePic} alt="user_profile_pic"/>
+                            src={comment.user.profilePic} alt="user_profile_pic"/>
                         <div className='userInfo'>
-                            <div className='review_name_date'>
-                                <p style={{fontWeight:"bolder"}}>{review.user.username}</p>
-                                <p style={{fontSize:"12px",marginLeft:'10px',color:"grey"}}>{new Date(review.dateTime).toDateString()}</p>
+                            <div className='comment_name_date'>
+                                <p style={{fontWeight:"bolder"}}>{comment.user.username}</p>
+                                <p style={{fontSize:"12px",marginLeft:'10px',color:"grey"}}>{new Date(comment.dateTime).toDateString()}</p>
                             </div>
-                            <p className='userInfoP'>{review.reviewBody}</p>
+                            <p className='userInfoP'>{comment.commentBody}</p>
                         </div>
                         <div>
-                            {review.user.id === user.id ? (
+                            {comment.user.id === user.id ? (
                                 <div>
                                     <button onClick={clickEdit}>Edit</button>
                                     <button onClick={clickDelete}>Delete</button>
                                 </div>
                             ) : null}
                         </div>
-                        {showEdit && review.user.id === user.id? (
+                        {showEdit && comment.user.id === user.id? (
                             <div>
-                                <EditComment review={review} setShowEdit={setShowEdit}/>
+                                <EditComment comment={comment} setShowEdit={setShowEdit}/>
                             </div>
                         ) : (null)}
                         

@@ -1,111 +1,111 @@
-const LOAD_REVIEW = 'reviews/load';
-const CREATE_REVIEW = 'reviews/create'
-const UPDATE_REVIEW = 'reviews/update';
-const REMOVE_REVIEW = 'reviews/delete';
+const LOAD_COMMENT = 'comments/load';
+const CREATE_COMMENT = 'comments/create'
+const UPDATE_COMMENT = 'comments/update';
+const REMOVE_COMMENT = 'comments/delete';
 
-export const actionLoadReview = (reviews) => {
+export const actionLoadComment = (comments) => {
     return {
-        type: LOAD_REVIEW,
-        reviews
+        type: LOAD_COMMENT,
+        comments
     }
 }
 
-export const actionCreateReview = (review) => {
+export const actionCreateComment = (comment) => {
     return {
-        type:CREATE_REVIEW,
-        review
+        type:CREATE_COMMENT,
+        comment
     }
 }
 
-export const actionUpdateReview = (review) => {
+export const actionUpdateComment = (comment) => {
     return {
-        type: UPDATE_REVIEW,
-        review
+        type: UPDATE_COMMENT,
+        comment
     }
 }
 
-export const actionRemoveReview = (id) => {
+export const actionRemoveComment = (id) => {
     return {
-        type: REMOVE_REVIEW,
+        type: REMOVE_COMMENT,
         id
     }
 }
 
-export const loadReviewThunk = (id) => async (dispatch) => {
-    const response = await fetch (`/api/posts/${id}/reviews`)
+export const loadCommentThunk = (id) => async (dispatch) => {
+    const response = await fetch (`/api/posts/${id}/comments`)
     if(response.ok) {
-        const reviewRes = await response.json();
-        dispatch(actionLoadReview(reviewRes.reviews))
-        return reviewRes.reviews;
+        const commentRes = await response.json();
+        dispatch(actionLoadComment(commentRes.comments))
+        return commentRes.comments;
     }
 }
 
-export const createReviewThunk = (review, id) => async (dispatch) => {
-    const response = await fetch (`/api/posts/${id}/reviews/new`, {
+export const createCommentThunk = (comment, id) => async (dispatch) => {
+    const response = await fetch (`/api/posts/${id}/comments/new`, {
         method:'POST',
-        body:review
+        body:comment
     });
     if(response.ok) {
-        const newReview = await response.json();
-        await dispatch(actionCreateReview(newReview));
-        return newReview;
+        const newComment = await response.json();
+        await dispatch(actionCreateComment(newComment));
+        return newComment;
     }
     return response.json();
 }
 
-export const updateReviewThunk = (review, reviewId) => async (dispatch)=>{
-    const response = await fetch(`/api/reviews/${reviewId}`, {
+export const updateCommentThunk = (comment, commentId) => async (dispatch)=>{
+    const response = await fetch(`/api/comments/${commentId}`, {
         method: 'PATCH',
-        body: review
+        body: comment
     });
     if(response.ok) {
-        const updatedReview = await response.json();
-        await dispatch(actionUpdateReview(updatedReview));
-        return updatedReview;
+        const updatedComment = await response.json();
+        await dispatch(actionUpdateComment(updatedComment));
+        return updatedComment;
     }
     return response.json();
 }
 
-export const deleteReviewThunk = (reviewId) => async (dispatch) => {
-    const response = await fetch(`/api/reviews/${reviewId}`, {
+export const deleteCommentThunk = (commentId) => async (dispatch) => {
+    const response = await fetch(`/api/comments/${commentId}`, {
         method:'DELETE'
     });
     if(response.ok) {
-        await dispatch(actionRemoveReview(reviewId))
+        await dispatch(actionRemoveComment(commentId))
         return await response.json()
     }
     return await response.json()
 };
 
 const initialState ={
-    postReviews:{},
+    postComments:{},
 }
 
-const reviewReducer = (state=initialState, action)=>{
+const commentReducer = (state=initialState, action)=>{
     switch(action.type) {
-        case LOAD_REVIEW:
-            const allReviews={};
-            action.reviews.forEach((r)=>{
-                allReviews[r.id] = r;
+        case LOAD_COMMENT:
+            const allComments={};
+            action.comments.forEach((r)=>{
+                allComments[r.id] = r;
             })
-            return {...state, postReviews:{...allReviews}};
-        case CREATE_REVIEW:
+            return {...state, postComments:{...allComments}};
+        case CREATE_COMMENT:
             return {
                 ...state,
-                postReviews:{...state.postReviews, [action.review.id]:action.review}
+                postComments:{...state.postComments, [action.comment.id]:action.comment}
             }
-        case UPDATE_REVIEW:
+        case UPDATE_COMMENT:
             return {
                 ...state,
-                postReviews:{...state.postReviews,[action.review.id]: action.review}
+                postComments:{...state.postComments,[action.comment.id]: action.comment}
             }
-        case REMOVE_REVIEW:
-            const newPostReview = {...state};
-            delete newPostReview.postReviews[action.reviewId];
-            return newPostReview;
+        case REMOVE_COMMENT:
+            const newPostComment = {...state};
+            delete newPostComment.postComments[action.commentId];
+            return newPostComment;
         default:
             return state;
     }
 }
 
-export default reviewReducer;
+export default commentReducer;

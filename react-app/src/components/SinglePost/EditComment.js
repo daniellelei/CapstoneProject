@@ -1,29 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import * as reviewActions from '../../store/review';
+import * as commentActions from '../../store/comment';
 
-const EditComment = ({review, setShowEdit}) => {
+const EditComment = ({comment, setShowEdit}) => {
 
     const dispatch = useDispatch();
     const user = useSelector((state)=>state.session.user)
-    const [reviewBody, setReviewBody] = useState(review.reviewBody)
-    const [reviewBodyLength, setReviewBodyLength] = useState(0);
+    const [commentBody, setCommentBody] = useState(comment.commentBody)
+    const [commentBodyLength, setCommentBodyLength] = useState(0);
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const [errors, setErrors] = useState({});
      useEffect(()=>{
         const err = {}
-        if(!reviewBody.length) err.reviewBody = '* Content is required.'
-        if(reviewBody.length > 255) err.reviewBody = '* The max length is 255.'
+        if(!commentBody.length) err.commentBody = '* Content is required.'
+        if(commentBody.length > 255) err.commentBody = '* The max length is 255.'
         setErrors(err)
-    }, [reviewBody])
+    }, [commentBody])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setHasSubmitted(true);
         const formData = new FormData();
-        formData.append('reviewBody', reviewBody)
+        formData.append('commentBody', commentBody)
         if(!Boolean(Object.values(errors).length)) {
-            const editedRes = await dispatch(reviewActions.updateReviewThunk(formData, review.id))
+            const editedRes = await dispatch(commentActions.updateCommentThunk(formData, comment.id))
             if(!editedRes.errors) {
                 await setHasSubmitted(false);
                 setShowEdit(false)
@@ -43,18 +43,18 @@ const EditComment = ({review, setShowEdit}) => {
                 <input
                 maxLength={255}
                 onChange={(e)=>{
-                    setReviewBody(e.target.value);
-                    setReviewBodyLength(e.target.value.length)
+                    setCommentBody(e.target.value);
+                    setCommentBodyLength(e.target.value.length)
                 }}
-                value = {reviewBody}
-                name='reviewBody'
+                value = {commentBody}
+                name='commentBody'
                 style={{width:"100%"}}
                 type='text'
                 placeholder='Leave a comment'
                 >
                 </input>
-                <p className={maxLengthClassHandler(reviewBodyLength)}
-                >{reviewBodyLength} /255 characters</p>
+                <p className={maxLengthClassHandler(commentBodyLength)}
+                >{commentBodyLength} /255 characters</p>
                 <button type="submit">Update</button>
             </form>
         </div>

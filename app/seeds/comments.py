@@ -10,7 +10,7 @@ def seed_comments(all_posts, all_users):
         post=choice(all_posts),
         commentBody='I really love this image',
         
-        dateTime=fake.date_time_between(start_date='-1mon', end_date='now'),
+        dateTime=fake.date_time_between(start_date='-1w', end_date='now'),
     )
 
     comment2 = Comment(
@@ -18,7 +18,7 @@ def seed_comments(all_posts, all_users):
         post=choice(all_posts),
         commentBody='cute',
         
-        dateTime=fake.date_time_between(start_date='-1mon', end_date='now'),
+        dateTime=fake.date_time_between(start_date='-1w', end_date='now'),
     )
 
     comment3 = Comment(
@@ -26,7 +26,7 @@ def seed_comments(all_posts, all_users):
         post=choice(all_posts),
         commentBody='enjoy it',
         
-        dateTime=fake.date_time_between(start_date='-1mon', end_date='now'),
+        dateTime=fake.date_time_between(start_date='-1w', end_date='now'),
     )
 
     comment4 = Comment(
@@ -34,7 +34,7 @@ def seed_comments(all_posts, all_users):
         post=choice(all_posts),
         commentBody='cool',
         
-        dateTime=fake.date_time_between(start_date='-1mon', end_date='now'),
+        dateTime=fake.date_time_between(start_date='-1w', end_date='now'),
     )
 
     comment5 = Comment(
@@ -42,7 +42,7 @@ def seed_comments(all_posts, all_users):
         post=choice(all_posts),
         commentBody='lovly',
         
-        dateTime=fake.date_time_between(start_date='-1mon', end_date='now'),
+        dateTime=fake.date_time_between(start_date='-1w', end_date='now'),
     )
 
     comment6 = Comment(
@@ -50,7 +50,7 @@ def seed_comments(all_posts, all_users):
         post=choice(all_posts),
         commentBody='yummy',
         
-        dateTime=fake.date_time_between(start_date='-1mon', end_date='now'),
+        dateTime=fake.date_time_between(start_date='-1w', end_date='now'),
     )
 
     comment7 = Comment(
@@ -58,7 +58,7 @@ def seed_comments(all_posts, all_users):
         post=choice(all_posts),
         commentBody='cuteeeee',
         
-        dateTime=fake.date_time_between(start_date='-1mon', end_date='now'),
+        dateTime=fake.date_time_between(start_date='-1w', end_date='now'),
     )
 
     comment8 = Comment(
@@ -66,7 +66,7 @@ def seed_comments(all_posts, all_users):
         post=choice(all_posts),
         commentBody='wow nice',
         
-        dateTime=fake.date_time_between(start_date='-1mon', end_date='now'),
+        dateTime=fake.date_time_between(start_date='-1w', end_date='now'),
     )
 
     comment9 = Comment(
@@ -74,7 +74,7 @@ def seed_comments(all_posts, all_users):
         post=choice(all_posts),
         commentBody='I really love this drink',
         
-        dateTime=fake.date_time_between(start_date='-1mon', end_date='now'),
+        dateTime=fake.date_time_between(start_date='-1w', end_date='now'),
     )
 
     comment10 = Comment(
@@ -82,7 +82,7 @@ def seed_comments(all_posts, all_users):
         post=choice(all_posts),
         commentBody='so yummy',
         
-        dateTime=fake.date_time_between(start_date='-1mon', end_date='now'),
+        dateTime=fake.date_time_between(start_date='-1w', end_date='now'),
     )
 
     all_comments = [comment1, comment2, comment3, comment4, 

@@ -5,14 +5,14 @@ import drinkReducer from './drink';
 import customizationReducer from './customization';
 import cartReducer from './cart';
 import postReducer from './post';
-import reviewReducer from './review';
+import commentReducer from './comment';
 const rootReducer = combineReducers({
   session,
   drinks:drinkReducer,
   customizations:customizationReducer,
   carts:cartReducer,
   posts:postReducer,
-  reviews:reviewReducer,
+  comments:commentReducer,
 });
 
 

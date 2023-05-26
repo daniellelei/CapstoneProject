@@ -24,8 +24,8 @@ const SinglePost = () => {
     const post = useSelector((state)=> state.posts.singlePost)
     console.log('this is Post', post)
     const customizations = post.customizations; //array of customizations
-    const reviews = post.reviews; //array of review
-    console.log('reviews', reviews)
+    const comments = post.comments; //array of comment
+    console.log('comments', comments)
     const author_id = post.author_id
     const { setModalContent, setOnModalClose } = useModal();
 
