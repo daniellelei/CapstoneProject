@@ -1,4 +1,5 @@
 const LOAD_COMMENT = 'comments/load';
+
 const CREATE_COMMENT = 'comments/create'
 const UPDATE_COMMENT = 'comments/update';
 const REMOVE_COMMENT = 'comments/delete';
