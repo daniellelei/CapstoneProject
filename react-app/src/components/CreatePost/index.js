@@ -271,7 +271,9 @@ const CreatePost = () => {
                     
                     {imageLoading && <div className='loadingPage'>
                     <img className="loadingImg" 
-                    src="https://cdn.dribbble.com/users/2520294/screenshots/7209485/media/cf226d98a06282e9cabf5c2f8f6d547f.gif"/>
+                    src="https://cdn.dribbble.com/users/2520294/screenshots/7209485/media/cf226d98a06282e9cabf5c2f8f6d547f.gif"
+                    alt="loadingImg"
+                    />
                     </div>
                     }
             </form>
@@ -282,19 +284,3 @@ const CreatePost = () => {
 
 export default CreatePost;
 
-
-
-
-{/* <div className="caption">
-                        <label>Upload an image: </label>
-                        <input
-                            type = 'file'
-                            accept="image/*" 
-                            name = {image}
-                            onChange = {(e)=>setImage(e.target.files[0])}
-                            >
-                        </input>
-                        {hasSubmitted ? (
-                            <p className="errors">{errors.image}</p>
-                            ) : null}
-                    </div> */}
