@@ -7,14 +7,18 @@ const SingleComment = ({comment})=>{
     const dispatch = useDispatch();
     const user = useSelector((state)=>state.session.user)
     const [showEdit, setShowEdit] = useState(false)
+    const post = useSelector((state)=>state.posts.singlePost)
 
 
     const clickEdit = (e) => {
         e.preventDefault();
         setShowEdit(true);
     }
-    const clickDelete = (e)=> {
+    const clickDelete = async (e)=> {
         e.preventDefault();
+        await dispatch(commentActions.deleteCommentThunk(comment.id))
+        await dispatch(commentActions.loadCommentThunk(post.id))
+
         
     }
 
@@ -51,11 +55,7 @@ const SingleComment = ({comment})=>{
                     </div>
                 ) : null}
             </div>
-            {/* {showEdit && comment.user.id === user.id? (
-                <div>
-                    <EditComment comment={comment} setShowEdit={setShowEdit}/>
-                </div>
-            ) : (<div>{'   '}</div>)} */}
+            
         </div>
     )
 }

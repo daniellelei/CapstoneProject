@@ -102,7 +102,8 @@ const commentReducer = (state=initialState, action)=>{
             }
         case REMOVE_COMMENT:
             const newPostComment = {...state};
-            delete newPostComment.postComments[action.commentId];
+            console.log('in delete reducer', newPostComment.postComments[action.id])
+            delete newPostComment.postComments[action.id];
             return newPostComment;
         default:
             return state;

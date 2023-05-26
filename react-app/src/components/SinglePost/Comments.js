@@ -87,7 +87,7 @@ const Comments = ({post}) => {
                 </div>
                 <div className='comments'>
                     {!comments.length?null:comments.map((comment)=>(
-                        <SingleComment comment={comment} />
+                        <SingleComment comment={comment} key={comment.id}/>
                     ))}
                 </div>        
             </div>

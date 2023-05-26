@@ -63,26 +63,30 @@ function Navigation({ isLoaded }){
 				<div>
 					Find a Store
 				</div>
-				<div>
-					<OpenModalButton
-					type = 'signIn'
-					buttonText="Sign in"
-					modalComponent={<LoginFormModal />}
-					/>
-					
-				</div>
-				<div>
-					<OpenModalButton
-					type = 'joinNow'
-					buttonText="Join now"
-					modalComponent={<SignupFormModal />}
-            		/>
-				</div>
+				{!user ? (
+					<div>
+						<OpenModalButton
+						type = 'signIn'
+						buttonText="Sign in"
+						modalComponent={<LoginFormModal />}
+						/>
+
+						<OpenModalButton
+						type = 'joinNow'
+						buttonText="Join now"
+						modalComponent={<SignupFormModal />}
+						/>
+					</div>
+				) : (
+					<div>
+						<ProfileButton user={sessionUser} />
+					</div>
+				)}
+				
 			</div>
 			{/* <div className='rightNav'>
 				{isLoaded && (
 					<div>
-						<ProfileButton user={sessionUser} />
 					</div>
 				)}
 				<button onClick={cartClick} className='navButton'>
