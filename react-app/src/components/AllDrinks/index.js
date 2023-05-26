@@ -80,7 +80,7 @@ function AllDrinks(){
         className="allDrinksTop" >
           <h1>Welcome to Mushroom Coffee</h1>
           <img 
-          style={{width:'60px', marginLeft:'1%'}}
+          style={{width:'80px', marginLeft:'1%'}}
           src={logo} alt='logo'/>
         </div>
         <div style={{textAlign:"left", width:"50%"}}>

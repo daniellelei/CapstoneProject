@@ -57,9 +57,12 @@ function Navigation({ isLoaded }){
 				<NavLink className='leftNavItem' exact to="/posts">
 					<h2 className='leftNavItem'>Feeds</h2>
 				</NavLink>
-				{!user ? <div></div> : (<NavLink className='leftNavItem' exact to={`/customizations`}>
+				<NavLink className='leftNavItem' exact to={`/customizations`}>
 					<h2 className='leftNavItem'>My Favorites</h2>
-				</NavLink>)}
+				</NavLink>
+				{/* {!user ? <div>{"     "}</div> : (<NavLink className='leftNavItem' exact to={`/customizations`}>
+					<h2 className='leftNavItem'>My Favorites</h2>
+				</NavLink>)} */}
 				
 			</div>
 			<div className='rightNav'>

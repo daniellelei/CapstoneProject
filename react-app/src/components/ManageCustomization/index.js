@@ -13,6 +13,8 @@ import { useModal } from '../../context/Modal';
 import ConfirmModal from '../SingleDrink/confirmModal';
 import SignUpLoginModal from "../Signup_LoginModal";
 import { isAdded, numOfAdded } from "../SingleDrink";
+import LoginFormModal from "../LoginFormModal";
+import SignupFormModal from "../SignupFormModal";
 function CurrentCustomizations() {
     const dispatch = useDispatch();
     const custObj = useSelector((state)=>state.customizations.allUserCustomizations);
@@ -20,14 +22,45 @@ function CurrentCustomizations() {
     const currentCart = useSelector((state)=>state.carts.currentCart)
     const { setModalContent, setOnModalClose } = useModal();
 
+    
     useEffect(() => {
-        dispatch(customizationActions.getUserCustomizationThunk());
+        if(user){
+            dispatch(customizationActions.getUserCustomizationThunk());
+        }
         return () => dispatch(customizationActions.actionClearCustomizations());
     }, [dispatch])
+
+    if(!user) {
+        return(
+            <div>
+                <h1>My Favorites</h1>
+                <img />
+                <h2>Save your favorite mixes</h2>
+                <p>Use the heart to save customizations. Your favorites will appear here to order again.</p>
+                <OpenModalButton
+                type = 'signIn'
+                buttonText="Sign in"
+                modalComponent={<LoginFormModal />}
+                />
+
+                <OpenModalButton
+                type = 'joinNow'
+                buttonText="Join now"
+                modalComponent={<SignupFormModal />}
+                />
+            </div>
+        )
+    }
+
     if(!custObj) return (<div>
         <img src="https://cdn.dribbble.com/users/2520294/screenshots/7209485/media/cf226d98a06282e9cabf5c2f8f6d547f.gif"/>
     </div>)
-    const custs = Object.values(custObj);
+    let custs;
+    if(custObj){
+        custs = Object.values(custObj);
+    }
+    
+    
 
     return (
         <div className="AllCust">
