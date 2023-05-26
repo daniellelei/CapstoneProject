@@ -20,7 +20,7 @@ const SingleComment = ({comment})=>{
 
     return (
         <div className='eaComment' key={comment.id}>
-            <div style={{display:"flex", justifyContent:'center', alignItems:"center"}}>
+            <div style={{display:"flex", justifyContent:'center', alignItems:"center", marginLeft:'3%'}}>
                 <img 
                     style={{height:"40px",width:"40px",borderRadius:"50%"}}
                     src={comment.user.profilePic} alt="user_profile_pic"/>
@@ -34,14 +34,14 @@ const SingleComment = ({comment})=>{
                 </div>
             </div>
             <div
-            style={{display:'flex', justifyContent:'space-between', alignItems:'center', width:'90%', margin:'5%'}}
+            style={{display:'flex', justifyContent:'space-between', alignItems:'center', width:'90%', margin:'3%'}}
             >
                 {showEdit && comment.user.id === user.id? (
                     <div>
-                        <EditComment comment={comment} setShowEdit={setShowEdit}/>
+                        <EditComment comment={comment} setShowEdit={setShowEdit} showEdit={showEdit}/>
                     </div>
                     ) : (<div><p className='userInfoP'>{comment.commentBody}</p></div>)}
-                {comment.user.id === user.id ? (
+                {comment.user.id === user.id && !showEdit ? (
                     <div>
                         <i onClick={clickEdit} className="fa-solid fa-pen-to-square" 
                         style={{color:"black", cursor:'pointer', marginRight:"5px"}}></i>

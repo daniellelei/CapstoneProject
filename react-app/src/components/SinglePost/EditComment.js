@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import * as commentActions from '../../store/comment';
 
-const EditComment = ({comment, setShowEdit}) => {
+const EditComment = ({comment, setShowEdit, showEdit}) => {
 
     const dispatch = useDispatch();
     const user = useSelector((state)=>state.session.user)
@@ -39,8 +39,8 @@ const EditComment = ({comment, setShowEdit}) => {
     }
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
+        <div style={{width:'100%'}}>
+            <form onSubmit={handleSubmit} style={{width:'310px'}}>
                 <input
                 maxLength={255}
                 onChange={(e)=>{
@@ -54,15 +54,17 @@ const EditComment = ({comment, setShowEdit}) => {
                 placeholder='Leave a comment'
                 >
                 </input>
-                <p className={maxLengthClassHandler(commentBodyLength)}
-                >{commentBodyLength} /255 characters</p>
-                <div>
-                    <button type="submit" style={{marginRight:'5px'}}
-                    >Update</button>
-                    <button onClick={(e)=>{
-                        e.preventDefault();
-                        setShowEdit(false);
-                    }}>Cancel</button>
+                <div style={{display:"flex", justifyContent:"space-between", alignItems:"center", width:"100%"}}>
+                    <p className={maxLengthClassHandler(commentBodyLength)}
+                    >{commentBodyLength} /255 characters</p>
+                    <div>
+                        <button type="submit" style={{marginRight:'5px'}}
+                        >Update</button>
+                        <button onClick={(e)=>{
+                            e.preventDefault();
+                            setShowEdit(false);
+                        }}>Cancel</button>
+                    </div>
                 </div>
             </form>
         </div>
