@@ -3,6 +3,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: rgb(241, 245, 249);
+    
 }
 .feedNav{
     display: flex;
