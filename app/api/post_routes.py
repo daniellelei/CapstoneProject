@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, redirect,request
 from ..forms.post_form import PostForm
-from ..forms.review_form import ReviewForm
+from ..forms.comment_form import CommentForm
 from datetime import date, datetime
 from random import randint
-from ..models import db, User, Post, Customization, Review
+from ..models import db, User, Post, Customization, Comment
 from flask_login import current_user, login_required
 from datetime import datetime
 from sqlalchemy.orm import joinedload
@@ -30,8 +30,8 @@ def get_post_detail(id):
             , "customizations": [{**c.to_dict(),
                                  'drinks_customization': c.drink.to_dict()}
                                  for c in post.post_customizations]
-            , 'reviews': [{**r.to_dict(),
-                           'user':r.user.to_dict() }for r in post.reviews]
+            , 'comments': [{**r.to_dict(),
+                           'user':r.user.to_dict() }for r in post.comments]
             }
 
 @post_routes.route('/new', methods=["GET", "POST"])
@@ -168,29 +168,29 @@ def delete_post(id):
     else:
         return{"message": "Post not found."}
     
-###############     Reviews     ###############
+###############     Comments     ###############
 
-@post_routes.route('/<int:id>/reviews')
-def get_post_reviews(id):
+@post_routes.route('/<int:id>/comments')
+def get_post_comments(id):
     post = Post.query.get(id)
-    reviews = Review.query.filter(Review.post_id == id).order_by(Review.dateTime.desc())
-    return{'reviews':[{**r.to_dict(),
+    comments = Comment.query.filter(Comment.post_id == id).order_by(Comment.dateTime.desc())
+    return{'comments':[{**r.to_dict(),
                        'user': r.user.to_dict()
-                       } for r in reviews]}
+                       } for r in comments]}
     
 
-@post_routes.route('/<int:id>/reviews/new', methods=['GET', 'POST'])
+@post_routes.route('/<int:id>/comments/new', methods=['GET', 'POST'])
 @login_required
-def add_new_review(id):
+def add_new_comment(id):
     user = current_user.to_dict()
     post = Post.query.get(id)
-    form = ReviewForm()
+    form = CommentForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
     if form.validate_on_submit():
-        new_review = Review(
+        new_comment = Comment(
             user_id = user['id'],
             post_id = id,
-            reviewBody = form.data['reviewBody'],
+            commentBody = form.data['commentBody'],
             dateTime=datetime.now()
         )
         db.session.add(new_review)

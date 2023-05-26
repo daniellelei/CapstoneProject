@@ -1,5 +1,5 @@
 from flask import Blueprint,request
-from ..forms.review_form import ReviewForm
+from ..forms.comment_form import ReviewForm
 from flask_login import current_user, login_required
 from ..models import db, User, Post, Review
 from datetime import datetime

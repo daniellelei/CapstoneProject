@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import * as reviewActions from '../../store/review';
-
+import EditComment from './EditComment';
 
 const Comment = ({post}) => {
     const dispatch = useDispatch();
@@ -12,6 +12,7 @@ const Comment = ({post}) => {
     const [errors, setErrors] = useState({});
     const reviewsObj = useSelector(state=>state.reviews.postReviews)
     console.log('reviewsObj', reviewsObj)
+    const [showEdit, setShowEdit] = useState(false)
 
     useEffect(()=>{
         dispatch(reviewActions.loadReviewThunk(post.id))
@@ -24,6 +25,7 @@ const Comment = ({post}) => {
         if(reviewBody.length > 255) err.reviewBody = '* The max length is 255.'
         setErrors(err)
     }, [reviewBody])
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setHasSubmitted(true);
@@ -48,7 +50,16 @@ const Comment = ({post}) => {
     const maxLengthClassHandler = (count) => {
             if(count === 255) return "showCharacterLength reachedMax"
             return "showCharacterLength";
-        }
+    }
+
+    const clickEdit = (e) => {
+        e.preventDefault();
+        setShowEdit(true);
+    }
+    const clickDelete = (e)=> {
+        e.preventDefault();
+        
+    }
     let reviews;
 
     if(reviewsObj) {
@@ -103,6 +114,20 @@ const Comment = ({post}) => {
                             </div>
                             <p className='userInfoP'>{review.reviewBody}</p>
                         </div>
+                        <div>
+                            {review.user.id === user.id ? (
+                                <div>
+                                    <button onClick={clickEdit}>Edit</button>
+                                    <button onClick={clickDelete}>Delete</button>
+                                </div>
+                            ) : null}
+                        </div>
+                        {showEdit && review.user.id === user.id? (
+                            <div>
+                                <EditComment review={review} setShowEdit={setShowEdit}/>
+                            </div>
+                        ) : (null)}
+                        
                     </div>
                 ))}
             </div>
