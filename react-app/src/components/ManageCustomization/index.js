@@ -15,6 +15,7 @@ import SignUpLoginModal from "../Signup_LoginModal";
 import { isAdded, numOfAdded } from "../SingleDrink";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+import marioCust from './assets/mario_cust.jpg';
 function CurrentCustomizations() {
     const dispatch = useDispatch();
     const custObj = useSelector((state)=>state.customizations.allUserCustomizations);
@@ -32,22 +33,28 @@ function CurrentCustomizations() {
 
     if(!user) {
         return(
-            <div>
-                <h1>My Favorites</h1>
-                <img />
-                <h2>Save your favorite mixes</h2>
-                <p>Use the heart to save customizations. Your favorites will appear here to order again.</p>
-                <OpenModalButton
-                type = 'signIn'
-                buttonText="Sign in"
-                modalComponent={<LoginFormModal />}
-                />
+            <div style={{margin:"5% 10% 5% 10%", display:"flex", 
+            flexDirection:"row", justifyContent:"space-evenly", alignItems:"center"
+            }}>
+                <div>
+                    <h1>My Favorites</h1>
+                    <h2>Save your favorite mixes</h2>
+                    <p style={{color:"grey"}}
+                    >Use the heart to save customizations. Your favorites will appear here to order again.</p>
+                    <OpenModalButton
+                    type = 'signIn'
+                    buttonText="Sign in"
+                    modalComponent={<LoginFormModal />}
+                    />
 
-                <OpenModalButton
-                type = 'joinNow'
-                buttonText="Join now"
-                modalComponent={<SignupFormModal />}
-                />
+                    <OpenModalButton
+                    type = 'joinNow'
+                    buttonText="Join now"
+                    modalComponent={<SignupFormModal />}
+                    />
+                </div>
+                <img style={{width:'400px'}}
+                src={marioCust} alt="custImg"/>
             </div>
         )
     }
