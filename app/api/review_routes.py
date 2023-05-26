@@ -1,37 +1,37 @@
 from flask import Blueprint,request
-from ..forms.comment_form import ReviewForm
+from ..forms.comment_form import CommentForm
 from flask_login import current_user, login_required
-from ..models import db, User, Post, Review
+from ..models import db, User, Post, Comment
 from datetime import datetime
 
-review_routes = Blueprint('reviews', __name__)
+comment_routes = Blueprint('comments', __name__)
 
-@review_routes.route('/')
-def get_all_reviews():
-    """get all reviews and display them"""
-    reviews = Review.query.order_by(Review.id.desc()).all()
-    return [{**review.to_dict(),
-             'user': review.user.to_dict(),
-             'post':review.post.to_dict()
-             } for review in reviews]
+@comment_routes.route('/')
+def get_all_comments():
+    """get all comments and display them"""
+    comments = Comment.query.order_by(Comment.id.desc()).all()
+    return [{**comment.to_dict(),
+             'user': comment.user.to_dict(),
+             'post':comment.post.to_dict()
+             } for comment in comments]
 
 
-@review_routes.route('/<int:id>', methods=['PUT', 'PATCH'])
+@comment_routes.route('/<int:id>', methods=['PUT', 'PATCH'])
 @login_required
-def edit_review(id):
+def edit_comment(id):
     user = current_user.to_dict()
-    review = Review.query.get(id)
-    form = ReviewForm()
+    comment = Comment.query.get(id)
+    form = CommentForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
     if form.validate_on_submit():
-        review.reviewBody = form.data['reviewBody']
+        comment.commentBody = form.data['commentBody']
         
-        review.dateTime = datetime.now()
+        comment.dateTime = datetime.now()
         db.session.commit()
-        updated_review = Review.query.get(id)
-        return {**updated_review.to_dict()
-                , 'user': updated_review.user.to_dict()
-                , 'post': updated_review.post.to_dict()
+        updated_comment = Comment.query.get(id)
+        return {**updated_comment.to_dict()
+                , 'user': updated_comment.user.to_dict()
+                , 'post': updated_comment.post.to_dict()
                 }
     
     if form.errors:
@@ -39,14 +39,14 @@ def edit_review(id):
     return {"message": 'Bad Data'}
 
 
-@review_routes.route('/<int:id>', methods=['DELETE'])
+@comment_routes.route('/<int:id>', methods=['DELETE'])
 @login_required
-def delete_review(id):
-    review_to_delete = Review.query.get(id)
-    if review_to_delete:
-        db.session.delete(review_to_delete)
+def delete_comment(id):
+    comment_to_delete = Comment.query.get(id)
+    if comment_to_delete:
+        db.session.delete(comment_to_delete)
         db.session.commit()
-        return {'message': 'Review deleted!'}
+        return {'message': 'comment deleted!'}
     else:
-        return {'message': 'Review not found.'}
+        return {'message': 'comment not found.'}
 

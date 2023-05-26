@@ -6,7 +6,7 @@ from .cart_customizations import Cart_customization
 from .cart import Cart
 from .drink import Drink
 from .customization import Customization
-from .review import Review
+from .comment import Comment
 from .post import Post
 from .likes import likes
 from .post_custs import post_custs

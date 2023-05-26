@@ -4,7 +4,7 @@ from .users import seed_users, undo_users
 from .carts import seed_carts, undo_carts
 from .customizations import seed_customizations, undo_customizations
 from .drinks import seed_drinks, undo_drinks
-from .reviews import seed_reviews, undo_reviews
+from .comments import seed_comments, undo_comments
 # from ..temporary.s.flavors import seed_flavors, undo_flavors
 # from ..temporary.s.sweeteners import seed_sweeteners, undo_sweeteners
 # from ..temporary.s.toppings import seed_toppings, undo_toppings
@@ -28,7 +28,7 @@ def seed():
         undo_users()
         undo_drinks()
         undo_posts()
-        undo_reviews()
+        undo_comments()
         # undo_toppings()
         # undo_addIns()
         # undo_flavors()
@@ -39,7 +39,7 @@ def seed():
     seed_carts()
     seed_customizations()
     all_posts = seed_posts(all_users)
-    seed_reviews(all_posts, all_users)
+    seed_comments(all_posts, all_users)
     
     # Add other seed functions here
 
@@ -48,6 +48,7 @@ def seed():
 @seed_commands.command('undo')
 def undo():
     # undo_addIns()
+    undo_comments()
     undo_posts()
     undo_carts()
     undo_customizations()

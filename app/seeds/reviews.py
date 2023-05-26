@@ -1,104 +1,104 @@
-from app.models import db, Review, environment, SCHEMA
+from app.models import db, Comment, environment, SCHEMA
 from sqlalchemy.sql import text
 from random import choice, sample, randint
 from faker import Faker
 fake = Faker()
 
-def seed_reviews(all_posts, all_users):
-    review1 = Review(
+def seed_comments(all_posts, all_users):
+    comment1 = Comment(
         user=choice(all_users),
         post=choice(all_posts),
-        reviewBody='I really love this image',
+        commentBody='I really love this image',
         
-        dateTime=fake.date_time_between(start_date='-1m', end_date='now'),
+        dateTime=fake.date_time_between(start_date='-1mon', end_date='now'),
     )
 
-    review2 = Review(
+    comment2 = Comment(
         user=choice(all_users),
         post=choice(all_posts),
-        reviewBody='cute',
+        commentBody='cute',
         
-        dateTime=fake.date_time_between(start_date='-1m', end_date='now'),
+        dateTime=fake.date_time_between(start_date='-1mon', end_date='now'),
     )
 
-    review3 = Review(
+    comment3 = Comment(
         user=choice(all_users),
         post=choice(all_posts),
-        reviewBody='enjoy it',
+        commentBody='enjoy it',
         
-        dateTime=fake.date_time_between(start_date='-1m', end_date='now'),
+        dateTime=fake.date_time_between(start_date='-1mon', end_date='now'),
     )
 
-    review4 = Review(
+    comment4 = Comment(
         user=choice(all_users),
         post=choice(all_posts),
-        reviewBody='cool',
+        commentBody='cool',
         
-        dateTime=fake.date_time_between(start_date='-1m', end_date='now'),
+        dateTime=fake.date_time_between(start_date='-1mon', end_date='now'),
     )
 
-    review5 = Review(
+    comment5 = Comment(
         user=choice(all_users),
         post=choice(all_posts),
-        reviewBody='lovly',
+        commentBody='lovly',
         
-        dateTime=fake.date_time_between(start_date='-1m', end_date='now'),
+        dateTime=fake.date_time_between(start_date='-1mon', end_date='now'),
     )
 
-    review6 = Review(
+    comment6 = Comment(
         user=choice(all_users),
         post=choice(all_posts),
-        reviewBody='yummy',
+        commentBody='yummy',
         
-        dateTime=fake.date_time_between(start_date='-1m', end_date='now'),
+        dateTime=fake.date_time_between(start_date='-1mon', end_date='now'),
     )
 
-    review7 = Review(
+    comment7 = Comment(
         user=choice(all_users),
         post=choice(all_posts),
-        reviewBody='cuteeeee',
+        commentBody='cuteeeee',
         
-        dateTime=fake.date_time_between(start_date='-1m', end_date='now'),
+        dateTime=fake.date_time_between(start_date='-1mon', end_date='now'),
     )
 
-    review8 = Review(
+    comment8 = Comment(
         user=choice(all_users),
         post=choice(all_posts),
-        reviewBody='wow nice',
+        commentBody='wow nice',
         
-        dateTime=fake.date_time_between(start_date='-1m', end_date='now'),
+        dateTime=fake.date_time_between(start_date='-1mon', end_date='now'),
     )
 
-    review9 = Review(
+    comment9 = Comment(
         user=choice(all_users),
         post=choice(all_posts),
-        reviewBody='I really love this drink',
+        commentBody='I really love this drink',
         
-        dateTime=fake.date_time_between(start_date='-1m', end_date='now'),
+        dateTime=fake.date_time_between(start_date='-1mon', end_date='now'),
     )
 
-    review10 = Review(
+    comment10 = Comment(
         user=choice(all_users),
         post=choice(all_posts),
-        reviewBody='so yummy',
+        commentBody='so yummy',
         
-        dateTime=fake.date_time_between(start_date='-1m', end_date='now'),
+        dateTime=fake.date_time_between(start_date='-1mon', end_date='now'),
     )
 
-    all_reviews = [review1, review2, review3, review4, 
-                   review5, review6, review7, review8,
-                   review9, review10]
+    all_comments = [comment1, comment2, comment3, comment4, 
+                   comment5, comment6, comment7, comment8,
+                   comment9, comment10]
     
-    add_reviews = [db.session.add(review) for review in all_reviews]
+    add_comments = [db.session.add(comment) for comment in all_comments]
     db.session.commit()
 
 
-def undo_reviews():
+def undo_comments():
     if environment == "production":
         
         db.session.execute(
-            f"TRUNCATE table {SCHEMA}.reviews RESTART IDENTITY CASCADE;")
+            f"TRUNCATE table {SCHEMA}.comments RESTART IDENTITY CASCADE;")
     else:
         
-        db.session.execute(text("DELETE FROM reviews"))
+        db.session.execute(text("DELETE FROM comments"))
     db.session.commit()

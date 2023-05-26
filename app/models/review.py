@@ -1,7 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 
-class Review (db.Model):
-    __tablename__ = 'reviews'
+class Comment (db.Model):
+    __tablename__ = 'comments'
 
     if environment == "production":
         __table_args__ = {'schema': SCHEMA}
@@ -13,14 +13,14 @@ class Review (db.Model):
     post_id = db.Column(
         db.Integer, db.ForeignKey(add_prefix_for_prod("posts.id")), nullable=False
     )
-    reviewBody = db.Column(db.String(255), nullable=False)
+    commentBody = db.Column(db.String(255), nullable=False)
     
     dateTime = db.Column(db.DateTime, nullable = False)
     
 
     #relationship attributes
-    user = db.relationship('User', back_populates= "reviews")
-    post = db.relationship('Post', back_populates="reviews")
+    user = db.relationship('User', back_populates= "comments")
+    post = db.relationship('Post', back_populates="comments")
     
 
     def to_dict(self):
@@ -28,7 +28,7 @@ class Review (db.Model):
             'id': self.id,
             'user_id':self.user_id,
             'post_id':self.post_id,
-            'reviewBody': self.reviewBody,
+            'commentBody': self.commentBody,
             
             'dateTime':self.dateTime
         }

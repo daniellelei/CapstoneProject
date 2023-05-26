@@ -193,13 +193,13 @@ def add_new_comment(id):
             commentBody = form.data['commentBody'],
             dateTime=datetime.now()
         )
-        db.session.add(new_review)
+        db.session.add(new_comment)
         db.session.commit()
-        post.reviews.append(new_review)
+        post.comments.append(new_comment)
         db.session.commit()
-        return {**new_review.to_dict()
-                , 'user': new_review.user.to_dict()
-                , 'post': new_review.post.to_dict()
+        return {**new_comment.to_dict()
+                , 'user': new_comment.user.to_dict()
+                , 'post': new_comment.post.to_dict()
                 }
     
     if form.errors:

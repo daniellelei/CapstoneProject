@@ -32,7 +32,7 @@ class Post(db.Model):
         
     )
 
-    reviews = db.relationship('Review', back_populates='post')
+    comments = db.relationship('Comment', back_populates='post')
 
     def to_dict(self):
         return {
