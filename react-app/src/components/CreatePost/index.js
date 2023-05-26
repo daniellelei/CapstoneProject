@@ -124,14 +124,10 @@ const CreatePost = () => {
     const handleOnDrop =(files) => {
         setImage(files[0])
     }
-//     const files = acceptedFiles.map((file) => (
-//     <li key={file.path}>
-//       {file.path} - {file.size} bytes
-//     </li>
-//   ));
 
     
-    // const custOptionClassName = "custOps" + ( custs.includes(c) ? "" : " hidden");
+
+
     console.log('image', image)
     return (
         <div className="create_post_page">

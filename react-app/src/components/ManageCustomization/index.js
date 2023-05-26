@@ -72,10 +72,17 @@ function CurrentCustomizations() {
     return (
         <div className="AllCust">
             
-            {!custs.length ? <div className="emptyCust">
-                <h1>My Favorites</h1>
-                <h2>Oops! There is no customizations created yet.</h2>
-                
+            {!custs.length ? <div style={{margin:"5% 5% 5% 5%", width:"100%",display:"flex", 
+            flexDirection:"row", justifyContent:"space-evenly", alignItems:"center"
+            }}>
+                <div>
+                    <h1>My Favorites </h1>
+                    <h2>Save your favorite mixes</h2>
+                    <p style={{color:"grey"}}
+                    >Use the heart to save customizations. Your favorites will appear here to order again. ❤️</p>
+                </div>
+                <img style={{width:'400px'}}
+                src={marioCust} alt="custImg"/>
             </div> : null}
             {custs.length !== 0 ? 
                 <div>

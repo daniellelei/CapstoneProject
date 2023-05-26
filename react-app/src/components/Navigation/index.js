@@ -70,7 +70,8 @@ function Navigation({ isLoaded }){
 					Find a Store
 				</div>
 				{!user ? (
-					<div>
+					<div style={{display:"flex"}}
+					>
 						<OpenModalButton
 						type = 'signIn'
 						buttonText="Sign in"
