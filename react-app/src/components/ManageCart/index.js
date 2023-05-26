@@ -14,6 +14,7 @@ import { isAdded, numOfAdded } from "../SingleDrink";
 import { useModal } from '../../context/Modal';
 import ConfirmModal from '../SingleDrink/confirmModal';
 import SignUpLoginModal from "../Signup_LoginModal";
+import marioImg from './assets/waitingForOrder.JPG'
 // import DeleteCustomization from "../DeleteCustomization";
 const calculateTotalPrice = (allDrinks) => {
         let res = 0;
@@ -106,16 +107,18 @@ function CurrentCart() {
     )
    
     if (cart_custs === undefined && cart_drinks === undefined ) return (
-        <div className="myCart">
+        <div className="myCart" style={{marginTop:"10%"}}>
             <h1>Wanna add a drink to your cart?</h1>
             <h4>* Your cart is empty</h4>
         </div>
     )
 
     if (cart_custs.length === 0 && cart_drinks.length === 0 ) return (
-        <div className="myCart">
+        <div className="myCart Empty" style={{marginTop:"10%", marginBottom:"10%"}}>
             <h1>Wanna add a drink to your cart?</h1>
             <h4>* Your cart is empty</h4>
+            <img style={{width: '600px'}}
+            src={marioImg}></img>
         </div>
     )
 
