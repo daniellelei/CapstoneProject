@@ -3,6 +3,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    margin-bottom: 80px;
     
 }
 .eaCustInCart {
@@ -51,5 +52,5 @@
     align-content: flex-end;
     justify-content: center;
     align-items: flex-end;
-    width: 300px;
+    width: 500px;
 }

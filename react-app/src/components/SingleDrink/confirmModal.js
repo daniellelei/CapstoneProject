@@ -24,7 +24,7 @@ function ConfirmModal({page}) {
 
   return (
     <div className="container">
-      <h3 className="title_text"> Successfully Added to Order!</h3>
+      <h3 className="title_text"> 🎉 Successfully Added to Order!</h3>
       <button onClick={ClickContinue}
       >Continue</button>
       <button onClick={ClickGoToCart}

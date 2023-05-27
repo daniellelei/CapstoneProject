@@ -36,6 +36,8 @@ const CreatePost = () => {
     const user = useSelector((state) => state.session.user);
     const user_id = user.id;
     const [imageLoading, setImageLoading] = useState(false);
+    const [preview, setPreview] = useState({});
+    
 
     const custsObj = useSelector((state)=>state.customizations.allUserCustomizations)
     const [custChosen, setCustChosen] = useState({}); //an array of id's
@@ -80,8 +82,6 @@ const CreatePost = () => {
         setErrors(err);
     },[caption, image])
 
-    console.log('image loading', imageLoading)
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('i am here', Object.values(errors))
@@ -94,11 +94,6 @@ const CreatePost = () => {
             formData.append('caption', caption);
             formData.append('image', image);
             formData.append('chosenCust', chosenCust);
-            // postsAction.createPost({
-            //     caption,
-            //     image,
-            //     chosenCust,
-            // })
             setImageLoading(true);
             const createdRes = await dispatch(postsAction.createPost(formData))
             if (!createdRes.errors) {
@@ -122,22 +117,51 @@ const CreatePost = () => {
         setHasSubmitted(false);
     };
     const handleOnDrop =(files) => {
-        setImage(files[0])
+        setImage(files[0]);
+        let pre = {};
+        pre.preview = URL.createObjectURL(files[0]);
+        setPreview(pre);
     }
-//     const files = acceptedFiles.map((file) => (
-//     <li key={file.path}>
-//       {file.path} - {file.size} bytes
-//     </li>
-//   ));
+    const removeHandler = (e) => {
+        e.preventDefault();
+        setImage([]);
+        setPreview({});
+    };
+    const thumb = (files) => {
+        return (
+        <div>
+            {preview?.preview ? (
+            <img
+                className="previewImage"
+                src={preview.preview}
+                alt="preview"
+                onLoad={() => {
+                URL.revokeObjectURL(preview.preview);
+                }}
+            />
+            ) : null}
+            {preview?.preview ? (
+            <div className="trashDiv">
+                <button
+                onClick={removeHandler}
+                className="trashbutton left"
+                data-text="Delete image"
+                >
+                <i className="fa-solid fa-trash-can fa-xl"
+                style={{color:"black"}}
+                ></i>
+                </button>
+            </div>
+            ) : null}
+        </div>
+        );
+    };
 
-    
-    // const custOptionClassName = "custOps" + ( custs.includes(c) ? "" : " hidden");
-    console.log('image', image)
+
     return (
         <div className="create_post_page">
             <h1>Create a Post</h1>
             <form onSubmit={handleSubmit} 
-            // onDragEnter = {handleDrag}
             encType="multipart/form-data"
             className="createPostForm">
                 <ul>
@@ -166,37 +190,64 @@ const CreatePost = () => {
                             <p className="errors">{errors.caption}</p>
                         ) : null}
                     </div>
-                    <div>
-                        <Dropzone className ='dropzone' onDrop={handleOnDrop} multiple={false} accept={'image/*'} >
-                            {({getRootProps, getInputProps, isDragActive, acceptedFiles}) => (
-                            <section className="container">
-                                <div {...getRootProps({className: 'dropzone'})}>
+                    
+                    <Dropzone
+                    onDrop={handleOnDrop}
+                    multiple={false}
+                    className="dropzone"
+                    accept={"image/*"} >
+                    {({
+                        getRootProps,
+                        getInputProps,
+                        isDragActive,
+                        acceptedFiles,
+                    }) => (
+                            <section>
+                                <div
+                                {...getRootProps({ className: "dropzone" })}
+                                className="image_drop_zone"
+                                >
                                 <input {...getInputProps()} />
                                 {isDragActive ? (
-                                <p className="postDate">
-                                    Release to drop the files here
-                                </p>
+                                    <div className="dragActive">
+                                    <i
+                                        className="fa-solid fa-arrow-up-from-bracket fa-xl"
+                                        style={{ color: "#818488;", marginBottom:"20px" }}
+                                    ></i>
+                                    <p className="postDate">
+                                        Release to drop the files here
+                                    </p>
+                                    <p className="recommend">
+                                        Recommendation: Use high-quality .jpg/.png <br />
+                                        files less than 20MB
+                                    </p>
+                                    </div>
                                 ) : (
-                                <p className="postDate">
-                                    Drag’n’drop some files here, or click to select files
-                                </p>
+                                    <div className="dragNotActive">
+                                    <i
+                                        className="fa-solid fa-arrow-up-from-bracket fa-xl"
+                                        style={{ color: "#818488;", marginBottom:"20px" }}
+                                    ></i>
+                                    <p className="postDate">
+                                        Drag and drop or click to upload
+                                    </p>
+                                    <p className="recommend">
+                                        Recommendation: Use high-quality .jpg/.png <br />
+                                        files less than 20MB
+                                    </p>
+                                    </div>
                                 )}
                                 </div>
-                                <aside>
-                                    <ul>
-                                        {acceptedFiles.map((file) => (
-                                            <li key={file.path} className="postDate">
-                                                * {file.path} - {file.size} bytes
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </aside>
-                                
+                                <aside className="preview"> {thumb(acceptedFiles)} </aside>
                             </section>
                             )}
                         </Dropzone>
-                        
-                    </div>
+                        {hasSubmitted ? (
+                            <p className="error">{errors.image}</p>
+                        ): (
+                            <p className="noErrorDisplay">{'   '}</p>
+                        )}
+                    
                 </div>
                         {custs?.length !== 0 ? 
                             <div className="createFormBottom">
@@ -220,7 +271,9 @@ const CreatePost = () => {
                     
                     {imageLoading && <div className='loadingPage'>
                     <img className="loadingImg" 
-                    src="https://cdn.dribbble.com/users/2520294/screenshots/7209485/media/cf226d98a06282e9cabf5c2f8f6d547f.gif"/>
+                    src="https://cdn.dribbble.com/users/2520294/screenshots/7209485/media/cf226d98a06282e9cabf5c2f8f6d547f.gif"
+                    alt="loadingImg"
+                    />
                     </div>
                     }
             </form>
@@ -231,19 +284,3 @@ const CreatePost = () => {
 
 export default CreatePost;
 
-
-
-
-{/* <div className="caption">
-                        <label>Upload an image: </label>
-                        <input
-                            type = 'file'
-                            accept="image/*" 
-                            name = {image}
-                            onChange = {(e)=>setImage(e.target.files[0])}
-                            >
-                        </input>
-                        {hasSubmitted ? (
-                            <p className="errors">{errors.image}</p>
-                            ) : null}
-                    </div> */}

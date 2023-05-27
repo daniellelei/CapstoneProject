@@ -74,13 +74,13 @@ def upgrade():
     sa.ForeignKeyConstraint(['author'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('reviews',
+    op.create_table('comments',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.Column('drink_id', sa.Integer(), nullable=False),
-    sa.Column('reviewBody', sa.String(length=255), nullable=False),
-    sa.Column('rating', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['drink_id'], ['drinks.id'], ),
+    sa.Column('post_id', sa.Integer(), nullable=False),
+    sa.Column('commentBody', sa.String(length=255), nullable=False),
+    sa.Column('dateTime', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['post_id'], ['posts.id'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -121,7 +121,7 @@ def upgrade():
         op.execute(f"ALTER TABLE carts SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE customizations SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE posts SET SCHEMA {SCHEMA};")
-        op.execute(f"ALTER TABLE reviews SET SCHEMA {SCHEMA};")
+        op.execute(f"ALTER TABLE comments SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE cart_customizations SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE cart_drinks SET SCHEMA {SCHEMA};")
         op.execute(f"ALTER TABLE likes SET SCHEMA {SCHEMA};")
@@ -137,7 +137,7 @@ def downgrade():
     op.drop_table('likes')
     op.drop_table('cart_drinks')
     op.drop_table('cart_customizations')
-    op.drop_table('reviews')
+    op.drop_table('comments')
     op.drop_table('posts')
     op.drop_table('customizations')
     op.drop_table('carts')

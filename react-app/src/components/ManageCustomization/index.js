@@ -13,6 +13,9 @@ import { useModal } from '../../context/Modal';
 import ConfirmModal from '../SingleDrink/confirmModal';
 import SignUpLoginModal from "../Signup_LoginModal";
 import { isAdded, numOfAdded } from "../SingleDrink";
+import LoginFormModal from "../LoginFormModal";
+import SignupFormModal from "../SignupFormModal";
+import marioCust from './assets/mario_cust.jpg';
 function CurrentCustomizations() {
     const dispatch = useDispatch();
     const custObj = useSelector((state)=>state.customizations.allUserCustomizations);
@@ -20,22 +23,66 @@ function CurrentCustomizations() {
     const currentCart = useSelector((state)=>state.carts.currentCart)
     const { setModalContent, setOnModalClose } = useModal();
 
+    
     useEffect(() => {
-        dispatch(customizationActions.getUserCustomizationThunk());
+        if(user){
+            dispatch(customizationActions.getUserCustomizationThunk());
+        }
         return () => dispatch(customizationActions.actionClearCustomizations());
     }, [dispatch])
+
+    if(!user) {
+        return(
+            <div style={{margin:"5% 10% 5% 10%", display:"flex", 
+            flexDirection:"row", justifyContent:"space-evenly", alignItems:"center"
+            }}>
+                <div>
+                    <h1>My Favorites</h1>
+                    <h2>Save your favorite mixes</h2>
+                    <p style={{color:"grey"}}
+                    >Use the heart to save customizations. Your favorites will appear here to order again.</p>
+                    <OpenModalButton
+                    type = 'signIn'
+                    buttonText="Sign in"
+                    modalComponent={<LoginFormModal />}
+                    />
+
+                    <OpenModalButton
+                    type = 'joinNow'
+                    buttonText="Join now"
+                    modalComponent={<SignupFormModal />}
+                    />
+                </div>
+                <img style={{width:'400px'}}
+                src={marioCust} alt="custImg"/>
+            </div>
+        )
+    }
+
     if(!custObj) return (<div>
         <img src="https://cdn.dribbble.com/users/2520294/screenshots/7209485/media/cf226d98a06282e9cabf5c2f8f6d547f.gif"/>
     </div>)
-    const custs = Object.values(custObj);
+    let custs;
+    if(custObj){
+        custs = Object.values(custObj);
+    }
+    
+    
 
     return (
         <div className="AllCust">
             
-            {!custs.length ? <div className="emptyCust">
-                <h1>My Favorites</h1>
-                <h2>Oops! There is no customizations created yet.</h2>
-                
+            {!custs.length ? <div style={{margin:"5% 5% 5% 5%", width:"100%",display:"flex", 
+            flexDirection:"row", justifyContent:"space-evenly", alignItems:"center"
+            }}>
+                <div>
+                    <h1>My Favorites </h1>
+                    <h2>Save your favorite mixes</h2>
+                    <p style={{color:"grey"}}
+                    >Use the heart to save customizations. Your favorites will appear here to order again. ❤️</p>
+                </div>
+                <img style={{width:'400px'}}
+                src={marioCust} alt="custImg"/>
             </div> : null}
             {custs.length !== 0 ? 
                 <div>

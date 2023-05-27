@@ -10,6 +10,7 @@ import CreateCustomization from '../CreateCustomization';
 import ConfirmModal from './confirmModal';
 import "./SingleDrink.css"
 import AddToCartButton from '../AddToCartButton';
+import Category from '../AllDrinks/Categories';
 
 export const isAdded = (currentCart, type, id) => {
     if (type === 'drink')
@@ -72,6 +73,23 @@ const Drink = () => {
         return () => dispatch(drinkActions.actionClearDrink());
     },[dispatch, drinkId, loading])
 
+    const displaySubCategory = (subCategory) => {
+        switch (subCategory){
+            case "hotCoffee":
+                return 'Hot Coffee'
+            case "hotTea":
+                return 'Hot Tea'
+            case "icedCoffee":
+                return 'Cold Coffee'
+            case "coldTea":
+                return "Cold Tea"
+            default:
+                return null;
+
+        }
+
+    }
+
     
     
 
@@ -82,6 +100,7 @@ const Drink = () => {
     return (
         <div className='OneDrink'>
             <div className='leftOneDrink'>
+                <h3>Menu/{displaySubCategory(drink.subCategory)}/{drink.name}</h3>
                 <img 
                     className="drinkImg"
                     src = {drink.imageUrl}

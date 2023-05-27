@@ -50,6 +50,7 @@ def seed_posts(all_users):
     all_posts = [post1, post2, post3, post4, post5]
     add_posts = [db.session.add(post) for post in all_posts]
     db.session.commit()
+    return all_posts
 
 
 def undo_posts():

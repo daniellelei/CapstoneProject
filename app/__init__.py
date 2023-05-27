@@ -11,6 +11,7 @@ from .api.drink_routes import drink_routes
 from .api.customization_routes import customization_routes
 from .api.cart_routes import cart_routes
 from .api.post_routes import post_routes
+from .api.comment_routes import comment_routes
 
 from .seeds import seed_commands
 from .config import Config
@@ -37,6 +38,7 @@ app.register_blueprint(drink_routes, url_prefix='/api/drinks')
 app.register_blueprint(customization_routes, url_prefix='/api/customizations')
 app.register_blueprint(cart_routes, url_prefix='/api/carts')
 app.register_blueprint(post_routes,url_prefix='/api/posts')
+app.register_blueprint(comment_routes, url_prefix='/api/comments')
 db.init_app(app)
 Migrate(app, db)
 

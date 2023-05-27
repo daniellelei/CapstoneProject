@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, redirect,request
 from ..forms.post_form import PostForm
-from datetime import date
+from ..forms.comment_form import CommentForm
+from datetime import date, datetime
 from random import randint
-from ..models import db, User, Post, Customization
+from ..models import db, User, Post, Customization, Comment
 from flask_login import current_user, login_required
 from datetime import datetime
 from sqlalchemy.orm import joinedload
@@ -29,6 +30,8 @@ def get_post_detail(id):
             , "customizations": [{**c.to_dict(),
                                  'drinks_customization': c.drink.to_dict()}
                                  for c in post.post_customizations]
+            , 'comments': [{**r.to_dict(),
+                           'user':r.user.to_dict() }for r in post.comments]
             }
 
 @post_routes.route('/new', methods=["GET", "POST"])
@@ -98,15 +101,6 @@ def update_post(id):
     form["csrf_token"].data = request.cookies["csrf_token"]
     custs = form.data["chosenCust"]
     customizations = list(form.data["chosenCust"].split(" "))
-    print("=======================")
-    print("=======================")
-    print("=======================")
-    print("=======================")
-    print("=======================")
-    print("=======================")
-    print("=======================")
-    print("custs", custs)
-    print("customizations", customizations)
     if form.validate_on_submit():
         image_to_remove = post.image
         image_delete = remove_file_from_s3(image_to_remove)
@@ -153,6 +147,7 @@ def update_post(id):
                 , "customizations": [{**c.to_dict(),
                                         'drinks_customization': c.drink.to_dict()}
                                         for c in updated_post.post_customizations]
+                
                 }
     if form.errors:
         return {"message": "form errors", "errors": f"{form.errors}"}
@@ -172,3 +167,43 @@ def delete_post(id):
             return {"message": "Post deleted!"}
     else:
         return{"message": "Post not found."}
+    
+###############     Comments     ###############
+
+@post_routes.route('/<int:id>/comments')
+def get_post_comments(id):
+    post = Post.query.get(id)
+    comments = Comment.query.filter(Comment.post_id == id).order_by(Comment.dateTime.desc())
+    return{'comments':[{**r.to_dict(),
+                       'user': r.user.to_dict()
+                       } for r in comments]}
+    
+
+@post_routes.route('/<int:id>/comments/new', methods=['GET', 'POST'])
+@login_required
+def add_new_comment(id):
+    user = current_user.to_dict()
+    post = Post.query.get(id)
+    form = CommentForm()
+    form["csrf_token"].data = request.cookies["csrf_token"]
+    if form.validate_on_submit():
+        new_comment = Comment(
+            user_id = user['id'],
+            post_id = id,
+            commentBody = form.data['commentBody'],
+            dateTime=datetime.now()
+        )
+        db.session.add(new_comment)
+        db.session.commit()
+        post.comments.append(new_comment)
+        db.session.commit()
+        return {**new_comment.to_dict()
+                , 'user': new_comment.user.to_dict()
+                , 'post': new_comment.post.to_dict()
+                }
+    
+    if form.errors:
+        return {"message": "form errors", "errors": f"{form.errors}"}
+    return {"message": 'Bad Data'}
+
+

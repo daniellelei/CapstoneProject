@@ -10,6 +10,7 @@ import DeletePostModal from '../DeletePost';
 import EditPost from '../EditPost';
 import { useModal } from '../../context/Modal';
 import ConfirmModal from '../SingleDrink/confirmModal';
+import Comments from './Comments'
 
 import { isAdded, numOfAdded } from "../SingleDrink";
 import './SinglePost.css'
@@ -23,6 +24,8 @@ const SinglePost = () => {
     const post = useSelector((state)=> state.posts.singlePost)
     console.log('this is Post', post)
     const customizations = post.customizations; //array of customizations
+    const comments = post.comments; //array of comment
+    console.log('comments', comments)
     const author_id = post.author_id
     const { setModalContent, setOnModalClose } = useModal();
 
@@ -53,9 +56,12 @@ const SinglePost = () => {
             <img 
                 className="postImg"
                 src = {post.image}
-                alt = {`post image url`}
+                alt = {`post_image_url`}
             />
             <div className="postDetail">
+                <img 
+                style={{height:"40px",width:"40px",borderRadius:"50%"}}
+                src={post.user.profilePic} alt="user_image"/>
                 <p className="postCaption">{post.caption}</p>
                 <p className="postDate">{post.postDate}</p>
                 <p className="postDate">Posted by {post.user.username}</p>
@@ -64,13 +70,27 @@ const SinglePost = () => {
             </div>
             {user?.id === author_id 
             ? (
-                <div>
-                    <OpenModalButton
-                buttonText='Edit'
-                modalComponent={<EditPost post={post}/>} />
-                    <OpenModalButton
-                    buttonText='Delete'
-                    modalComponent={<DeletePostModal post={post}/>} />
+                <div 
+                style={{translate:"transform-Y(-20px)", display:"flex", flexDirection:"row", width: '380px', justifyContent:"flex-end", marginBottom:"10px"}}
+                >
+                    <button 
+                    className='navButton'
+                    onClick = {async (e) => {
+                        e.preventDefault();
+                        setModalContent(<EditPost post={post} />);
+                        }}
+                    >
+                    <i className="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <button 
+                    className='navButton'
+                    onClick = {async (e) => {
+                        e.preventDefault();
+                        setModalContent(<DeletePostModal post={post} />);
+                        }}
+                    >
+                    <i className="fa-solid fa-trash"></i>
+                    </button>
                 </div>
             ) 
             : null}
@@ -84,6 +104,7 @@ const SinglePost = () => {
                         <img 
                         className='drinkImg'
                         src = {customization.drinks_customization.imageUrl}
+                        alt="profile_img"
                         />
                         <div className='eaPostCustDetail'>
                             <p className="postDate">Size: {customization.size}</p>
@@ -137,16 +158,15 @@ const SinglePost = () => {
                             ></i>
                             : null}
                         </div>
+                        
 
                         
             
                     </div>
                 ))}
             </div>
-
+            <Comments post={post}/>
             
-            
-
         </div>
     )
 

@@ -17,7 +17,7 @@ class Drink (db.Model):
 
     #relationship attributes
     customizations = db.relationship('Customization', back_populates= "drink")
-    reviews = db.relationship('Review', back_populates='drink')
+   
 
     cart_drinks = db.relationship(
         "Cart_drink",  back_populates="drink"

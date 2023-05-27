@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import OpenModalButton from "../OpenModalButton";
+import LoginFormModal from "../LoginFormModal";
+import SignupFormModal from "../SignupFormModal";
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
-import logo from "./assets/logo.jpg";
+import logo from "./assets/logo.png";
 import * as cartActions from "../../store/cart"
 import * as sessionActions from "../../store/session"
 
@@ -24,7 +27,7 @@ function Navigation({ isLoaded }){
 	
 	useEffect(()=> {
 		if(user) dispatch(cartActions.getCurrentCartThunk());
-		console.log('inside useEffect', cart)
+		
 		if(!cart) setItemCount(0)
 		else setItemCount(drinksCount(cart))
 	}, [dispatch, user])
@@ -32,6 +35,10 @@ function Navigation({ isLoaded }){
 	const cartClick = (e) =>{
 		e.preventDefault();
 		history.push('/cart')
+	}
+	const signInClick = (e) => {
+		e.preventDefault();
+
 	}
 	const [itemCount, setItemCount] = useState(drinksCount(cart));
 	console.log('from top nav cart', itemCount)
@@ -42,20 +49,51 @@ function Navigation({ isLoaded }){
 			
 				<NavLink exact to="/">
 					{/* <img className ='logo' src={logo} alt='logo'/> */}
-					<img className='logo' src="https://i.giphy.com/media/ZDNQdzCUjIK9VNUE2c/giphy.webp" alt='logo' />
+					<img className='logo' src={logo} alt='logo' />
 				</NavLink>
-				<NavLink exact to="/drinks">
-					<h2>Menu</h2>
+				<NavLink className='leftNavItem' exact to="/drinks">
+					<h2 className='leftNavItem'>Menu</h2>
 				</NavLink>
-				<NavLink exact to="/posts">
-					<h2>Feed</h2>
+				<NavLink className='leftNavItem' exact to="/posts">
+					<h2 className='leftNavItem'>Feeds</h2>
 				</NavLink>
+				<NavLink className='leftNavItem' exact to={`/customizations`}>
+					<h2 className='leftNavItem'>My Favorites</h2>
+				</NavLink>
+				{/* {!user ? <div>{"     "}</div> : (<NavLink className='leftNavItem' exact to={`/customizations`}>
+					<h2 className='leftNavItem'>My Favorites</h2>
+				</NavLink>)} */}
 				
 			</div>
 			<div className='rightNav'>
-				{isLoaded && (
+				<div>
+					Find a Store
+				</div>
+				{!user ? (
+					<div style={{display:"flex"}}
+					>
+						<OpenModalButton
+						type = 'signIn'
+						buttonText="Sign in"
+						modalComponent={<LoginFormModal />}
+						/>
+
+						<OpenModalButton
+						type = 'joinNow'
+						buttonText="Join now"
+						modalComponent={<SignupFormModal />}
+						/>
+					</div>
+				) : (
 					<div>
 						<ProfileButton user={sessionUser} />
+					</div>
+				)}
+				
+			</div>
+			{/* <div className='rightNav'>
+				{isLoaded && (
+					<div>
 					</div>
 				)}
 				<button onClick={cartClick} className='navButton'>
@@ -66,7 +104,7 @@ function Navigation({ isLoaded }){
 						{cart?drinksCount(cart):0}
 					</p> 
 				</button>
-			</div>
+			</div> */}
 		</div>
 	);
 }

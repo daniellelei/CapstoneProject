@@ -19,7 +19,7 @@ class User(db.Model, UserMixin):
     # relationship attributes
     customizations = db.relationship('Customization', back_populates='user')
     carts = db.relationship('Cart', back_populates="user")
-    reviews = db.relationship('Review', back_populates="user")
+    comments = db.relationship('Comment', back_populates="user")
 
     posts = db.relationship(
         "Post",

@@ -7,12 +7,13 @@ import * as drinkActions from '../../store/drink';
 import * as cartActions from '../../store/cart';
 import './AllDrinks.css'
 import OpenModalItem from "../OpenModalItem";
+import logo from '../Navigation/assets/logo.png'
 function AllDrinks(){
     const dispatch = useDispatch();
     const drinksObj = useSelector((state) => state.drinks.allDrinks);
     const user = useSelector((state) => state.session.user);
     const categoriesDrinksObj = useSelector((state)=> state.drinks.categoryDrinks)
-   
+    const [category, setCategory] = useState('All Drinks');
     const currentCart = useSelector((state)=>state.carts.currentCart)
 
     useEffect(() => {
@@ -41,39 +42,49 @@ function AllDrinks(){
 
     const icedCoffeeClick = async (e) => {
       e.preventDefault();
-      // setCategory('Iced Coffee')
+      setCategory('Iced Coffee')
       await dispatch(drinkActions.actionLoadCategory(icedCoffee))
     }
     const hotCoffeeClick = async (e) => {
       e.preventDefault();
       await dispatch(drinkActions.actionLoadCategory(hotCoffee))
-      // setCategory('Hot Coffee')
+      setCategory('Hot Coffee')
     }
 
     const icedTeaClick = async (e) => {
       e.preventDefault();
       await dispatch(drinkActions.actionLoadCategory(icedTea))
+      setCategory('Iced Tea')
 
     }
     const hotTeaClick = async (e) => {
       e.preventDefault();
       await dispatch(drinkActions.actionLoadCategory(hotTea))
+      setCategory('Hot Tea')
 
     }
     const allDrinksClick = async (e) => {
       e.preventDefault();
       await dispatch(drinkActions.actionLoadCategory([]))
+      setCategory('All Drinks')
 
     }
 
-    console.log('category drinks', categoriesDrinksObj)
+    // console.log('category drinks', categoriesDrinksObj)
     if(!categoriesDrinksObj) return <div>loading</div>
     const categoryDrinks = Object.values(categoriesDrinksObj);
-    console.log('cate', categoryDrinks)
+    // console.log('cate', categoryDrinks)
     return (
       <div className="DrinksPage">
-        <div className="allDrinksTop">
-          <h1>Welcome to Coffee or Tea</h1>
+        <div style={{display:'flex', width:'100%', justifyContent:"center", alignItems:"center"}}
+        className="allDrinksTop" >
+          <h1>Welcome to Mushroom Coffee</h1>
+          <img 
+          style={{width:'80px', marginLeft:'1%'}}
+          src={logo} alt='logo'/>
+        </div>
+        <div style={{textAlign:"left", width:"50%"}}>
+          <h2>{category}</h2>
         </div>
         <div className="allDrinksBottom">
           <div className="leftDrinkNav">
@@ -82,7 +93,7 @@ function AllDrinks(){
               className="eaCategory"
               onClick={allDrinksClick}
               >
-                All Drinks
+                Drinks
               </li>
               <li 
               className="eaCategory"
@@ -107,6 +118,7 @@ function AllDrinks(){
             </ul>
           </div>
           <div className="rightDrinkNav">
+            
             {categoryDrinks.length === 0 ? (
               drinks.map((drink) => (
                 <div key={drink.id}>

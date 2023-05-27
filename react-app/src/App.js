@@ -18,6 +18,7 @@ import AllPosts from "./components/Feed";
 import SinglePost from "./components/SinglePost";
 import CreatePost from "./components/CreatePost";
 import EditPost from "./components/EditPost";
+import Footer from "./components/Footer";
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -74,6 +75,7 @@ function App() {
           </Route>
         </Switch>
       )}
+      <Footer isLoaded={isLoaded} />
     </>
   );
 }

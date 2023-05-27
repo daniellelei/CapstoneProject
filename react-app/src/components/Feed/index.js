@@ -6,6 +6,7 @@ import PostIndexItem from "./PostIndexItem";
 import './Feed.css'
 import OpenModalItem from "../OpenModalItem";
 import SignUpLoginModal from "../Signup_LoginModal";
+import mushroomKingdom from './assets/mushroomKingdom.png'
 function AllPosts () {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -37,7 +38,9 @@ function AllPosts () {
         <div className="feedPage">
             <div className="feedNav">
                 <div className="feedNavLeft"></div>
-                <h1>Welcome to our community!</h1>
+                <img style={{height:'500px', width:"1200px", objectFit:"cover"}}
+                src={mushroomKingdom} alt='background'/>
+                {/* <h1>Welcome to our community!</h1> */}
             <div>
                 {!user?.id ? 
                 <OpenModalItem 
