@@ -80,8 +80,6 @@ function CurrentCart() {
     const handleCheckOut = async (e) => {
         e.preventDefault();
         setHasSubmitted(true);
-        // setTotal(calculateTotalPrice([cart_custs, cart_drinks]))
-        // console.log('inside handleCheckOut', total)
 
         if(!Boolean(Object.values(errors).length)){
             const checkedOutRes = await dispatch(cartActions.checkOutThunk(total));
@@ -118,6 +116,7 @@ function CurrentCart() {
             <h1>Wanna add a drink to your cart?</h1>
             <h4>* Your cart is empty</h4>
             <img style={{width: '600px'}}
+            alt= "img"
             src={marioImg}></img>
         </div>
     )
@@ -137,10 +136,15 @@ function CurrentCart() {
     return (
         <div className="myCart">
             
-            <h1>Order Summary</h1>
+            <h1>📝 Order Summary</h1>
             
             {removeDuplicate(cart_drinks).map((d)=>(
                 <div key={cart_drinks.indexOf(d)} className="eaItem">
+                    <img 
+                        src = {d.imageUrl}
+                        alt = "drinkImg"
+                        style={{width:'80px', height:"80px", objectFit:"cover", borderRadius:"50%"}}
+                        />
                     <div className="custcartDiv">
                         <h4>{d.name}</h4>
                         <p className="cartP">${d.price}</p>
@@ -165,9 +169,7 @@ function CurrentCart() {
                         className="fa-solid fa-square-minus"
                         onClick = { (e) => {
                             e.preventDefault();
-                            console.log('hit me minus drink.id ',d.id)
-                            dispatch(cartActions.removeFromCartThunk(d))
-                            console.log('after hitting thunkkk', d.id)
+                            dispatch(cartActions.removeFromCartThunk(d));
                         }}
                         ></i>
                         : null}
@@ -188,6 +190,10 @@ function CurrentCart() {
                     ))}
             {removeDuplicate(cart_custs).map((c)=>(
                 <div className="eaCustInCart" key={cart_custs.indexOf(c)}>
+                    <img src={c.drinks_customization.imageUrl}
+                    alt='img'
+                    style={{height:"80px",width:"80px", borderRadius:"50%", objectFit:"cover"}}
+                    />
                     <div className="custcartDiv">
                         <h4>{c.drinks_customization.name}</h4>
                         <div className="custDetail">
@@ -241,6 +247,7 @@ function CurrentCart() {
                 <p className="priceSummary">Tax(10.5%): ${(total*0.105).toFixed(2)}</p>
                 <p className="priceSummary">Total: ${(total*1.105).toFixed(2)}</p>
                 <button
+                style={{marginTop: '20px'}}
                 onClick={handleCheckOut}
                 >Let's order</button>
                 {hasSubmitted && Boolean(Object.values(errors).length) ? (

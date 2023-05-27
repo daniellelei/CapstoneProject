@@ -59,7 +59,7 @@ const Comments = ({post}) => {
     }
     
     return (
-        <div>
+        
             <div className='allComments'>
                 <div style={{marginBottom:"10px"}}>
                     <h2>Comments</h2>
@@ -93,7 +93,7 @@ const Comments = ({post}) => {
                 </div> 
                 <div id="snackbar" className={snackClassName}>Comment successfully deleted</div>       
             </div>
-        </div>
+        
     )
 
 

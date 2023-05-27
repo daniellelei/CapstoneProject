@@ -70,13 +70,27 @@ const SinglePost = () => {
             </div>
             {user?.id === author_id 
             ? (
-                <div>
-                    <OpenModalButton
-                buttonText='Edit'
-                modalComponent={<EditPost post={post}/>} />
-                    <OpenModalButton
-                    buttonText='Delete'
-                    modalComponent={<DeletePostModal post={post}/>} />
+                <div 
+                style={{translate:"transform-Y(-20px)", display:"flex", flexDirection:"row", width: '380px', justifyContent:"flex-end", marginBottom:"10px"}}
+                >
+                    <button 
+                    className='navButton'
+                    onClick = {async (e) => {
+                        e.preventDefault();
+                        setModalContent(<EditPost post={post} />);
+                        }}
+                    >
+                    <i className="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <button 
+                    className='navButton'
+                    onClick = {async (e) => {
+                        e.preventDefault();
+                        setModalContent(<DeletePostModal post={post} />);
+                        }}
+                    >
+                    <i className="fa-solid fa-trash"></i>
+                    </button>
                 </div>
             ) 
             : null}

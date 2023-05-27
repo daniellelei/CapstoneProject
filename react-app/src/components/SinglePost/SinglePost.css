@@ -18,6 +18,7 @@
     justify-content: space-between;
     align-items: center;
     height:450px;
+    
 }
 
 .postDetail{
@@ -25,6 +26,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+    width: 340px;
+    /* border: 1px solid red; */
 }
 
 .eaPostCustDetail {
@@ -35,7 +38,7 @@
     background-color: rgb(241, 239, 239);
     width:360px;
     height: 450px;
-    padding: 5%;
+    padding: 2%;
     /* border: 1px solid red; */
 }
 .comments {
