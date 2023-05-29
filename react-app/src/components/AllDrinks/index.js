@@ -80,10 +80,10 @@ function AllDrinks(){
         className="allDrinksTop" >
           <h1>Welcome to Mushroom Coffee</h1>
           <img 
-          style={{width:'80px', marginLeft:'1%'}}
+          style={{width:'100px', marginLeft:'1%'}}
           src={logo} alt='logo'/>
         </div>
-        <div style={{textAlign:"left", width:"50%"}}>
+        <div style={{textAlign:"left", width:"50%", textDecoration:"underline",}}>
           <h2>{category}</h2>
         </div>
         <div className="allDrinksBottom">
@@ -133,22 +133,6 @@ function AllDrinks(){
             ))}
           </div>
         </div>
-
-        {/* <nav className="allDrinks">
-          <div>
-            
-          </div>
-
-          {/* <Category category={category} drinks={hotCoffee} user={user} page='AllDrinks' /> */}
-          {/* <img src ='https://i.giphy.com/media/ZDNQdzCUjIK9VNUE2c/giphy.webp'/> */}
-          {/* <div className='leftAllDrinks'>
-            <h2>Iced Coffee</h2>
-            <h2>Hot Coffee</h2>
-          </div>
-          <div className='rightDrinks'> */}
-            
-          {/* </div> */}
-        {/* </nav> */} 
       </div>
     )
 

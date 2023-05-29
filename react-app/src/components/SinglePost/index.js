@@ -53,6 +53,13 @@ const SinglePost = () => {
 
     return (
         <div className='singlePostPage'>
+            <i className="fa-solid fa-arrow-left fa-xl"
+            style={{color:'black', width:'90%', cursor:"pointer"}}
+            onClick={(e)=>{
+                e.preventDefault();
+                history.push("/posts")
+            }}
+            ></i>
             <img 
                 className="postImg"
                 src = {post.image}

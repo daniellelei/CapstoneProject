@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 import * as PostActions from '../../store/post';
 import PostIndexItem from "./PostIndexItem";
 import './Feed.css'
-import OpenModalItem from "../OpenModalItem";
+import OpenModalButton from "../OpenModalButton";
 import SignUpLoginModal from "../Signup_LoginModal";
 import mushroomKingdom from './assets/mushroomKingdom.png'
 function AllPosts () {
@@ -36,29 +36,29 @@ function AllPosts () {
 
     return (
         <div className="feedPage">
-            <div className="feedNav">
-                <div className="feedNavLeft"></div>
-                <img style={{height:'500px', width:"1200px", objectFit:"cover"}}
+            <div className="feedNav" 
+            >
+                {/* <div className="feedNavLeft"></div>  */}
+                <img style={{width:"100%", objectFit:"cover"}}
                 src={mushroomKingdom} alt='background'/>
-                {/* <h1>Welcome to our community!</h1> */}
-            <div>
-                {!user?.id ? 
-                <OpenModalItem 
-                modalComponent={<SignUpLoginModal/>}
-                itemType= 'icon'
-                />
-                : <i 
-                style={{ cursor: "pointer" }}
-                className="fa-solid fa-plus fa-lg"
-                onClick={plusClicked}
-                ></i>}
-            </div>
+                <div className="feedTitle">
+                    <h1>Welcome to 🍄Mushroom🍄 Kingdom 🏰</h1>
+                </div>
+                <div className="createPostButton">
+                    {!user?.id ? 
+                    <OpenModalButton
+                    modalComponent={<SignUpLoginModal/>}
+                    buttonText="Create post"
+                    />
+                    : <button 
+                    onClick={plusClicked}>Create a post</button>}
+                </div>
             </div>
             {posts.map((post) => (
                 <div key={post.id}>
                     <PostIndexItem post={post} key={post.id} user={user} page="AllPosts" />
                 </div>
-            ))}
+            ))} 
         </div>
     )
 
