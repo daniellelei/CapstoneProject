@@ -84,7 +84,8 @@ const SinglePost = () => {
                     className='navButton'
                     onClick = {async (e) => {
                         e.preventDefault();
-                        setModalContent(<EditPost post={post} />);
+                        // 
+                        history.push(`/posts/${postId}/edit`)
                         }}
                     >
                     <i className="fa-solid fa-pen-to-square"></i>

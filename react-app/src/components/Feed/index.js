@@ -42,7 +42,7 @@ function AllPosts () {
                 <img style={{width:"100%", objectFit:"cover"}}
                 src={mushroomKingdom} alt='background'/>
                 <div className="feedTitle">
-                    <h1>Welcome to 🍄Mushroom🍄 Kingdom 🏰</h1>
+                    <h1>Welcome to MUSHR🍄🍄M Kingdom 🏰</h1>
                 </div>
                 <div className="createPostButton">
                     {!user?.id ? 

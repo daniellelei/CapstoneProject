@@ -1,24 +1,28 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from 'react-redux';
-import { useHistory, NavLink } from "react-router-dom";
+import { useHistory, NavLink, useParams } from "react-router-dom";
 import {useModal} from "../../context/Modal"
 import * as postsAction from '../../store/post';
 import * as customizationActions from '../../store/customization'
 import './EditPost.css'
 import SingleCustEdit from "./SingleCustEdit";
-const EditPost = ({post}) => {
+const EditPost = () => {
+    const{postId} = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
     const { closeModal } = useModal();
-    const postId = post.id
+    // const postId = post.id
+    const post = useSelector((state)=> state.posts.singlePost)
 
-
+    const [loading, setLoading] = useState(true);
     const [caption, setCaption] = useState(post.caption);
     const [image, setImage] = useState(post.image);
     const [errors, setErrors] = useState({});
     const [resErrors, setResErrors] = useState({});
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const [custChosen, setCustChosen] = useState([]);
+    const [imageLoading, setImageLoading] = useState(false);
+    const [preview, setPreview] = useState({});
 
     const custsObj = useSelector((state)=>state.customizations.allUserCustomizations)
     const user = useSelector((state) => state.session.user);
@@ -29,15 +33,25 @@ const EditPost = ({post}) => {
         dispatch(postsAction.actionAddChosenCust(i))
     }
     },[])
+    useEffect(()=>{
+        if(loading) {
+            setTimeout(()=>{
+                setLoading(false)
+            }, 1800);
+        }
+        dispatch(postsAction.getPostDetail(postId))
+
+        return () => dispatch(postsAction.actionClearPost())
+    },[dispatch, loading, user])
     
 
-     useEffect(()=>{
-        dispatch(customizationActions.getUserCustomizationThunk(user_id))
+    useEffect(()=>{
+    dispatch(customizationActions.getUserCustomizationThunk(user_id))
 
-        return () => {
-            dispatch(customizationActions.actionClearSavedCustomizations())
-            dispatch(postsAction.actionClearChosenCusts())
-        }
+    return () => {
+        dispatch(customizationActions.actionClearSavedCustomizations())
+        dispatch(postsAction.actionClearChosenCusts())
+    }
 
     },[dispatch])
 
@@ -86,22 +100,13 @@ const EditPost = ({post}) => {
             formData.append('caption', caption);
             formData.append('image', image);
             formData.append('chosenCust', chosenCust);
-            // {
-            //         postId,
-            //         caption,
-            //         image,
-            //         chosenCust,
-            //     }
-            console.log('formData', formData)
+            
             const updatedRes = await dispatch(
                 postsAction.updatePost(formData, post.id)
             )
             if (!updatedRes.errors) {
-                // console.log('this is update', updatedRes.id)
                 await dispatch(postsAction.getPostDetail(updatedRes.id));
-                closeModal()
                 await setHasSubmitted(false);
-                
             } else {
                 await setResErrors(updatedRes.errors);
             }
