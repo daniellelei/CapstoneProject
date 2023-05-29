@@ -7,18 +7,32 @@
     
 }
 .feedNav{
-    display: flex;
+    /* display: flex;
     justify-content: space-around;
     align-items: center;
     width: 100%;
     height:200em;
-    font-size: 3px;
+    font-size: 3px; */
+    position: relative;
     
 }
 .feedTitle {
-    top:120px;
-    left: 600px;
+    top:40%;
+    left:23%;
+    width:50%;
+    /* left: 600px; */
+    text-align: center;
     position: absolute;
+    border-radius: 15px;
+    /* border:1px solid red; */
+    padding:15px;
+    background-color: rgba(203, 214, 224, 0.763);
+
+}
+.createPostButton {
+    position: absolute;
+    bottom:-10%;
+    right:10%;
 }
 .feedNavLef {
     width: 40%;
