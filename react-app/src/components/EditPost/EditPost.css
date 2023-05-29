@@ -1,7 +1,8 @@
-.editModal {
-    overflow-y: auto;
-    overflow-x: hidden;
-    width:350px;
+.editPost {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
 }
 .editPostBottom {
     width: 350px;

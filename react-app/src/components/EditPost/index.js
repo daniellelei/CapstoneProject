@@ -40,20 +40,15 @@ const EditPost = () => {
             }, 1800);
         }
         dispatch(postsAction.getPostDetail(postId))
+        dispatch(customizationActions.getUserCustomizationThunk(user_id))
 
-        return () => dispatch(postsAction.actionClearPost())
+        return () => {
+            dispatch(postsAction.actionClearPost())
+            dispatch(customizationActions.actionClearSavedCustomizations())
+            dispatch(postsAction.actionClearChosenCusts())
+        }
     },[dispatch, loading, user])
     
-
-    useEffect(()=>{
-    dispatch(customizationActions.getUserCustomizationThunk(user_id))
-
-    return () => {
-        dispatch(customizationActions.actionClearSavedCustomizations())
-        dispatch(postsAction.actionClearChosenCusts())
-    }
-
-    },[dispatch])
 
     let custs = []
     let chosenCust = []
@@ -98,7 +93,7 @@ const EditPost = () => {
         if(!Boolean(Object.values(errors).length)) {
             const formData = new FormData();
             formData.append('caption', caption);
-            formData.append('image', image);
+            // formData.append('image', image);
             formData.append('chosenCust', chosenCust);
             
             const updatedRes = await dispatch(
@@ -114,8 +109,13 @@ const EditPost = () => {
     }
 
     return (
-        <div className="editModal">
+        <div className="editPost">
             <h1>Edit a Post</h1>
+            <div>
+                <img 
+                className="postImg"
+                src={post.image} alt='postImage'/>
+            </div>
             <form onSubmit={handleSubmit}
             encType="multipart/form-data"
             >
@@ -139,7 +139,7 @@ const EditPost = () => {
                             <p>{errors.caption}</p>
                         ) : null}
                     </div>
-                    <div className="caption">
+                    {/* <div className="caption">
                         <label>Upload an image: </label>
                         <input
                             type = 'file'
@@ -151,7 +151,7 @@ const EditPost = () => {
                         {hasSubmitted ? (
                             <p className="errors">{errors.image}</p>
                             ) : null}
-                    </div>
+                    </div> */}
 
                     <div>
                         {custs.length !== 0 ? 

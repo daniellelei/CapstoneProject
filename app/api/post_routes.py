@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, redirect,request
 from ..forms.post_form import PostForm
+from ..forms.editPost_form import EditPostForm
 from ..forms.comment_form import CommentForm
 from datetime import date, datetime
 from random import randint
@@ -97,21 +98,21 @@ def update_post(id):
     # request_obj = request.get_json()
     # customizations = request_obj["chosenCust"]
     post = Post.query.get(id)
-    form = PostForm()
+    form = EditPostForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
     custs = form.data["chosenCust"]
     customizations = list(form.data["chosenCust"].split(" "))
     if form.validate_on_submit():
-        image_to_remove = post.image
-        image_delete = remove_file_from_s3(image_to_remove)
-        image = form.data['image']
-        image.filename = get_unique_filename(image.filename)
-        upload = upload_file_to_s3(image)
-        if "url" not in upload:
-            return {"message": "upload error"}
+        # image_to_remove = post.image
+        # image_delete = remove_file_from_s3(image_to_remove)
+        # image = form.data['image']
+        # image.filename = get_unique_filename(image.filename)
+        # upload = upload_file_to_s3(image)
+        # if "url" not in upload:
+        #     return {"message": "upload error"}
 
         post.caption = form.data["caption"]
-        post.image = upload["url"]
+        # post.image = upload["url"]
         post.post_date = date.today()
         db.session.commit()
         if (custs == ''):
