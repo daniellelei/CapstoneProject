@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import * as commentActions from '../../store/comment';
 import EditComment from './EditComment';
 import SingleComment from './SingleComment';
+import OpenModalButton from "../OpenModalButton";
+import SignUpLoginModal from "../Signup_LoginModal";
 
 const Comments = ({post}) => {
     const dispatch = useDispatch();
@@ -63,7 +65,10 @@ const Comments = ({post}) => {
             <div className='allComments'>
                 <div style={{marginBottom:"10px"}}>
                     <h2>Comments</h2>
-                    <form onSubmit={handleSubmit}>
+                    {!user ? <OpenModalButton
+                    modalComponent={<SignUpLoginModal/>}
+                    buttonText="Log In/Sign Up"
+                    /> : <form onSubmit={handleSubmit}>
                         <textarea
                         maxLength={255}
                         onChange={(e)=>{
@@ -83,8 +88,10 @@ const Comments = ({post}) => {
                             <p className={maxLengthClassHandler(commentBodyLength)}
                             >{commentBodyLength} /255 characters</p>
                             <button type="submit">Submit</button>
+                            
                         </div>
-                    </form>
+                    </form>}
+                    
                 </div>
                 <div className='comments'>
                     {!comments.length?null:comments.map((comment)=>(
