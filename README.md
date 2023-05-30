@@ -1,5 +1,7 @@
 # Overview 
 
+<img src="https://github.com/daniellelei/CapstoneProject/blob/main/assets/appScreenShot.gif?raw=true" />
+
 Welcome to my capstone project!
 
 CoffeeOrTea is a web application which has basic drink ordering system and processing system. Also, it has functionalities such as music entertainment and sharing drink recipes as well as images. 
