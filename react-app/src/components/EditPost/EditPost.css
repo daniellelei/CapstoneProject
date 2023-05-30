@@ -3,9 +3,10 @@
    flex-direction: column;
    justify-content: center;
    align-items: center;
+   border: 1px solid red;
 }
 .editPostBottom {
-    width: 350px;
+    width: 340px;
 }
 .editPostInput {
     display: flex;

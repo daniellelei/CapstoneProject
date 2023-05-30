@@ -22,12 +22,10 @@ const SinglePost = () => {
     const currentCart = useSelector((state) => state.carts.currentCart);
     const user = useSelector((state)=> state.session.user);
     const post = useSelector((state)=> state.posts.singlePost)
-    console.log('this is Post', post)
     const customizations = post.customizations; //array of customizations
-    const comments = post.comments; //array of comment
-    console.log('comments', comments)
     const author_id = post.author_id
     const { setModalContent, setOnModalClose } = useModal();
+    const [showEditPost, setShowEditPost] = useState(false)
 
     useEffect(()=>{
         if(loading) {
@@ -44,11 +42,14 @@ const SinglePost = () => {
         return () => dispatch(postActions.actionClearPost())
     },[dispatch, loading, user])
 
+    const clickEdit = (e) => {
+        e.preventDefault();
+        setShowEditPost(true);
+    }
+
     if (!post?.id || loading) return (<div className='loadingPage'>
         <img className="loadingImg" src="https://cdn.dribbble.com/users/2520294/screenshots/7209485/media/cf226d98a06282e9cabf5c2f8f6d547f.gif"/>
     </div>)
-
-    // console.log('this is single Post', post)
     
 
     return (
@@ -65,48 +66,49 @@ const SinglePost = () => {
                 src = {post.image}
                 alt = {`post_image_url`}
             />
-            <div className="postDetail">
-                <img 
-                style={{height:"40px",width:"40px",borderRadius:"50%"}}
-                src={post.user.profilePic} alt="user_image"/>
-                <p className="postCaption">{post.caption}</p>
-                <p className="postDate">{post.postDate}</p>
-                <p className="postDate">Posted by {post.user.username}</p>
-                {/* <p>1.2k likes</p> */}
-                <i className="fa-solid fa-thumbs-up"></i>
+            <div 
+            style={{display:'flex', 
+            alignItems:"center",
+            width:"20%",
+            border:"1px solid red"
+            }}
+            >
+            <img 
+            style={{height:"40px",width:"40px",borderRadius:"50%", marginRight:"1em"}}
+            src={post.user.profilePic} alt="user_image"/>
+            <h4>{post.user.username}</h4>
             </div>
-            {user?.id === author_id 
-            ? (
-                <div 
-                style={{translate:"transform-Y(-20px)", display:"flex", flexDirection:"row", width: '380px', justifyContent:"flex-end", marginBottom:"10px"}}
-                >
-                    <button 
-                    className='navButton'
-                    onClick = {async (e) => {
-                        e.preventDefault();
-                        // 
-                        history.push(`/posts/${postId}/edit`)
-                        }}
+            <div className="postDetail">
+                {!showEditPost ? (<div>
+                    <p className="postCaption">{post.caption}</p>
+                    <p className="postDate">{new Date(post.postDate).toDateString()}</p>
+                    {user?.id === author_id 
+                ? (
+                    <div 
+                    style={{translate:"transform-Y(-20px)", display:"flex", flexDirection:"row", width: '380px', justifyContent:"flex-end", marginBottom:"10px"}}
                     >
-                    <i className="fa-solid fa-pen-to-square"></i>
-                    </button>
-                    <button 
-                    className='navButton'
-                    onClick = {async (e) => {
-                        e.preventDefault();
-                        setModalContent(<DeletePostModal post={post} />);
-                        }}
-                    >
-                    <i className="fa-solid fa-trash"></i>
-                    </button>
-                </div>
-            ) 
-            : null}
-
-            {!customizations.length ? null :(
-                <h3>This is what I would like to share with you. Hope you'd like it 😋</h3>
-            )}
-            <div className='postCusts'>
+                        <button 
+                        className='navButton'
+                        onClick = {clickEdit}
+                        >
+                        <i className="fa-solid fa-pen-to-square"></i>
+                        </button>
+                        <button 
+                        className='navButton'
+                        onClick = {async (e) => {
+                            e.preventDefault();
+                            setModalContent(<DeletePostModal post={post} />);
+                            }}
+                        >
+                        <i className="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                ) 
+                : null}
+                {!customizations.length? null :(
+                    <h3>This is what I would like to share with you. Hope you'd like it 😋</h3>
+                )}
+                <div className='postCusts'>
                 {customizations.map((customization) => (
                     <div className='eaPostCust'>
                         <img 
@@ -165,14 +167,25 @@ const SinglePost = () => {
                             }}
                             ></i>
                             : null}
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                        
 
-                        
-            
+
+                </div>):(
+                    <div>
+                        <EditPost post={post} setShowEditPost={setShowEditPost} showEditPost={showEditPost} />
                     </div>
-                ))}
+                )}
+                
+                {/* <p>1.2k likes</p> */}
+                {/* <i className="fa-solid fa-thumbs-up"></i> */}
             </div>
+            
+
+            
+            
             <Comments post={post}/>
             
         </div>
