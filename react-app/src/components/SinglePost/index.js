@@ -69,7 +69,7 @@ const SinglePost = () => {
             <div 
             style={{display:'flex', 
             alignItems:"center",
-            width:"20%",
+            width:"26%",
             
             }}
             >
