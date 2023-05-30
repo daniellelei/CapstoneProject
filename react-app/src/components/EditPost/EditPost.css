@@ -1,11 +1,21 @@
-.editModal {
-    overflow-y: auto;
-    overflow-x: hidden;
-    width:350px;
+.editPost {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   margin-bottom: 1em;
+   /* border: 1px solid red; */
 }
 .editPostBottom {
-    width: 350px;
+    width: 340px;
+    
 }
+.listCusts{
+    overflow: auto;
+    height: 410px;
+
+}
+
 .editPostInput {
     display: flex;
     flex-direction: column;

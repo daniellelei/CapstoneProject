@@ -64,6 +64,9 @@ function App() {
           <Route exact path="/posts/new">
             <CreatePost />
           </Route>
+          {/* <Route exact path="/posts/:postId/edit">
+            <EditPost />
+          </Route> */}
           <Route exact path="/posts/:postId">
             <SinglePost />
           </Route>

@@ -1,69 +1,70 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from 'react-redux';
-import { useHistory, NavLink } from "react-router-dom";
+import { useHistory, NavLink, useParams } from "react-router-dom";
 import {useModal} from "../../context/Modal"
 import * as postsAction from '../../store/post';
 import * as customizationActions from '../../store/customization'
 import './EditPost.css'
 import SingleCustEdit from "./SingleCustEdit";
-const EditPost = ({post}) => {
+const EditPost = ({post, setShowEditPost, showEditPost,}) => {
+    const{postId} = useParams();
     const dispatch = useDispatch();
     const history = useHistory();
-    const { closeModal } = useModal();
-    const postId = post.id
-
-
     const [caption, setCaption] = useState(post.caption);
-    const [image, setImage] = useState(post.image);
+    const [captionLength, setCaptionLength] = useState(caption.length);
     const [errors, setErrors] = useState({});
     const [resErrors, setResErrors] = useState({});
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const [custChosen, setCustChosen] = useState([]);
-
+    const oldchosenCust = post?.customizations; //array
     const custsObj = useSelector((state)=>state.customizations.allUserCustomizations)
     const user = useSelector((state) => state.session.user);
     const user_id = user.id;
-    const oldchosenCust = post.customizations; //array
+    
     useEffect(()=>{
-        for (let i of oldchosenCust){
-        dispatch(postsAction.actionAddChosenCust(i))
+        if(post){
+            for (let i of oldchosenCust){
+            dispatch(postsAction.actionAddChosenCust(i))
+        }
     }
     },[])
-    
 
-     useEffect(()=>{
+    useEffect(()=>{
+        
         dispatch(customizationActions.getUserCustomizationThunk(user_id))
 
         return () => {
             dispatch(customizationActions.actionClearSavedCustomizations())
             dispatch(postsAction.actionClearChosenCusts())
         }
-
-    },[dispatch])
+    },[dispatch, user])
+    
+    useEffect(()=>{
+        const err = {};
+        if(caption?.length<5) err.caption = 'Caption needs to be at least 5 characters long.'
+        
+        setErrors(err);
+    },[caption])
 
     let custs = []
     let chosenCust = []
     let chosenCustVal = []
+
     if (!custsObj) {
         custs = [] 
     } else {
         custs = Object.values(custsObj)
     }
-    
 
-    useEffect(()=>{
-        const err = {};
-        if(caption.length<5) err.caption = 'Caption needs to be at least 5 characters long.'
-        
-        setErrors(err);
-    },[caption, image])
 
     const chosenCustObj = useSelector((state)=>state.posts.chosenCust)
+    const maxLengthClassHandler = (count) => {
+            if(count === 255) return "showCharacterLength reachedMax"
+            return "showCharacterLength";
+    }
+    
     const handleSubmit = async (e) => {
-        // console.log('i am here', Object.values(errors))
         e.preventDefault();
-
-        
         if(!chosenCustObj) {
             chosenCustVal = []
         } else {
@@ -80,37 +81,31 @@ const EditPost = ({post}) => {
         setHasSubmitted(true);
         setResErrors({});
         
-        console.log('image', image)
         if(!Boolean(Object.values(errors).length)) {
             const formData = new FormData();
             formData.append('caption', caption);
-            formData.append('image', image);
+            // formData.append('image', image);
             formData.append('chosenCust', chosenCust);
-            // {
-            //         postId,
-            //         caption,
-            //         image,
-            //         chosenCust,
-            //     }
-            console.log('formData', formData)
+            
             const updatedRes = await dispatch(
                 postsAction.updatePost(formData, post.id)
             )
             if (!updatedRes.errors) {
-                // console.log('this is update', updatedRes.id)
                 await dispatch(postsAction.getPostDetail(updatedRes.id));
-                closeModal()
                 await setHasSubmitted(false);
-                
+                setShowEditPost(false);
             } else {
                 await setResErrors(updatedRes.errors);
             }
         }
     }
+    if(!post) return (<div className='loadingPage'>
+        <img className="loadingImg" src="https://cdn.dribbble.com/users/2520294/screenshots/7209485/media/cf226d98a06282e9cabf5c2f8f6d547f.gif"/>
+    </div>)
+
 
     return (
-        <div className="editModal">
-            <h1>Edit a Post</h1>
+        <div className="editPost">
             <form onSubmit={handleSubmit}
             encType="multipart/form-data"
             >
@@ -121,53 +116,56 @@ const EditPost = ({post}) => {
                 </ul>
                 <div>
                     <div className="editPostInput">
-                        <label>Caption: </label>
+                        <label>Edit Caption: </label>
                         <input
+                            maxLength={255}
+                            style={{width:"100%"}}
                             type = 'text'
                             placeholder="Any thoughts???"
                             value={caption}
                             name = {caption}
-                            onChange = {(e)=>setCaption(e.target.value)}
+                            onChange = {(e)=>{
+                                setCaption(e.target.value);
+                                setCaptionLength(e.target.value.length);
+                            }}
                         >
                         </input>
+                        <p className={maxLengthClassHandler(captionLength)}
+                    >{captionLength} /255 characters</p>
                         {hasSubmitted ? (
                             <p>{errors.caption}</p>
                         ) : null}
-                    </div>
-                    <div className="caption">
-                        <label>Upload an image: </label>
-                        <input
-                            type = 'file'
-                            accept="image/*" 
-                            name = {image}
-                            onChange = {(e)=>setImage(e.target.files[0])}
-                            >
-                        </input>
-                        {hasSubmitted ? (
-                            <p className="errors">{errors.image}</p>
-                            ) : null}
-                    </div>
-
+                        <div style={{width:"100%",display:"flex", justifyContent:"flex-end"}}>
+                            <button type="submit">
+                            Update
+                            </button>
+                            <button onClick={(e)=>{
+                                e.preventDefault();
+                                setShowEditPost(false);
+                            }}
+                            >Cancel</button>
+                        </div>
+                        </div>
                     <div>
                         {custs.length !== 0 ? 
                             <div className="editPostBottom">
                                 <h1>My Favorites</h1>
                                 <h4>Choose any that you would like to share</h4>
-                                {
-                                    custs.map((cust)=>(
-                                        <div key={cust.id}>
-                                            <SingleCustEdit
-                                            cust={cust} 
-                                            user={user} 
-                                            oldchosenCust={oldchosenCust}
-                                            />
-                                        </div>
+                                <div className="listCusts">
+                                   {
+                                        custs.map((cust)=>(
+                                            <div key={cust.id}>
+                                                <SingleCustEdit
+                                                cust={cust} 
+                                                user={user} 
+                                                oldchosenCust={oldchosenCust}
+                                                />
+                                            </div>
                                     ))} 
+                                </div>
                             </div> : null} 
                         </div>
-                    <button type="submit">
-                       Update
-                    </button>
+                    
                 </div>
 
             </form>
