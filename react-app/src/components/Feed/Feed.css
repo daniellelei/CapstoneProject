@@ -44,7 +44,7 @@
     position: relative;
     top:0px;
     transition: ease 0.5s;
-    width:350px;
+    width:394px;
 }
 .eaPost:hover{
     top: -10px;
@@ -54,8 +54,8 @@
     padding:1em;
 }
 .postImg {
-    height:400px;
-    width: 350px;
+    height:500px;
+    width: 394px;
     object-fit: cover;
     border-top-radius: 15px;
     
