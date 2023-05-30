@@ -70,7 +70,7 @@ const SinglePost = () => {
             style={{display:'flex', 
             alignItems:"center",
             width:"20%",
-            border:"1px solid red"
+            
             }}
             >
             <img 
@@ -78,8 +78,8 @@ const SinglePost = () => {
             src={post.user.profilePic} alt="user_image"/>
             <h4>{post.user.username}</h4>
             </div>
-            <div className="postDetail">
-                {!showEditPost ? (<div>
+            
+                {!showEditPost ? (<div className="postDetail">
                     <p className="postCaption">{post.caption}</p>
                     <p className="postDate">{new Date(post.postDate).toDateString()}</p>
                     {user?.id === author_id 
@@ -181,7 +181,7 @@ const SinglePost = () => {
                 
                 {/* <p>1.2k likes</p> */}
                 {/* <i className="fa-solid fa-thumbs-up"></i> */}
-            </div>
+            
             
 
             

@@ -9,6 +9,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    
 }
 
 .eaPostCust{
@@ -17,7 +18,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    height:450px;
+    height:380px;
     
 }
 
@@ -28,6 +29,7 @@
     align-items: flex-start;
     width: 340px;
     /* border: 1px solid red; */
+    
 }
 
 .eaPostCustDetail {

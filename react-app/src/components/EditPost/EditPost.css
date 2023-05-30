@@ -3,11 +3,19 @@
    flex-direction: column;
    justify-content: center;
    align-items: center;
-   border: 1px solid red;
+   margin-bottom: 1em;
+   /* border: 1px solid red; */
 }
 .editPostBottom {
     width: 340px;
+    
 }
+.listCusts{
+    overflow: auto;
+    height: 410px;
+
+}
+
 .editPostInput {
     display: flex;
     flex-direction: column;

@@ -151,16 +151,18 @@ const EditPost = ({post, setShowEditPost, showEditPost,}) => {
                             <div className="editPostBottom">
                                 <h1>My Favorites</h1>
                                 <h4>Choose any that you would like to share</h4>
-                                {
-                                    custs.map((cust)=>(
-                                        <div key={cust.id}>
-                                            <SingleCustEdit
-                                            cust={cust} 
-                                            user={user} 
-                                            oldchosenCust={oldchosenCust}
-                                            />
-                                        </div>
+                                <div className="listCusts">
+                                   {
+                                        custs.map((cust)=>(
+                                            <div key={cust.id}>
+                                                <SingleCustEdit
+                                                cust={cust} 
+                                                user={user} 
+                                                oldchosenCust={oldchosenCust}
+                                                />
+                                            </div>
                                     ))} 
+                                </div>
                             </div> : null} 
                         </div>
                     
