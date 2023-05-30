@@ -78,7 +78,7 @@ function AllDrinks(){
       <div className="DrinksPage">
         <div style={{display:'flex', width:'100%', justifyContent:"center", alignItems:"center"}}
         className="allDrinksTop" >
-          <h1>Welcome to Mushroom Coffee</h1>
+          <h1>Welcome to Star Power Coffee</h1>
           <img 
           style={{width:'100px', marginLeft:'1%'}}
           src={logo} alt='logo'/>
