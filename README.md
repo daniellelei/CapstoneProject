@@ -4,13 +4,13 @@
 
 Welcome to my capstone project!
 
-CoffeeOrTea is a web application which has basic drink ordering system and processing system. Also, it has functionalities such as music entertainment and sharing drink recipes as well as images. 
+Star Power Coffee is a web application which has a drink ordering and processing system. Also, it has social media functionalities such as sharing drink recipes as well as images. 
 
 This is a full-stack capstone project where Flask and Sqlalchemy is used to implement backend and React-Redux is used to implement frontend. 
 
 # Functionalities and MVP
 
-In CoffeeOrTea, all users are able to: 
+In Star Power Coffee, all users are able to: 
 1. add any drinks with Grande size to their carts and remove them from cart
 2. create, review, update and delete customizations of the drinks that they would like
 3. add customized drinks to cart and remove them from cart
