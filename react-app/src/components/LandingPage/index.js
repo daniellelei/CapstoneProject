@@ -24,10 +24,12 @@ function LandingPage () {
                     <button className='ad_button mothersday' >Send an eGift</button>
                 </div>
                 <img className='adImg'
+                alt="img"
                 src={mothersday} />
             </div>
             <div className='eachBlock'>
                 <img className='adImg'
+                alt="img"
                 src={mint} />
                 <div className='ads mint'>
                     <div className='ad_titles'>
