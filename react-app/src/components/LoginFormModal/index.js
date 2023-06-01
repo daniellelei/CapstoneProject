@@ -34,28 +34,19 @@ function LoginFormModal() {
     e.preventDefault();
     setErrors([]);
     const data = await dispatch(login("demo@aa.io", "password"))
+    await dispatch(createCartThunk(user))
+    await closeModal();
+    history.push('/drinks')
     
-    if(data){
-
-      setErrors(['Credentials invalid'])
-      // setErrors(data);
-    } else {
-      await dispatch(createCartThunk(user))
-      closeModal()
-    }
   };
   const demoBossSubmitHandler = async (e) => {
     e.preventDefault();
     setErrors([]);
     const data = await dispatch(login("boss@g.com", "123123"))
+    await dispatch(createCartThunk(user))
+    await closeModal();
+    history.push('/drinks')
     
-    if(data){
-      setErrors(['Credentials invalid'])
-      // setErrors(data);
-    } else {
-      await dispatch(createCartThunk(user))
-      closeModal()
-    }
   };
 
   return (

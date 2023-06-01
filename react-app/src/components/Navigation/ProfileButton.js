@@ -65,6 +65,15 @@ function ProfileButton({ user }) {
     const data = await dispatch(login("boss@g.com", "123123"))
     await dispatch(cartActions.createCartThunk(user))
     await closeMenu();
+    history.push('/drinks')
+  };
+    const demoUserSubmitHandler = async (e) => {
+    e.preventDefault();
+    const data = await dispatch(login("demo@aa.io", "password"))
+    await dispatch(cartActions.createCartThunk(user))
+    await closeMenu();
+    history.push('/drinks')
+    
   };
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
   const closeMenu = () => setShowMenu(false);
@@ -118,7 +127,11 @@ function ProfileButton({ user }) {
               <button onClick={handleLogout}>Log Out</button>
             </li>
             <li>
-              <button onClick={demoBossSubmitHandler}>Staff Mode</button>
+            {user.username === 'boss' ? (
+              <button onClick={demoUserSubmitHandler}>Customer Mode</button>
+            ):(
+            <button onClick={demoBossSubmitHandler}>Staff Mode</button>)}
+              
             </li>
           </>
         ) : (
