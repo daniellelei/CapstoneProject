@@ -5,7 +5,11 @@ import mothersday from './assets/mothersday.jpg'
 import mint from './assets/mint.jpg'
 import sweetest from './assets/sweetest.jpg'
 import macadamia from './assets/macadamia.jpg'
+import OpenModalButton from "../OpenModalButton";
+import SignUpLoginModal from "../Signup_LoginModal";
+import { useModal } from '../../context/Modal';
 function LandingPage () {
+    const { setModalContent, setOnModalClose } = useModal();
 
 
     return (
@@ -21,7 +25,11 @@ function LandingPage () {
                         <h4 className='ad_content'>Let her know how much she’s loved. Surprise</h4>
                         <h4 className='ad_content'>her with a Starbucks eGift this Mother’s Day.</h4>
                     </div>
-                    <button className='ad_button mothersday' >Send an eGift</button>
+                    <OpenModalButton 
+                        buttonText= "Order Now"
+                        modalComponent={<SignUpLoginModal />}
+                    />
+                    {/* <button className='ad_button mothersday' >Send a drink</button> */}
                 </div>
                 <img className='adImg'
                 alt="img"
@@ -41,7 +49,12 @@ function LandingPage () {
                         <h4 className='ad_content'>Chocolate Java Mint Frappuccino® blended</h4>
                         <h4 className='ad_content'>beverage.</h4>
                     </div>
-                    <button className='ad_button mint'>Order now</button>
+                    <OpenModalButton 
+                        buttonText= "Order Now"
+                        modalComponent={<SignUpLoginModal />}
+                    />
+                    {/* <button
+                    className='ad_button mint'>Order now</button> */}
                 </div>
             </div>
             <div className='eachBlock'>
@@ -55,13 +68,17 @@ function LandingPage () {
                         <h4 className='ad_content'>Cream Cold Brew with toasted cookie</h4>
                         <h4 className='ad_content'>crumbles.</h4>
                     </div>
-                    <button className='ad_button macadamia'>Order now</button>
+                    <OpenModalButton 
+                        buttonText= "Order Now"
+                        modalComponent={<SignUpLoginModal />}
+                    />
+                    {/* <button className='ad_button macadamia'>Order now</button> */}
                 </div>
-                <img className='adImg'
+                <img className='adImg' alt="images"
                 src={macadamia} />
             </div>
             <div className='eachBlock'>
-                <img className='adImg'
+                <img className='adImg' alt="images"
                 src={sweetest} />
                 <div className='ads sweetest'>
                    <div className='ad_titles'>
@@ -73,7 +90,11 @@ function LandingPage () {
                         <h4 className='ad_content'>Bumblebee Cake Pop dipped in chocolaty</h4>
                         <h4 className='ad_content'>icing.</h4>
                     </div>
-                    <button className='ad_button sweetest'>Order now</button>
+                    <OpenModalButton 
+                        buttonText= "Order Now"
+                        modalComponent={<SignUpLoginModal />}
+                    />
+                    {/* <button className='ad_button sweetest'>Order now</button> */}
                 </div>
             </div>
             
