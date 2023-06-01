@@ -18,11 +18,12 @@ In Star Power Coffee, all users are able to:
 5. keep track of number of the same drink or the same customizations in cart 
 6. pay with credit in their account
 7. create, review, update and delete post which includes an image and caption as well as customizations which they would like to include
+8. create, review, update and delete comments for existed posts
 A specific group of users (bristas and workers) will be able to:
 1. view all the orders which need to be processed
 2. process the order by clicking process button 
 3. view sales report which includes details of each order
 
 
-Live Site: [coffeeortea.onrender.com](https://coffeeortea.onrender.com/)
+Live Site (https://coffeeortea.onrender.com/)
 
