@@ -39,12 +39,15 @@
 .eaCategory {
     color: rgb(92, 91, 91);
     margin:1em;
+    padding:5px;
 }
 
 .eaCategory:hover {
+    border-radius: 10px;
+    padding:5px;
     color: #1a6241;
     cursor: pointer;
-    background-color: rgba(238, 237, 237, 0.513);
+    background-color: rgba(238, 237, 237, 0.711);
 }
 .eaCategory:focus {
     color:black;
