@@ -42,8 +42,9 @@
 }
 
 .eaCategory:hover {
-    color: black;
+    color: #1a6241;
     cursor: pointer;
+    background-color: rgba(238, 237, 237, 0.513);
 }
 .eaCategory:focus {
     color:black;

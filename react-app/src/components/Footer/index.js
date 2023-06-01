@@ -34,10 +34,29 @@ function Footer({isLoaded}) {
     if(!cart) return null;
     return (
         <div className='footer'>
-        {/* <div>
-            <p>For item availability</p>
-            <p>Choose a store</p>
-        </div> */}
+        <div style={{
+            display:"flex", 
+            columnGap: "20px",
+            justifyContent:"center", 
+            alignItems:"center", 
+            margin:"0 20px 0 20px",
+            width:"50%"}}
+        >
+            <p style={{color:"white", fontSize:"12px"}}
+            >Star Power Coffee Provided to you by Danielle Lei. Contact Me: </p>
+            <a href='mailto:danielle.lei2014@gmail.com'>
+                <i class="fa-solid fa-envelope fa-lg"></i>
+            </a>
+            <a href='https://github.com/daniellelei/CapstoneProject.git'>
+                <i class="fa-brands fa-square-github fa-lg"></i>
+            </a>
+            <a href='https://www.linkedin.com/in/danielle-lei/'>
+                <i class="fa-brands fa-linkedin fa-lg"></i>
+            </a>
+            <a href='https://wellfound.com/u/danielle-lei'>
+                <i class="fa-brands fa-angellist fa-lg"></i>
+            </a>
+        </div>
         <button onClick={cartClick} className='shoppingbag'>
             <i className="fa-solid fa-bag-shopping fa-lg"></i>
             <p className='count'>
