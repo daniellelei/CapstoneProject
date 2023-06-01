@@ -1,8 +1,15 @@
 .OneDrink {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
+}
+.leftOneDrink {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    height: 772px;
 }
 .loadingPage {
     display: flex;

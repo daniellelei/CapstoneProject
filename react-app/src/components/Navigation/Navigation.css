@@ -12,6 +12,7 @@
 .profile-dropdown {
   position: absolute;
   background-color: white;
+  top:70px;
   right:50px;
   z-index: 10;
   border-radius: 15px;
@@ -54,17 +55,18 @@
 .rightNav {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: flex-end;
   align-items: center;
-  width: 30%;
+  width: 20%;
 }
 .navButton{
   color:white;
   height:40px;
   width: 40px;
-  border: 50%;
+  border-radius: 50%;
   margin: 0 20px 0 0;
 }
+
 
 .custButton {
   color:white;

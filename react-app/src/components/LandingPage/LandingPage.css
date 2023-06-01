@@ -3,16 +3,18 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 0 10% 5% 10%;
 }
-.landing {
-    width:1200px;
+/* .landing {
+    width:80%;
+    padding:10%;
     height: 600px;
     object-fit: cover;
-}
+} */
 
 .eachBlock {
-    height:625px;
-    width: 1440px;
+    /* height:625px;
+    width: 1440px; */
     display: flex;
     margin-top: 1em;
 }

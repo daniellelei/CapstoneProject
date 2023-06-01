@@ -38,7 +38,11 @@ function AllCarts () {
                         <h4 className='typeOfdrink'>Regular Drinks: </h4>
                         {removeDuplicate(cart.drinks).map((drink) => (
                             <ol key={cart.drinks.indexOf(drink)}>
-                                <li>{drink.name}</li>
+                                
+                                <li> <img style={{height:'40px', width:"40px", borderRadius:"50%", objectFit:"cover"}}
+                                src={drink.imageUrl}
+                                alt="drinkImage"
+                                /> {drink.name}</li>
                                 <li>Qty: {numOfDrink(cart, drink)}</li>
                             </ol>
 
@@ -50,7 +54,10 @@ function AllCarts () {
                         <h4 className='typeOfdrink'>Customized Drinks: </h4>
                         {removeDuplicate(cart.customizations).map((customization) => (
                             <ol key={cart.customizations.indexOf(customization)}>
-                                <li>{customization.drinks_customization.name}</li>
+                                <li><img style={{height:"40px", width:"40px", borderRadius:"50%", objectFit:"cover"}}
+                                src={customization.drinks_customization.imageUrl}
+                                alt="drinkImage"
+                                />{customization.drinks_customization.name}</li>
                                 <li>Size: {customization.size}</li>
                                 <li>Milk: {customization.milk}</li>
                                 <li>Shots: {customization.shotOptions}</li>

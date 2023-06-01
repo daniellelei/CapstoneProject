@@ -171,13 +171,43 @@ def seed_drinks():
         imageUrl='https://img.cdn4dd.com/p/fit=cover,width=600,format=auto,quality=50/media/photosV2/35913111-e452-4fba-9fab-db37fbf2943e-retina-large.jpg'
     )
 
+    drink22 = Drink(
+        name='Iced Chai Tea Latte',
+        category='tea',
+        subCategory='icedTea',
+        price=5.25,
+        imageUrl='https://img.cdn4dd.com/p/fit=cover,width=600,format=auto,quality=50/media/photosV2/5097ff30-3937-469c-b67c-7cb5c6a09f78-retina-large.jpg'
+    )
+
+    drink23 = Drink(
+        name='Iced Green Tea Lemonade',
+        category='tea',
+        subCategory='icedTea',
+        price=4.75,
+        imageUrl='https://img.cdn4dd.com/p/fit=cover,width=600,format=auto,quality=50/media/photosV2/cf21e210-41ec-4f5d-86c2-0ab897a92f68-retina-large.jpg'
+    )
+
+    drink24 = Drink(
+        name='Iced Matcha Lemonade',
+        category='tea',
+        subCategory='icedTea',
+        price=5.75,
+        imageUrl='https://img.cdn4dd.com/p/fit=cover,width=600,format=auto,quality=50/media/photosV2/21d60d73-9369-4ffb-bed6-50ed3fbd5107-retina-large.jpg'
+    )
+
+    
+
     
 
     all_drinks = [drink1, drink2, drink3,
                   drink4, drink5, drink6, 
                   drink7, drink8, drink9, 
                   drink10, drink11, drink12, 
-                  drink13, drink14,  drink15, drink16, drink17, drink18, drink19, drink20, drink21,]
+                  drink13, drink14,  drink15, 
+                  drink16, drink17, drink18, 
+                  drink19, drink20, drink21,
+                  drink22, drink23, drink24,
+                  ]
     add_drinks = [db.session.add(drink) for drink in all_drinks]
     db.session.commit()
 

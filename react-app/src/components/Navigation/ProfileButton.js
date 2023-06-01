@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../store/session";
+import { login, authenticate, logout } from "../../store/session";
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
@@ -60,15 +60,35 @@ function ProfileButton({ user }) {
   const cartClick = (e) =>{
     e.preventDefault();
   }
-
-
+  const demoBossSubmitHandler = async (e) => {
+    e.preventDefault();
+    const data = await dispatch(login("boss@g.com", "123123"))
+    await dispatch(cartActions.createCartThunk(user))
+    await closeMenu();
+    history.push('/drinks')
+  };
+    const demoUserSubmitHandler = async (e) => {
+    e.preventDefault();
+    const data = await dispatch(login("demo@aa.io", "password"))
+    await dispatch(cartActions.createCartThunk(user))
+    await closeMenu();
+    history.push('/drinks')
+    
+  };
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
   const closeMenu = () => setShowMenu(false);
 
+
   return (
     <>
-      <button className='navButton'onClick={openMenu}>
-        <i className="fa-solid fa-user"></i>
+      <button className='navButton' onClick={openMenu}>
+        <img style={{
+          height:"42px"
+          , width:"42px"
+          , borderRadius:"50%"
+        }}
+        alt="profile_pic"
+        src={user.profilePic}/>
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
@@ -105,6 +125,13 @@ function ProfileButton({ user }) {
             </li>
             <li>
               <button onClick={handleLogout}>Log Out</button>
+            </li>
+            <li>
+            {user.username === 'boss' ? (
+              <button onClick={demoUserSubmitHandler}>Customer Mode</button>
+            ):(
+            <button onClick={demoBossSubmitHandler}>Staff Mode</button>)}
+              
             </li>
           </>
         ) : (

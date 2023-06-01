@@ -99,62 +99,87 @@ const Drink = () => {
 
     return (
         <div className='OneDrink'>
-            <div className='leftOneDrink'>
-                <h3>Menu/{displaySubCategory(drink.subCategory)}/{drink.name}</h3>
-                <img 
-                    className="drinkImg"
-                    src = {drink.imageUrl}
-                    alt = "drink.url"
-                />
-                <h2>{drink.name}</h2>
-                <p>Size: Grande</p>
-                <p>${drink.price}</p>
-                
-                {user && !isAdded(currentCart,"drink", drink.id) ? <button
-                onClick = {async (e) => {
+            <div style={{display:"flex",
+            justifyContent:"flex-start",
+            alignItems:"center",
+            width:"90%",
+            gap:"13px"
+            }}
+            >
+                <i style={{color:"black", cursor:"pointer", }}
+                onClick={(e)=>{
                     e.preventDefault();
-                    if(user){
-                        await dispatch(cartActions.addToCartThunk(drink))
-                    }
-                    setModalContent(<ConfirmModal />);
-                    }}
-                >Add</button>
-                : null} 
-                {!user ? <OpenModalButton 
-                    buttonText= "Add to Cart"
-                    modalComponent={<SignUpLoginModal page={`/drinks/${drink.id}`}/>}
-                /> : null}
-                <div className='plusMinus'>
-                    {user && isAdded(currentCart,"drink", drink.id)? 
-                    <i 
-                    className="fa-solid fa-square-minus"
-                    onClick = { async(e) => {
-                        e.preventDefault();
-                        if(user){
-                            await dispatch(cartActions.removeFromCartThunk(drink))
-                        }
-                    }}
-                    ></i>
-                    : null}
-                    {isAdded(currentCart,"drink", drink.id)? <span className='numOfdrink'>{numOfAdded(currentCart,"drink", drink.id)}</span> : null}
-                    { user && isAdded(currentCart,"drink", drink.id)? 
-                    <i 
-                    className="fa-solid fa-square-plus"
-                    onClick = { async(e) => {
-                        e.preventDefault();
-                        if(user){
-                            await dispatch(cartActions.addToCartThunk(drink))
-                        }
-                    }}
-                    ></i>
-                    : null}
-                </div>
-                 
-
+                    history.push("/drinks")
+                }}
+                className="fa-solid fa-arrow-left fa-xl"></i>
+                <h3 style={{
+                    backgroundColor:"rgba(238, 237, 237, 0.955)",
+                    padding:"5px",
+                    borderRadius:"10px"
+                }}
+                >Menu/{displaySubCategory(drink.subCategory)}/{drink.name}</h3>
             </div>
-            <div className='rightOneDrink'>
-                <h2>Customizations</h2>
+            <div style={{
+                display:"flex",
+                flexDirection:"row",
+                justifyContent:"space-between",
+                alignItems:"center",
+                width:"80%",
+
+            }}>
+                <div className='leftOneDrink'>
+                        <img 
+                            className="drinkImg"
+                            src = {drink.imageUrl}
+                            alt = "drink.url"
+                        />
+                        <h2>{drink.name}</h2>
+                        <p>Size: Grande</p>
+                        <p>${drink.price}</p>
+                        {user && !isAdded(currentCart,"drink", drink.id) ? <button
+                        onClick = {async (e) => {
+                            e.preventDefault();
+                            if(user){
+                                await dispatch(cartActions.addToCartThunk(drink))
+                            }
+                            setModalContent(<ConfirmModal />);
+                            }}
+                        >Add</button>
+                        : null} 
+                        {!user ? <OpenModalButton 
+                            buttonText= "Add to Cart"
+                            modalComponent={<SignUpLoginModal page={`/drinks/${drink.id}`}/>}
+                        /> : null}
+                        <div className='plusMinus'>
+                            {user && isAdded(currentCart,"drink", drink.id)? 
+                            <i 
+                            className="fa-solid fa-square-minus"
+                            onClick = { async(e) => {
+                                e.preventDefault();
+                                if(user){
+                                    await dispatch(cartActions.removeFromCartThunk(drink))
+                                }
+                            }}
+                            ></i>
+                            : null}
+                            {isAdded(currentCart,"drink", drink.id)? <span className='numOfdrink'>{numOfAdded(currentCart,"drink", drink.id)}</span> : null}
+                            { user && isAdded(currentCart,"drink", drink.id)? 
+                            <i 
+                            className="fa-solid fa-square-plus"
+                            onClick = { async(e) => {
+                                e.preventDefault();
+                                if(user){
+                                    await dispatch(cartActions.addToCartThunk(drink))
+                                }
+                            }}
+                            ></i>
+                            : null}
+                        </div>
+                </div>
+                <div className='rightOneDrink'>
+            </div>
                 <div>
+                    <h2>Customizations</h2>
                     <CreateCustomization drink={drink} />
                 </div>
                 {/* <button
