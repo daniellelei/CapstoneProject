@@ -66,9 +66,9 @@ function Navigation({ isLoaded }){
 				
 			</div>
 			<div className='rightNav'>
-				<div>
+				{/* <div>
 					Find a Store
-				</div>
+				</div> */}
 				{!user ? (
 					<div style={{display:"flex"}}
 					>
@@ -85,26 +85,59 @@ function Navigation({ isLoaded }){
 						/>
 					</div>
 				) : (
-					<div>
+					<div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
+						{user.username === 'boss' ? (
+							<div style={{display:"flex"}}>
+								<button onClick={(e)=>{
+									e.preventDefault();
+								}}>
+								<NavLink to={`/carts`} className="navLink">Sales Report</NavLink>
+								</button>
+								<button onClick={(e)=>{
+									e.preventDefault();
+								}}>
+									<NavLink to={`/carts/unprocessed`} className="navLink">Current Orders</NavLink>
+								</button>
+								
+							</div>
+						): null}
 						<ProfileButton user={sessionUser} />
 					</div>
 				)}
+				<div>
+				{!user? (<button onClick={cartClick}
+				style={{backgroundColor:"white",margin:"0", width:"20px"}}
+				>
+							<i style={{color:"#1a6241"}}
+							className="fa-solid fa-bag-shopping fa-lg" />
+							<p style={{color:"#1a6241"}}
+							className='count'>
+								{cart?drinksCount(cart):0}
+							</p> 
+						</button>
+						):( <div>
+							<button onClick={cartClick} 
+							style={{backgroundColor:"white",margin:"0", width:"20px"}}
+							// className='navButton'
+							>
+								<i style={{color:"#1a6241"}}
+								className="fa-solid fa-bag-shopping fa-lg" />
+								<p style={{color:"#1a6241"}}
+								className='count'>
+									{cart?drinksCount(cart):0}
+								</p> 
+							</button>
+						</div>
+							
+						)}
+						
+				</div>
+				
 				
 			</div>
-			{/* <div className='rightNav'>
-				{isLoaded && (
-					<div>
-					</div>
-				)}
-				<button onClick={cartClick} className='navButton'>
-					<i className="fas fa-cart-shopping" />
-					
-					
-					<p className='count'>
-						{cart?drinksCount(cart):0}
-					</p> 
-				</button>
-			</div> */}
+			
+				
+			
 		</div>
 	);
 }
