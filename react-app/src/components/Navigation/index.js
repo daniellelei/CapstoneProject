@@ -106,9 +106,9 @@ function Navigation({ isLoaded }){
 				)}
 				<div>
 				{!user? (<button onClick={cartClick}
-				style={{backgroundColor:"white",margin:"0", width:"20px"}}
+				style={{backgroundColor:"white", width:"20px"}}
 				>
-							<i style={{color:"#1a6241"}}
+							<i style={{color:"#1a6241", marginRight:"5px"}}
 							className="fa-solid fa-bag-shopping fa-lg" />
 							<p style={{color:"#1a6241"}}
 							className='count'>
@@ -117,10 +117,10 @@ function Navigation({ isLoaded }){
 						</button>
 						):( <div>
 							<button onClick={cartClick} 
-							style={{backgroundColor:"white",margin:"0", width:"20px"}}
+							style={{backgroundColor:"white", width:"20px"}}
 							// className='navButton'
 							>
-								<i style={{color:"#1a6241"}}
+								<i style={{color:"#1a6241" , marginRight:"5px"}}
 								className="fa-solid fa-bag-shopping fa-lg" />
 								<p style={{color:"#1a6241"}}
 								className='count'>
