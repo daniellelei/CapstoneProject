@@ -25,5 +25,6 @@ A specific group of users (bristas and workers) will be able to:
 3. view sales report which includes details of each order
 
 
-Live Site (https://coffeeortea.onrender.com/)
+<a href="https://coffeeortea.onrender.com">Live Site</a>
+
 
