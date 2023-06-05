@@ -1,12 +1,14 @@
 # Overview 
 
-<img src="https://github.com/daniellelei/CapstoneProject/blob/main/assets/appScreenShot.gif?raw=true" />
 
 Welcome to my capstone project!
 
 Star Power Coffee is a web application which has a drink ordering and processing system. Also, it has social media functionalities such as sharing drink recipes as well as images. 
 
 This is a full-stack capstone project where Flask and Sqlalchemy is used to implement backend and React-Redux is used to implement frontend. 
+
+<img src="https://github.com/daniellelei/CapstoneProject/blob/main/assets/appScreenShot.gif?raw=true" />
+
 
 # Functionalities and MVP
 
